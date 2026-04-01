@@ -1,0 +1,29 @@
+=== Spring Annotations ===
+    340 @Autowired
+     26 @Component
+     11 @Service
+      4 @Configuration
+      2 @Bean
+
+=== XML Configuration Files ===
+modernization-corpus-aggregate/alfresco-community/data-model/src/main/resources/alfresco/data-model-stand-alone-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/custom-model-management-services-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/dao/dao-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/bootstrap-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/activities/activities-feed-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/copy-services-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/repo-clients-apps-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/messaging-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/webdav-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/social-publishing-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/opencmis-qnamefilter-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/scheduled-jobs-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/comment-services-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/minimal-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/node-locator-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/form-services-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/oauth2-credentials-store-services-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/transfer-service-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/thumbnail-service-context.xml
+modernization-corpus-aggregate/alfresco-community/repository/src/main/resources/alfresco/rendition-services2-context.xml
+None found

@@ -1,0 +1,50 @@
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_config_settings.py:18:    l10n_in_edi_password = fields.Char(
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_config_settings.py:19:        "Indian EDI password",
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_config_settings.py:20:        related="company_id.l10n_in_edi_password",
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_config_settings.py:32:            raise UserError(_("Incorrect username or password, or the GST number on company does not match."))
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_company.py:18:    l10n_in_edi_password = fields.Char(
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_company.py:19:        string="E-invoice (IN) Password",
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_company.py:22:    l10n_in_edi_token = fields.Char(
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_company.py:42:        elif self_sudo.l10n_in_edi_username and self_sudo.l10n_in_edi_password:
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/res_company.py:51:            "password": self_sudo.l10n_in_edi_password,
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/models/account_move.py:790:        token = company._l10n_in_edi_get_token()
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/__manifest__.py:15:Step 1: First you need to create an API username and password in the E-invoice portal.
+modernization-corpus-aggregate/odoo/addons/l10n_in_edi/__manifest__.py:17:Step 3: Set that username and password in Odoo (Goto: Invoicing/Accounting -> Configuration -> Settings -> Customer Invoices or find "E-invoice" in search bar)
+modernization-corpus-aggregate/odoo/addons/auth_timeout/models/ir_http.py:82:            a "type" key (e.g., "password", "totp", "webauthn"). If empty, the method
+modernization-corpus-aggregate/odoo/addons/auth_timeout/models/res_users.py:11:        This includes passkeys (WebAuthn), TOTP (app or mail), and password,
+modernization-corpus-aggregate/odoo/addons/auth_timeout/models/res_users.py:14:        :return: A list of enabled authentication method types (e.g., ["webauthn", "totp", "password"]).
+modernization-corpus-aggregate/odoo/addons/auth_timeout/models/res_users.py:23:        auth_methods.append("password")
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:18:from odoo.addons.auth_totp.models.totp import TOTP, TOTP_SECRET_SIZE
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:33:    totp_secret = fields.Char(copy=False, groups=fields.NO_ACCESS, compute='_compute_totp_secret', inverse='_inverse_token')
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:40:        if not sql.column_exists(self.env.cr, self._table, "totp_secret"):
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:41:            self.env.cr.execute("ALTER TABLE res_users ADD COLUMN totp_secret varchar")
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:61:    @api.depends('totp_secret')
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:64:            r.totp_enabled = bool(v.totp_secret)
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:72:        return super()._get_session_token_fields() | {'totp_secret'}
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:78:            key = base64.b32decode(sudo.totp_secret)
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:98:    def _totp_try_setting(self, secret, code):
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:103:        secret = compress(secret).upper()
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:104:        match = TOTP(base64.b32decode(secret)).match(code)
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:109:        self.sudo().totp_secret = secret
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:114:            new_token = self.env.user._compute_session_token(request.session.sid)
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:115:            request.session.session_token = new_token
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:162:        self.sudo().write({'totp_secret': False})
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:167:            new_token = self.env.user._compute_session_token(request.session.sid)
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:168:            request.session.session_token = new_token
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:189:        secret_bytes_count = TOTP_SECRET_SIZE // 8
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:190:        secret = base64.b32encode(os.urandom(secret_bytes_count)).decode()
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:192:        secret = ' '.join(map(''.join, zip(*[iter(secret)]*4)))
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:195:            'secret': secret,
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:215:    def change_password(self, old_passwd, new_passwd):
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:217:        return super().change_password(old_passwd, new_passwd)
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:219:    def _compute_totp_secret(self):
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:222:                user.totp_secret = user._origin.totp_secret
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:224:            self.env.cr.execute('SELECT totp_secret FROM res_users WHERE id=%s', (user.id,))
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:225:            user.totp_secret = self.env.cr.fetchone()[0]
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:230:            secret = user.totp_secret if user.totp_secret else None
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:231:            self.env.cr.execute('UPDATE res_users SET totp_secret = %s WHERE id=%s', (secret, user.id))
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:236:            self.env.cr.execute("SELECT id FROM res_users WHERE totp_secret IS NOT NULL")
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/res_users.py:238:            self.env.cr.execute("SELECT id FROM res_users WHERE totp_secret IS NULL OR totp_secret='false'")
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/totp.py:10:TOTP_SECRET_SIZE = 160
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/totp.py:43:def hotp(secret, counter):
+modernization-corpus-aggregate/odoo/addons/auth_totp/models/totp.py:46:    mac = hmac.new(secret, msg=C, digestmod=ALGORITHM).digest()

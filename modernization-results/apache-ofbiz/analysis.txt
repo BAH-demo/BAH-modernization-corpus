@@ -1,0 +1,8 @@
+javax_imports: 413
+build_system: Gradle
+java_version: not-specified-in-gradle
+deprecated_annotations: 130
+static_mutable_state: 2063
+hardcoded_secrets_candidates: 90
+test_files: 65
+spring_version: none

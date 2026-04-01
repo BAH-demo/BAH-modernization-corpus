@@ -1,0 +1,43 @@
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj:		<PackageReference Include="PdfSharpCore" Version="1.3.62" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj:		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj:		<PackageReference Include="ZXing.Net" Version="0.16.9" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj:		<PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.Base/CTe.Dacte.Base.csproj:		<PackageReference Include="System.Drawing.Common">
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.Base/CTe.Dacte.Base.csproj:		</PackageReference>
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.OpenFast/MDFe.Damdfe.OpenFast.csproj:		<PackageReference Include="FastReport.OpenSource" Version="2022.2.2" />
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.OpenFast/MDFe.Damdfe.OpenFast.csproj:		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2022.2.2" />
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.OpenFast/CTe.Dacte.OpenFast.csproj:		<PackageReference Include="FastReport.OpenSource" Version="2022.2.2" />
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.OpenFast/CTe.Dacte.OpenFast.csproj:		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2022.2.2" />
+modernization-corpus-aggregate/dfe-net/NFe.Classes.Testes/NFe.Classes.Testes.csproj:        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
+modernization-corpus-aggregate/dfe-net/NFe.Classes.Testes/NFe.Classes.Testes.csproj:        <PackageReference Include="MSTest.TestAdapter" Version="2.2.8"/>
+modernization-corpus-aggregate/dfe-net/NFe.Classes.Testes/NFe.Classes.Testes.csproj:        <PackageReference Include="MSTest.TestFramework" Version="2.2.8"/>
+modernization-corpus-aggregate/dfe-net/NFe.Classes.Testes/NFe.Classes.Testes.csproj:        <PackageReference Include="coverlet.collector" Version="3.1.2"/>
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj:		<PackageReference Include="System.Drawing.Common">
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj:		</PackageReference>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Html/NFe.Danfe.Html.csproj:		<PackageReference Include="NetBarcode" Version="1.7.0" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Html/NFe.Danfe.Html.csproj:		<PackageReference Include="Zeus.Net.NFe.NFCe" Version="2025.12.22.2042" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.OpenFast/NFe.Danfe.OpenFast.csproj:		<PackageReference Include="FastReport.OpenSource" Version="2022.2.2" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.OpenFast/NFe.Danfe.OpenFast.csproj:		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2022.2.2" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.PdfClown/NFe.Danfe.PdfClown.csproj:		<PackageReference Include="PDFClown.NET" Version="2.0.0" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.PdfClown/NFe.Danfe.PdfClown.csproj:		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Fast.Skia/NFe.Danfe.Fast.Skia.csproj:	  <PackageReference Include="SkiaSharp" Version="2.88.7" />
+modernization-corpus-aggregate/dfe-net/DFe.Testes/DFe.Testes.csproj:		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+modernization-corpus-aggregate/dfe-net/DFe.Testes/DFe.Testes.csproj:		<PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+modernization-corpus-aggregate/dfe-net/DFe.Testes/DFe.Testes.csproj:		<PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+modernization-corpus-aggregate/dfe-net/DFe.Testes/DFe.Testes.csproj:		<PackageReference Include="coverlet.collector" Version="6.0.0">
+modernization-corpus-aggregate/dfe-net/DFe.Testes/DFe.Testes.csproj:		</PackageReference>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.QuestPdf/NFe.Danfe.QuestPdf.csproj:    <PackageReference Include="BarcodeLib" Version="3.1.4" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.QuestPdf/NFe.Danfe.QuestPdf.csproj:    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="7.3.0.2" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.QuestPdf/NFe.Danfe.QuestPdf.csproj:    <PackageReference Include="QuestPDF" Version="2024.7.3" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.QuestPdf/NFe.Danfe.QuestPdf.csproj:    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.QuestPdf/NFe.Danfe.QuestPdf.csproj:    <PackageReference Include="SkiaSharp.QrCode" Version="0.7.0" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.QuestPdf/NFe.Danfe.QuestPdf.csproj:    <PackageReference Include="Zeus.Net.NFe.NFCe" Version="2025.3.28.1516" />
+modernization-corpus-aggregate/dfe-net/DFe.Wsdl/DFe.Wsdl.csproj:    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.App.Teste.Html/NFe.Danfe.App.Teste.Html.csproj:    <PackageReference Include="Zeus.Net.NFe.NFCe" Version="2025.12.22.2042" />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Base/NFe.Danfe.Base.csproj:    <PackageReference Include="System.Drawing.Common">
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Base/NFe.Danfe.Base.csproj:    </PackageReference>
+modernization-corpus-aggregate/dfe-net/DFe.Utils/DFe.Utils.csproj:	  <PackageReference Include="System.Security.Cryptography.Xml" Version="6.0.1" />
+modernization-corpus-aggregate/dfe-net/NFe.Utils.Testes/NFe.Utils.Testes.csproj:		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+modernization-corpus-aggregate/dfe-net/NFe.Utils.Testes/NFe.Utils.Testes.csproj:		<PackageReference Include="xunit" Version="2.6.6" />
+modernization-corpus-aggregate/dfe-net/NFe.Utils.Testes/NFe.Utils.Testes.csproj:		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
+modernization-corpus-aggregate/dfe-net/NFe.Utils.Testes/NFe.Utils.Testes.csproj:		</PackageReference>

@@ -1,0 +1,6 @@
+dotnet_version: legacy-framework
+solution_files: 1
+project_files: 31
+obsolete_attributes: 2
+nuget_packages: 113
+test_files: 1089

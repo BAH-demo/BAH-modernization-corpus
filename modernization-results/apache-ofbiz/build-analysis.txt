@@ -1,0 +1,5 @@
+=== Build System Analysis ===
+Build System: Gradle
+    sourceCompatibility(JavaVersion.VERSION_17)
+    targetCompatibility(JavaVersion.VERSION_17)
+        gitFooterFile << '${uiLabelMap.CommonJavaVersion} : ' + "${org.gradle.internal.jvm.Jvm.current()}"

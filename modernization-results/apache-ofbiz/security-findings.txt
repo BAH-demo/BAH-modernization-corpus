@@ -1,0 +1,50 @@
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-Oracle.xml:25:        jdbcUri="jdbc:oracle:thin:@@db-IP@:ofbiz_@tenantId@" jdbcUsername="@db-User@" jdbcPassword="@db-Password@"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-Oracle.xml:27:        jdbcUri="jdbc:oracle:thin:@@db-IP@:ofbizolap_@tenantId@" jdbcUsername="@db-User@" jdbcPassword="@db-Password@"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-Derby.xml:25:        jdbcUri="jdbc:derby:ofbiz_@tenantId@;create=true" jdbcUsername="ofbiz" jdbcPassword="ofbiz"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-Derby.xml:27:        jdbcUri="jdbc:derby:ofbizolap_@tenantId@;create=true" jdbcUsername="ofbiz" jdbcPassword="ofbiz"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-MySQL.xml:25:        jdbcUri="jdbc:mysql://@db-IP@/ofbiz_@tenantId@" jdbcUsername="@db-User@" jdbcPassword="@db-Password@"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-MySQL.xml:27:        jdbcUri="jdbc:mysql://@db-IP@/ofbizolap_@tenantId@" jdbcUsername="@db-User@" jdbcPassword="@db-Password@"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminUserLoginData.xml:22:    <UserLogin userLoginId="@userLoginId@" currentPassword="{SHA}47ca69ebb4bdc9ae0adec130880165d2cc05db1a" requirePasswordChange="Y"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-PostgreSQL.xml:25:        jdbcUri="jdbc:postgresql://@db-IP@/ofbiz_@tenantId@" jdbcUsername="@db-User@" jdbcPassword="@db-Password@"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/resources/templates/AdminNewTenantData-PostgreSQL.xml:27:        jdbcUri="jdbc:postgresql://@db-IP@/ofbizolap_@tenantId@" jdbcUsername="@db-User@" jdbcPassword="@db-Password@"/>
+modernization-corpus-aggregate/apache-ofbiz/framework/widget/src/main/java/org/apache/ofbiz/widget/renderer/fo/ScreenFopViewHandler.java:132:        String userPassword = (String) context.get("userPassword");
+modernization-corpus-aggregate/apache-ofbiz/framework/widget/src/main/java/org/apache/ofbiz/widget/renderer/fo/ScreenFopViewHandler.java:133:        String ownerPassword = (String) context.get("ownerPassword");
+modernization-corpus-aggregate/apache-ofbiz/framework/widget/src/main/java/org/apache/ofbiz/widget/model/FieldInfo.java:57:    public static final int PASSWORD = 18;
+modernization-corpus-aggregate/apache-ofbiz/framework/service/config/serviceengine.xml:100:                    password="admin"
+modernization-corpus-aggregate/apache-ofbiz/framework/service/ofbiz-component.xml:42:    <keystore name="rmitrust" type="jks" password="changeit" is-truststore="true"
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/jms/JmsQueueListener.java:63:        this.password = password;
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/jms/JmsListenerFactory.java:147:        String password = server.getPassword();
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/jms/JmsServiceEngine.java:159:        String password = server.getPassword();
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/jms/JmsServiceEngine.java:228:        String password = server.getPassword();
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/jms/JmsServiceEngine.java:297:        String password = server.getAttribute("password");
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/jms/JmsTopicListener.java:63:        this.password = password;
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/config/model/Server.java:63:        this.password = serverElement.getAttribute("password").intern();
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/mail/JavaMailContainer.java:208:        String password = urlName.getPassword();
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/mail/JavaMailContainer.java:223:            password = props.getProperty("mail." + protocol + ".pass");
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/mail/JavaMailContainer.java:225:                password = props.getProperty("mail.pass");
+modernization-corpus-aggregate/apache-ofbiz/framework/service/src/main/java/org/apache/ofbiz/service/ServiceDispatcher.java:939:                String password = (String) context.get("login.password");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:331:        String password = null;
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:337:            password = request.getParameter("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:341:            if (UtilValidate.isEmpty(password)) password = (String) session.getAttribute("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:404:        String password = request.getParameter("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:418:                password = decryptedPwd.toString();
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:425:        if (UtilValidate.isEmpty(password)) password = (String) session.getAttribute("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:434:            password = (String) request.getAttribute("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/LoginWorker.java:592:            String autoChangePassword = EntityUtilProperties.getPropertyValue("security", "user.auto.change.password.enable", "false", delegator);
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/JWTManager.java:194:            password = (String) request.getAttribute("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/control/JWTManager.java:196:            password = request.getParameter("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/webdav/WebDavUtil.java:79:        String password = request.getParameter("PASSWORD");
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/webdav/WebDavUtil.java:92:                password = parts[1];
+modernization-corpus-aggregate/apache-ofbiz/framework/webapp/src/main/java/org/apache/ofbiz/webapp/webdav/WebDavUtil.java:101:            password = password.toLowerCase();
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:150:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:293:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:318:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:363:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:397:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:431:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:460:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:494:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:531:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:568:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:602:                jdbc-password="ofbiz"
+modernization-corpus-aggregate/apache-ofbiz/framework/entity/config/entityengine.xml:620:                jdbc-password="ofbiz"

@@ -1,0 +1,6 @@
+fortran77_files: 1848
+modern_fortran_files: 0
+common_blocks: 7572
+goto_statements: 40417
+equivalence_statements: 1740
+subroutines_functions: 1786

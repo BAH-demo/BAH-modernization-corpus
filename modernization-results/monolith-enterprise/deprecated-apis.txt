@@ -1,0 +1,8 @@
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/infrastructure/messaging/adapter/InvoiceSystemAdapter.java:18:import javax.jms.JMSException;
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/infrastructure/messaging/adapter/InvoiceSystemAdapter.java:19:import javax.jms.Message;
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/infrastructure/messaging/adapter/InvoiceSystemAdapter.java:20:import javax.jms.ObjectMessage;
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/infrastructure/messaging/adapter/InvoiceSystemAdapter.java:21:import javax.jms.Session;
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/infrastructure/messaging/adapter/PayrollSystemAdapter.java:18:import javax.jms.DeliveryMode;
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/infrastructure/messaging/adapter/PayrollSystemAdapter.java:19:import javax.jms.JMSException;
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/infrastructure/messaging/adapter/PayrollSystemAdapter.java:20:import javax.jms.Message;
+modernization-corpus-aggregate/monolith-enterprise/src/main/java/com/mycompany/entapp/snowman/domain/repository/impl/ApplicationInfoRepositoryImpl.java:16:import javax.annotation.PostConstruct;

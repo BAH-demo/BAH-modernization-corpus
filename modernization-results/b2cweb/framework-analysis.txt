@@ -1,0 +1,32 @@
+=== Framework Analysis ===
+modernization-corpus-aggregate/b2cweb/Shop/WebContent/WEB-INF/web.xml:24:    <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+modernization-corpus-aggregate/b2cweb/Shop/WebContent/WEB-INF/web.xml:38:		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+modernization-corpus-aggregate/b2cweb/Shop/WebContent/WEB-INF/web.xml:49:        <filter-name>struts2</filter-name>
+modernization-corpus-aggregate/b2cweb/Shop/WebContent/WEB-INF/web.xml:50:        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+modernization-corpus-aggregate/b2cweb/Shop/WebContent/WEB-INF/web.xml:54:        <filter-name>struts2</filter-name>
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/OrderTest.java:8:import org.springframework.context.ApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/OrderTest.java:9:import org.springframework.context.support.ClassPathXmlApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/Test1.java:9:import org.hibernate.Session;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/Test1.java:10:import org.hibernate.SessionFactory;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/Test1.java:11:import org.hibernate.cfg.AnnotationConfiguration;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/Test1.java:12:import org.hibernate.tool.hbm2ddl.SchemaExport;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/Test1.java:16:import org.springframework.context.ApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/Test1.java:17:import org.springframework.context.support.ClassPathXmlApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/ProductTest.java:9:import org.springframework.context.ApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/ProductTest.java:10:import org.springframework.context.support.ClassPathXmlApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/UserTest.java:6:import org.springframework.context.ApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/test/com/cn/test/UserTest.java:7:import org.springframework.context.support.ClassPathXmlApplicationContext;
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Product.hbm.xml:2:<!DOCTYPE hibernate-mapping PUBLIC
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Product.hbm.xml:4:        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Product.hbm.xml:5:<hibernate-mapping >
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Product.hbm.xml:21:</hibernate-mapping>
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/User.hbm.xml:2:<!DOCTYPE hibernate-mapping PUBLIC
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/User.hbm.xml:4:        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/User.hbm.xml:5:<hibernate-mapping >
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/User.hbm.xml:35:</hibernate-mapping>
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Item.hbm.xml:2:<!DOCTYPE hibernate-mapping PUBLIC
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Item.hbm.xml:4:        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Item.hbm.xml:5:<hibernate-mapping >
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Item.hbm.xml:19:</hibernate-mapping>
+modernization-corpus-aggregate/b2cweb/Shop/build/classes/com/cn/shop/model/Order.hbm.xml:2:<!DOCTYPE hibernate-mapping PUBLIC
+No framework references found

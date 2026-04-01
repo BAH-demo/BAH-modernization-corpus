@@ -1,0 +1,8 @@
+modernization-corpus-aggregate/django-oscar/sandbox/apps/user/models.py:37:    def create_user(self, email, password=None):
+modernization-corpus-aggregate/django-oscar/sandbox/settings.py:120:SECRET_KEY = env.str('SECRET_KEY', default='UajFCuyjDKmWHe29neauXzHi9eZoRXr6RMbT5JyAdPiACBP6Cra2')
+modernization-corpus-aggregate/django-oscar/src/oscar/apps/customer/abstract_models.py:13:    def create_user(self, email, password=None, **extra_fields):
+modernization-corpus-aggregate/django-oscar/src/oscar/apps/customer/forms.py:94:    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+modernization-corpus-aggregate/django-oscar/src/oscar/apps/customer/forms.py:101:        password = self.cleaned_data["password"]
+modernization-corpus-aggregate/django-oscar/src/oscar/apps/customer/forms.py:123:        password = self.cleaned_data.get("password2")
+modernization-corpus-aggregate/django-oscar/src/oscar/apps/customer/auth_backends.py:24:    def _authenticate(self, request, email=None, password=None, *args, **kwargs):
+modernization-corpus-aggregate/django-oscar/src/oscar/apps/customer/mixins.py:59:                username=user.email, password=form.cleaned_data["password1"]

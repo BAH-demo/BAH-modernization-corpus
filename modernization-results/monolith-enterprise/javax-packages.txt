@@ -1,0 +1,4 @@
+     43 import javax.persistence
+      7 import javax.jms
+      3 import javax.validation
+      1 import javax.annotation
