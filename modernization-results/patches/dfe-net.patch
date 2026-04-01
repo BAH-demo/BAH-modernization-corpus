@@ -1,0 +1,772 @@
+diff --git a/CTe.AppTeste.NetCore/CTe.AppTeste.NetCore.csproj b/CTe.AppTeste.NetCore/CTe.AppTeste.NetCore.csproj
+index 0a03cbd..b38a52b 100644
+--- a/CTe.AppTeste.NetCore/CTe.AppTeste.NetCore.csproj
++++ b/CTe.AppTeste.NetCore/CTe.AppTeste.NetCore.csproj
+@@ -1,8 +1,10 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <OutputType>Exe</OutputType>
+-    <TargetFramework>net6.0</TargetFramework>
++    <TargetFramework>net8.0</TargetFramework>
+     
+ 	  <IsPackable>false</IsPackable>
+   </PropertyGroup>
+diff --git a/CTe.AppTeste/CTe.AppTeste.csproj b/CTe.AppTeste/CTe.AppTeste.csproj
+index e7087b7..0537d12 100644
+--- a/CTe.AppTeste/CTe.AppTeste.csproj
++++ b/CTe.AppTeste/CTe.AppTeste.csproj
+@@ -2,6 +2,8 @@
+ <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{47A90E97-AD65-4673-91CB-B42065E9C575}</ProjectGuid>
+@@ -9,7 +11,7 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>CTe.AppTeste</RootNamespace>
+     <AssemblyName>CTe.AppTeste</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+     <WarningLevel>4</WarningLevel>
+diff --git a/CTe.Classes/CTe.Classes.csproj b/CTe.Classes/CTe.Classes.csproj
+index 41132d5..7dda73c 100644
+--- a/CTe.Classes/CTe.Classes.csproj
++++ b/CTe.Classes/CTe.Classes.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/CTe.Dacte.AppTeste/CTe.Dacte.AppTeste.csproj b/CTe.Dacte.AppTeste/CTe.Dacte.AppTeste.csproj
+index 47bb41a..2525b67 100644
+--- a/CTe.Dacte.AppTeste/CTe.Dacte.AppTeste.csproj
++++ b/CTe.Dacte.AppTeste/CTe.Dacte.AppTeste.csproj
+@@ -2,13 +2,15 @@
+ <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{827FA496-0F49-4E93-8CE9-2246CCD353B8}</ProjectGuid>
+     <OutputType>WinExe</OutputType>
+     <RootNamespace>CTe.Dacte.AppTeste</RootNamespace>
+     <AssemblyName>CTe.Dacte.AppTeste</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+     <TargetFrameworkProfile />
+diff --git a/CTe.Dacte.Base/CTe.Dacte.Base.csproj b/CTe.Dacte.Base/CTe.Dacte.Base.csproj
+index 6e7f021..a8da950 100644
+--- a/CTe.Dacte.Base/CTe.Dacte.Base.csproj
++++ b/CTe.Dacte.Base/CTe.Dacte.Base.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/CTe.Dacte.Fast/CTe.Dacte.Fast.csproj b/CTe.Dacte.Fast/CTe.Dacte.Fast.csproj
+index b8e4ba1..664ca92 100644
+--- a/CTe.Dacte.Fast/CTe.Dacte.Fast.csproj
++++ b/CTe.Dacte.Fast/CTe.Dacte.Fast.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462</TargetFrameworks>
+ 		
+ 	</PropertyGroup>
+diff --git a/CTe.Dacte.OpenFast/CTe.Dacte.OpenFast.csproj b/CTe.Dacte.OpenFast/CTe.Dacte.OpenFast.csproj
+index a8094a7..88f063e 100644
+--- a/CTe.Dacte.OpenFast/CTe.Dacte.OpenFast.csproj
++++ b/CTe.Dacte.OpenFast/CTe.Dacte.OpenFast.csproj
+@@ -1,5 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 		<DefineConstants>openfastreport</DefineConstants>
+ 		
+diff --git a/CTe.Servicos/CTe.Servicos.csproj b/CTe.Servicos/CTe.Servicos.csproj
+index 0b5f03d..cf894cd 100644
+--- a/CTe.Servicos/CTe.Servicos.csproj
++++ b/CTe.Servicos/CTe.Servicos.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/CTe.Utils/CTe.Utils.csproj b/CTe.Utils/CTe.Utils.csproj
+index 6791d05..3628b11 100644
+--- a/CTe.Utils/CTe.Utils.csproj
++++ b/CTe.Utils/CTe.Utils.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/CTe.Wsdl/CTe.Wsdl.csproj b/CTe.Wsdl/CTe.Wsdl.csproj
+index 29133ee..412b0d7 100644
+--- a/CTe.Wsdl/CTe.Wsdl.csproj
++++ b/CTe.Wsdl/CTe.Wsdl.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/DFe.Classes/DFe.Classes.csproj b/DFe.Classes/DFe.Classes.csproj
+index 1805692..e1c066d 100755
+--- a/DFe.Classes/DFe.Classes.csproj
++++ b/DFe.Classes/DFe.Classes.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	
+   </PropertyGroup>
+diff --git a/DFe.Testes/DFe.Testes.csproj b/DFe.Testes/DFe.Testes.csproj
+index cc90271..5eaf106 100644
+--- a/DFe.Testes/DFe.Testes.csproj
++++ b/DFe.Testes/DFe.Testes.csproj
+@@ -1,7 +1,9 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
+-		<TargetFramework>net6.0</TargetFramework>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
++		<TargetFramework>net8.0</TargetFramework>
+ 		<IsPackable>false</IsPackable>
+ 		
+ 	</PropertyGroup>
+diff --git a/DFe.Utils/DFe.Utils.csproj b/DFe.Utils/DFe.Utils.csproj
+index 1c59a4f..9caef69 100644
+--- a/DFe.Utils/DFe.Utils.csproj
++++ b/DFe.Utils/DFe.Utils.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 		
+ 	</PropertyGroup>
+diff --git a/DFe.Wsdl/Common/RequestSefazDefault.cs b/DFe.Wsdl/Common/RequestSefazDefault.cs
+index 92d4709..1168a5e 100644
+--- a/DFe.Wsdl/Common/RequestSefazDefault.cs
++++ b/DFe.Wsdl/Common/RequestSefazDefault.cs
+@@ -73,7 +73,7 @@ public async Task<string> SendRequestAsync(XmlDocument xmlEnvelop, X509Certifica
+             }
+ 
+             string xmlSoap = xmlEnvelop.InnerXml;
+-            HttpWebRequest httpWr = (HttpWebRequest)WebRequest.Create(new Uri(url));
++            HttpWebRequest /* TODO: Replace with HttpClient */ httpWr = (HttpWebRequest /* TODO: Replace with HttpClient */)WebRequest.Create(new Uri(url));
+ 
+             if (ConfiguracaoServicoWSDL.ValidarCertificadoDoServidorNetCore == false)
+             {
+@@ -114,7 +114,7 @@ public string SendRequest(XmlDocument xmlEnvelop, X509Certificate2 certificadoDi
+             }
+ 
+             string xmlSoap = xmlEnvelop.InnerXml;
+-            HttpWebRequest httpWr = (HttpWebRequest)WebRequest.Create(new Uri(url));
++            HttpWebRequest /* TODO: Replace with HttpClient */ httpWr = (HttpWebRequest /* TODO: Replace with HttpClient */)WebRequest.Create(new Uri(url));
+ 
+             if (ConfiguracaoServicoWSDL.ValidarCertificadoDoServidorNetCore == false)
+             {
+diff --git a/DFe.Wsdl/DFe.Wsdl.csproj b/DFe.Wsdl/DFe.Wsdl.csproj
+index b45c81e..2a4c2ce 100644
+--- a/DFe.Wsdl/DFe.Wsdl.csproj
++++ b/DFe.Wsdl/DFe.Wsdl.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/DFe.Wsdl/Http/Ext/ExtHttpWebRequest.cs b/DFe.Wsdl/Http/Ext/ExtHttpWebRequest.cs
+index f0b11be..5cd75cd 100644
+--- a/DFe.Wsdl/Http/Ext/ExtHttpWebRequest.cs
++++ b/DFe.Wsdl/Http/Ext/ExtHttpWebRequest.cs
+@@ -3,9 +3,9 @@
+ 
+ namespace DFe.Http.Ext
+ {
+-    public static class ExtHttpWebRequest
++    public static class ExtHttpWebRequest /* TODO: Replace with HttpClient */
+     {
+-        public static void ComposeContentType(this HttpWebRequest http, string contentType, Encoding encoding, string action)
++        public static void ComposeContentType(this HttpWebRequest /* TODO: Replace with HttpClient */ http, string contentType, Encoding encoding, string action)
+         {
+             if (encoding == null && action == null)
+                 http.ContentType = contentType;
+diff --git a/DFe.Wsdl/Http/RequestWS.cs b/DFe.Wsdl/Http/RequestWS.cs
+index 2f5cedc..84c576b 100644
+--- a/DFe.Wsdl/Http/RequestWS.cs
++++ b/DFe.Wsdl/Http/RequestWS.cs
+@@ -17,7 +17,7 @@ public static string EnviaSefaz(DFeSoapConfig soapConfig)
+             Uri uri = new Uri(soapConfig.Url);
+ 
+             WebRequest webRequest = WebRequest.Create(uri);
+-            HttpWebRequest httpWR = (HttpWebRequest)webRequest;
++            HttpWebRequest /* TODO: Replace with HttpClient */ httpWR = (HttpWebRequest /* TODO: Replace with HttpClient */)webRequest;
+             httpWR.Timeout = soapConfig.TimeOut == 0 ? 2000 : soapConfig.TimeOut;
+ 
+             httpWR.ContentLength = Encoding.UTF8.GetBytes(xmlSoap).Length;
+diff --git a/DadosDeTestes/DadosDeTestes.csproj b/DadosDeTestes/DadosDeTestes.csproj
+index eb2460e..8a91831 100644
+--- a/DadosDeTestes/DadosDeTestes.csproj
++++ b/DadosDeTestes/DadosDeTestes.csproj
+@@ -1,7 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+ 
+     <PropertyGroup>
+-        <TargetFramework>net6.0</TargetFramework>
++        <TargetFramework>net8.0</TargetFramework>
+         <ImplicitUsings>enable</ImplicitUsings>
+         <Nullable>enable</Nullable>
+     </PropertyGroup>
+diff --git a/Dev.VersaoAssemblies/Dev.VersaoAssemblies.csproj b/Dev.VersaoAssemblies/Dev.VersaoAssemblies.csproj
+index b22bdb0..f62d63c 100644
+--- a/Dev.VersaoAssemblies/Dev.VersaoAssemblies.csproj
++++ b/Dev.VersaoAssemblies/Dev.VersaoAssemblies.csproj
+@@ -2,6 +2,8 @@
+ <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{35429D4D-65DF-47F5-93BE-BFBF35FBBF3B}</ProjectGuid>
+@@ -9,7 +11,7 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>Dev.VersaoAssemblies</RootNamespace>
+     <AssemblyName>Dev.VersaoAssemblies</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <TargetFrameworkProfile />
+     <NuGetPackageImportStamp>
+diff --git a/MDFe.AppTeste/MDFe.AppTeste.csproj b/MDFe.AppTeste/MDFe.AppTeste.csproj
+index 78829a2..f21a882 100755
+--- a/MDFe.AppTeste/MDFe.AppTeste.csproj
++++ b/MDFe.AppTeste/MDFe.AppTeste.csproj
+@@ -2,6 +2,8 @@
+ <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{8994DDA1-E36B-40E5-9F98-C0C75CC61971}</ProjectGuid>
+@@ -9,7 +11,7 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>MDFe.AppTeste</RootNamespace>
+     <AssemblyName>MDFe.AppTeste</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+     <WarningLevel>4</WarningLevel>
+diff --git a/MDFe.Classes/MDFe.Classes.csproj b/MDFe.Classes/MDFe.Classes.csproj
+index 8869b43..a410bcc 100755
+--- a/MDFe.Classes/MDFe.Classes.csproj
++++ b/MDFe.Classes/MDFe.Classes.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/MDFe.Damdfe.AppTeste/MDFe.Damdfe.AppTeste.csproj b/MDFe.Damdfe.AppTeste/MDFe.Damdfe.AppTeste.csproj
+index 8362b80..fbb9737 100755
+--- a/MDFe.Damdfe.AppTeste/MDFe.Damdfe.AppTeste.csproj
++++ b/MDFe.Damdfe.AppTeste/MDFe.Damdfe.AppTeste.csproj
+@@ -2,6 +2,8 @@
+ <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{E34320D9-C822-41CF-B11D-C4B64001748B}</ProjectGuid>
+@@ -9,7 +11,7 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>MDFe.Damdfe.AppTeste</RootNamespace>
+     <AssemblyName>MDFe.Damdfe.AppTeste</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+     <TargetFrameworkProfile />
+diff --git a/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj b/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj
+index 3492e90..4c636d5 100755
+--- a/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj
++++ b/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/MDFe.Damdfe.Fast/MDFe.Damdfe.Fast.csproj b/MDFe.Damdfe.Fast/MDFe.Damdfe.Fast.csproj
+index 98fff2b..b269491 100755
+--- a/MDFe.Damdfe.Fast/MDFe.Damdfe.Fast.csproj
++++ b/MDFe.Damdfe.Fast/MDFe.Damdfe.Fast.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462</TargetFrameworks>
+ 		
+ 	</PropertyGroup>
+diff --git a/MDFe.Damdfe.OpenFast/MDFe.Damdfe.OpenFast.csproj b/MDFe.Damdfe.OpenFast/MDFe.Damdfe.OpenFast.csproj
+index ee560f9..7ca7762 100644
+--- a/MDFe.Damdfe.OpenFast/MDFe.Damdfe.OpenFast.csproj
++++ b/MDFe.Damdfe.OpenFast/MDFe.Damdfe.OpenFast.csproj
+@@ -1,5 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 		<DefineConstants>openfastreport</DefineConstants>
+ 		
+diff --git a/MDFe.Servicos/MDFe.Servicos.csproj b/MDFe.Servicos/MDFe.Servicos.csproj
+index 2882842..1b04f21 100755
+--- a/MDFe.Servicos/MDFe.Servicos.csproj
++++ b/MDFe.Servicos/MDFe.Servicos.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/MDFe.Utils/MDFe.Utils.csproj b/MDFe.Utils/MDFe.Utils.csproj
+index c75c155..bffc4f8 100755
+--- a/MDFe.Utils/MDFe.Utils.csproj
++++ b/MDFe.Utils/MDFe.Utils.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/MDFe.Wsdl/MDFe.Wsdl.csproj b/MDFe.Wsdl/MDFe.Wsdl.csproj
+index 2c60a13..d1b894c 100755
+--- a/MDFe.Wsdl/MDFe.Wsdl.csproj
++++ b/MDFe.Wsdl/MDFe.Wsdl.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/NFe.AppTeste.NetCore/NFe.AppTeste.NetCore.csproj b/NFe.AppTeste.NetCore/NFe.AppTeste.NetCore.csproj
+index d332300..fb49ff1 100644
+--- a/NFe.AppTeste.NetCore/NFe.AppTeste.NetCore.csproj
++++ b/NFe.AppTeste.NetCore/NFe.AppTeste.NetCore.csproj
+@@ -1,8 +1,10 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<OutputType>Exe</OutputType>
+-		<TargetFramework>net6.0</TargetFramework>
++		<TargetFramework>net8.0</TargetFramework>
+ 		
+ 		<IsPackable>false</IsPackable>
+ 	</PropertyGroup>
+diff --git a/NFe.AppTeste/NFe.AppTeste.csproj b/NFe.AppTeste/NFe.AppTeste.csproj
+index 373bce9..d393747 100644
+--- a/NFe.AppTeste/NFe.AppTeste.csproj
++++ b/NFe.AppTeste/NFe.AppTeste.csproj
+@@ -2,6 +2,8 @@
+ <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{BB030128-9609-46D5-941C-1F53D95157E2}</ProjectGuid>
+@@ -9,7 +11,7 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>NFe.AppTeste</RootNamespace>
+     <AssemblyName>NFe.AppTeste</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+     <WarningLevel>4</WarningLevel>
+diff --git a/NFe.Classes.Testes/NFe.Classes.Testes.csproj b/NFe.Classes.Testes/NFe.Classes.Testes.csproj
+index 28bff0d..3eb0ce5 100644
+--- a/NFe.Classes.Testes/NFe.Classes.Testes.csproj
++++ b/NFe.Classes.Testes/NFe.Classes.Testes.csproj
+@@ -1,7 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+ 
+     <PropertyGroup>
+-        <TargetFramework>net6.0</TargetFramework>
++        <TargetFramework>net8.0</TargetFramework>
+         <ImplicitUsings>enable</ImplicitUsings>
+         <Nullable>enable</Nullable>
+ 
+diff --git a/NFe.Classes/NFe.Classes.csproj b/NFe.Classes/NFe.Classes.csproj
+index dd08bae..4b693e5 100755
+--- a/NFe.Classes/NFe.Classes.csproj
++++ b/NFe.Classes/NFe.Classes.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/NFe.Danfe.App.Teste.Html/NFe.Danfe.App.Teste.Html.csproj b/NFe.Danfe.App.Teste.Html/NFe.Danfe.App.Teste.Html.csproj
+index e2d7fa0..e524107 100644
+--- a/NFe.Danfe.App.Teste.Html/NFe.Danfe.App.Teste.Html.csproj
++++ b/NFe.Danfe.App.Teste.Html/NFe.Danfe.App.Teste.Html.csproj
+@@ -1,6 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
+     <OutputType>WinExe</OutputType>
+     <TargetFramework>net6.0-windows</TargetFramework>
+     <Nullable>enable</Nullable>
+diff --git a/NFe.Danfe.AppTeste.Fast/NFe.Danfe.AppTeste.Fast.csproj b/NFe.Danfe.AppTeste.Fast/NFe.Danfe.AppTeste.Fast.csproj
+index 00a9aae..fa899dc 100644
+--- a/NFe.Danfe.AppTeste.Fast/NFe.Danfe.AppTeste.Fast.csproj
++++ b/NFe.Danfe.AppTeste.Fast/NFe.Danfe.AppTeste.Fast.csproj
+@@ -2,6 +2,8 @@
+ <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{DEFCCB64-84E6-45B1-984C-9CAF0BA8CC23}</ProjectGuid>
+@@ -9,7 +11,7 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>NFe.Danfe.AppTeste</RootNamespace>
+     <AssemblyName>NFe.Danfe.AppTeste</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+     <WarningLevel>4</WarningLevel>
+diff --git a/NFe.Danfe.AppTeste.OpenFast/NFe.Danfe.AppTeste.OpenFast.csproj b/NFe.Danfe.AppTeste.OpenFast/NFe.Danfe.AppTeste.OpenFast.csproj
+index 7913977..224ddc3 100644
+--- a/NFe.Danfe.AppTeste.OpenFast/NFe.Danfe.AppTeste.OpenFast.csproj
++++ b/NFe.Danfe.AppTeste.OpenFast/NFe.Danfe.AppTeste.OpenFast.csproj
+@@ -1,8 +1,10 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<OutputType>Exe</OutputType>
+-		<TargetFramework>net6.0</TargetFramework>
++		<TargetFramework>net8.0</TargetFramework>
+ 		<IsPackable>false</IsPackable>
+ 
+ 	</PropertyGroup>
+diff --git a/NFe.Danfe.Base/NFe.Danfe.Base.csproj b/NFe.Danfe.Base/NFe.Danfe.Base.csproj
+index 42e09d5..b2ab93f 100644
+--- a/NFe.Danfe.Base/NFe.Danfe.Base.csproj
++++ b/NFe.Danfe.Base/NFe.Danfe.Base.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/NFe.Danfe.Fast.Skia/NFe.Danfe.Fast.Skia.csproj b/NFe.Danfe.Fast.Skia/NFe.Danfe.Fast.Skia.csproj
+index cdf4a3f..6304f34 100644
+--- a/NFe.Danfe.Fast.Skia/NFe.Danfe.Fast.Skia.csproj
++++ b/NFe.Danfe.Fast.Skia/NFe.Danfe.Fast.Skia.csproj
+@@ -1,7 +1,9 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
+-		<TargetFramework>net6.0</TargetFramework>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
++		<TargetFramework>net8.0</TargetFramework>
+ 		<DefineConstants>fastskia</DefineConstants>
+ 	</PropertyGroup>
+ 
+diff --git a/NFe.Danfe.Fast/NFe.Danfe.Fast.csproj b/NFe.Danfe.Fast/NFe.Danfe.Fast.csproj
+index c63d241..87ff9aa 100644
+--- a/NFe.Danfe.Fast/NFe.Danfe.Fast.csproj
++++ b/NFe.Danfe.Fast/NFe.Danfe.Fast.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462</TargetFrameworks>
+ 		
+ 	</PropertyGroup>
+diff --git a/NFe.Danfe.Html/NFe.Danfe.Html.csproj b/NFe.Danfe.Html/NFe.Danfe.Html.csproj
+index 88310cd..c9a093b 100644
+--- a/NFe.Danfe.Html/NFe.Danfe.Html.csproj
++++ b/NFe.Danfe.Html/NFe.Danfe.Html.csproj
+@@ -1,6 +1,8 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFramework>netstandard2.0</TargetFramework>
+ 		<PackageId>Zeus.Net.NFe.Danfe.Html</PackageId>
+ 		<Title>Zeus.Net.NFe.Danfe.Html</Title>
+diff --git a/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj b/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj
+index 679c410..6b9f907 100644
+--- a/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj
++++ b/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj
+@@ -1,5 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462;netstandard2.0;net6.0-windows</TargetFrameworks>
+ 	</PropertyGroup>
+ 
+diff --git a/NFe.Danfe.OpenFast/NFe.Danfe.OpenFast.csproj b/NFe.Danfe.OpenFast/NFe.Danfe.OpenFast.csproj
+index 383ef29..9d175cb 100644
+--- a/NFe.Danfe.OpenFast/NFe.Danfe.OpenFast.csproj
++++ b/NFe.Danfe.OpenFast/NFe.Danfe.OpenFast.csproj
+@@ -1,5 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 		<DefineConstants>openfastreport</DefineConstants>
+ 		
+diff --git a/NFe.Integracao/NFe.Integracao.csproj b/NFe.Integracao/NFe.Integracao.csproj
+index ec0c78b..809c49e 100644
+--- a/NFe.Integracao/NFe.Integracao.csproj
++++ b/NFe.Integracao/NFe.Integracao.csproj
+@@ -2,6 +2,8 @@
+ <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+     <ProjectGuid>{DD441D1C-1F4A-4631-AA72-015C4FA735D2}</ProjectGuid>
+@@ -9,7 +11,7 @@
+     <AppDesignerFolder>Properties</AppDesignerFolder>
+     <RootNamespace>NFe.Integracao</RootNamespace>
+     <AssemblyName>NFe.Integracao</AssemblyName>
+-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
++    <TargetFramework>net8.0</TargetFramework>
+     <FileAlignment>512</FileAlignment>
+     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+     <TargetFrameworkProfile />
+@@ -34,18 +36,28 @@
+     <WarningLevel>4</WarningLevel>
+   </PropertyGroup>
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <StartupObject />
+   </PropertyGroup>
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <TargetZone>LocalIntranet</TargetZone>
+   </PropertyGroup>
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <GenerateManifests>false</GenerateManifests>
+   </PropertyGroup>
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+   </PropertyGroup>
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <SignManifests>false</SignManifests>
+   </PropertyGroup>
+   <ItemGroup>
+diff --git a/NFe.Servicos/NFe.Servicos.csproj b/NFe.Servicos/NFe.Servicos.csproj
+index 0e8aed7..958b1d8 100644
+--- a/NFe.Servicos/NFe.Servicos.csproj
++++ b/NFe.Servicos/NFe.Servicos.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 		
+ 	</PropertyGroup>
+diff --git a/NFe.Utils.Testes/NFe.Utils.Testes.csproj b/NFe.Utils.Testes/NFe.Utils.Testes.csproj
+index d036559..a1bed96 100644
+--- a/NFe.Utils.Testes/NFe.Utils.Testes.csproj
++++ b/NFe.Utils.Testes/NFe.Utils.Testes.csproj
+@@ -1,7 +1,9 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
+-		<TargetFramework>net6.0</TargetFramework>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
++		<TargetFramework>net8.0</TargetFramework>
+ 		<IsPackable>false</IsPackable>
+ 		
+ 	</PropertyGroup>
+diff --git a/NFe.Utils/NFe.Utils.csproj b/NFe.Utils/NFe.Utils.csproj
+index 22d46da..2aa8825 100644
+--- a/NFe.Utils/NFe.Utils.csproj
++++ b/NFe.Utils/NFe.Utils.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	  
+   </PropertyGroup>
+diff --git a/NFe.Wsdl.Standard/NFe.Wsdl.Standard.csproj b/NFe.Wsdl.Standard/NFe.Wsdl.Standard.csproj
+index 6784af8..5f14f51 100644
+--- a/NFe.Wsdl.Standard/NFe.Wsdl.Standard.csproj
++++ b/NFe.Wsdl.Standard/NFe.Wsdl.Standard.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+ 		
+ 	</PropertyGroup>
+diff --git a/NFe.Wsdl/NFe.Wsdl.csproj b/NFe.Wsdl/NFe.Wsdl.csproj
+index 67c66a9..9a02c46 100644
+--- a/NFe.Wsdl/NFe.Wsdl.csproj
++++ b/NFe.Wsdl/NFe.Wsdl.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+ 	<PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 		<TargetFrameworks>net462</TargetFrameworks>
+ 		
+ 	</PropertyGroup>
+diff --git a/NuGet/Zeus.Net.CTe/Zeus.Net.CTe.csproj b/NuGet/Zeus.Net.CTe/Zeus.Net.CTe.csproj
+index 104eeee..944d989 100644
+--- a/NuGet/Zeus.Net.CTe/Zeus.Net.CTe.csproj
++++ b/NuGet/Zeus.Net.CTe/Zeus.Net.CTe.csproj
+@@ -1,6 +1,8 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	<PlatformTarget>AnyCpu</PlatformTarget>
+     <Configurations>Release</Configurations>
+diff --git a/NuGet/Zeus.Net.MDFe/Zeus.Net.MDFe.csproj b/NuGet/Zeus.Net.MDFe/Zeus.Net.MDFe.csproj
+index 3c39ba0..50ac429 100644
+--- a/NuGet/Zeus.Net.MDFe/Zeus.Net.MDFe.csproj
++++ b/NuGet/Zeus.Net.MDFe/Zeus.Net.MDFe.csproj
+@@ -1,6 +1,8 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	<PlatformTarget>AnyCpu</PlatformTarget>
+     <Configurations>Release</Configurations>
+diff --git a/NuGet/Zeus.Net.NFe.NFCe/Zeus.Net.NFe.NFCe.csproj b/NuGet/Zeus.Net.NFe.NFCe/Zeus.Net.NFe.NFCe.csproj
+index 6898d62..ab85a2c 100644
+--- a/NuGet/Zeus.Net.NFe.NFCe/Zeus.Net.NFe.NFCe.csproj
++++ b/NuGet/Zeus.Net.NFe.NFCe/Zeus.Net.NFe.NFCe.csproj
+@@ -1,6 +1,8 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+ 	<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+ 	<PlatformTarget>AnyCpu</PlatformTarget>
+     <Configurations>Release</Configurations>

@@ -1,0 +1,641 @@
+diff --git a/modules/core/nuxeo-core-event/src/test/java/org/nuxeo/ecm/core/work/WorkManagerTXTest.java b/modules/core/nuxeo-core-event/src/test/java/org/nuxeo/ecm/core/work/WorkManagerTXTest.java
+index c452cfe1..530cc300 100644
+--- a/modules/core/nuxeo-core-event/src/test/java/org/nuxeo/ecm/core/work/WorkManagerTXTest.java
++++ b/modules/core/nuxeo-core-event/src/test/java/org/nuxeo/ecm/core/work/WorkManagerTXTest.java
+@@ -22,9 +22,9 @@ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
+ import static org.junit.Assert.fail;
+ 
+-import javax.transaction.xa.XAException;
+-import javax.transaction.xa.XAResource;
+-import javax.transaction.xa.Xid;
++import jakarta.transaction.xa.XAException;
++import jakarta.transaction.xa.XAResource;
++import jakarta.transaction.xa.Xid;
+ 
+ import jakarta.inject.Inject;
+ 
+diff --git a/modules/core/nuxeo-core-query/src/main/java/org/nuxeo/ecm/core/query/sql/parser/Scanner.java b/modules/core/nuxeo-core-query/src/main/java/org/nuxeo/ecm/core/query/sql/parser/Scanner.java
+index 8f96a3d0..11432a54 100644
+--- a/modules/core/nuxeo-core-query/src/main/java/org/nuxeo/ecm/core/query/sql/parser/Scanner.java
++++ b/modules/core/nuxeo-core-query/src/main/java/org/nuxeo/ecm/core/query/sql/parser/Scanner.java
+@@ -860,7 +860,7 @@ public class Scanner implements java_cup.runtime.Scanner {
+   private boolean zzEOFDone;
+ 
+   /* user code: */
+-  StringBuffer string = new StringBuffer();
++  StringBuilder string = new StringBuilder();
+ 
+   private Symbol symbol(int type) {
+     return new Symbol(type, -1, yychar, yytext());
+diff --git a/modules/core/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/DialectOracle.java b/modules/core/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/DialectOracle.java
+index 6fdf8dda..e6e5544e 100644
+--- a/modules/core/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/DialectOracle.java
++++ b/modules/core/nuxeo-core-storage-sql/nuxeo-core-storage-sql/src/main/java/org/nuxeo/ecm/core/storage/sql/jdbc/dialect/DialectOracle.java
+@@ -45,7 +45,7 @@ import java.util.Locale;
+ import java.util.Map;
+ import java.util.Set;
+ 
+-import javax.transaction.xa.XAException;
++import jakarta.transaction.xa.XAException;
+ 
+ import org.apache.commons.lang3.ArrayUtils;
+ import org.apache.commons.lang3.StringUtils;
+diff --git a/modules/core/nuxeo-core/src/main/java/org/nuxeo/ecm/core/security/SecurityPolicyServiceImpl.java b/modules/core/nuxeo-core/src/main/java/org/nuxeo/ecm/core/security/SecurityPolicyServiceImpl.java
+index 05af63cc..9e350848 100644
+--- a/modules/core/nuxeo-core/src/main/java/org/nuxeo/ecm/core/security/SecurityPolicyServiceImpl.java
++++ b/modules/core/nuxeo-core/src/main/java/org/nuxeo/ecm/core/security/SecurityPolicyServiceImpl.java
+@@ -55,7 +55,7 @@ public class SecurityPolicyServiceImpl implements SecurityPolicyService {
+     private List<SecurityPolicy> policies;
+ 
+     public SecurityPolicyServiceImpl() {
+-        policyDescriptors = new Hashtable<>();
++        policyDescriptors = new HashMap<>()();
+     }
+ 
+     private void computePolicies() {
+diff --git a/modules/platform/login/nuxeo-platform-login-keycloak/src/main/java/org/keycloak/common/util/ServerCookie.java b/modules/platform/login/nuxeo-platform-login-keycloak/src/main/java/org/keycloak/common/util/ServerCookie.java
+index 350f1706..a295084f 100644
+--- a/modules/platform/login/nuxeo-platform-login-keycloak/src/main/java/org/keycloak/common/util/ServerCookie.java
++++ b/modules/platform/login/nuxeo-platform-login-keycloak/src/main/java/org/keycloak/common/util/ServerCookie.java
+@@ -190,7 +190,7 @@ public class ServerCookie implements Serializable {
+     public static void appendCookieValue(StringBuilder headerBuf, int version, String name, String value, String path,
+             String domain, String comment, int maxAge, boolean isSecure, boolean httpOnly,
+             SameSiteAttributeValue sameSite) {
+-        StringBuffer buf = new StringBuffer();
++        StringBuilder buf = new StringBuilder();
+         // Servlet implementation checks name
+         buf.append(name);
+         buf.append("=");
+@@ -327,7 +327,7 @@ public class ServerCookie implements Serializable {
+             return s;
+         }
+ 
+-        StringBuffer b = new StringBuffer();
++        StringBuilder b = new StringBuilder();
+         for (int i = beginIndex; i < endIndex; i++) {
+             char c = s.charAt(i);
+             if (c == '\\') {
+diff --git a/modules/platform/login/nuxeo-platform-login-keycloak/src/test/java/org/nuxeo/ecm/platform/ui/web/keycloak/TestKeycloakAuthenticationPlugin.java b/modules/platform/login/nuxeo-platform-login-keycloak/src/test/java/org/nuxeo/ecm/platform/ui/web/keycloak/TestKeycloakAuthenticationPlugin.java
+index 472cd3af..7b0a0b82 100644
+--- a/modules/platform/login/nuxeo-platform-login-keycloak/src/test/java/org/nuxeo/ecm/platform/ui/web/keycloak/TestKeycloakAuthenticationPlugin.java
++++ b/modules/platform/login/nuxeo-platform-login-keycloak/src/test/java/org/nuxeo/ecm/platform/ui/web/keycloak/TestKeycloakAuthenticationPlugin.java
+@@ -95,7 +95,7 @@ public class TestKeycloakAuthenticationPlugin {
+         when(requestMock.getMethod()).thenReturn("GET");
+         when(requestMock.getRequestURI()).thenReturn("/foo/path/to/resource");
+         when(requestMock.getRequestURL()).thenReturn(
+-                new StringBuffer().append("https://example.com:443/foo/path/to/resource"));
++                new StringBuilder().append("https://example.com:443/foo/path/to/resource"));
+         when(requestMock.getHeaders(anyString())).thenReturn(emptyEnumeration());
+         when(requestMock.getScheme()).thenReturn("https");
+         when(requestMock.isSecure()).thenReturn(true);
+diff --git a/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/main/java/org/nuxeo/ecm/directory/ldap/filter/FilterExpressionCorrector.java b/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/main/java/org/nuxeo/ecm/directory/ldap/filter/FilterExpressionCorrector.java
+index 60bc542d..01aff34b 100644
+--- a/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/main/java/org/nuxeo/ecm/directory/ldap/filter/FilterExpressionCorrector.java
++++ b/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/main/java/org/nuxeo/ecm/directory/ldap/filter/FilterExpressionCorrector.java
+@@ -68,7 +68,7 @@ public class FilterExpressionCorrector {
+         @Override
+         public String run(final String filter) {
+ 
+-            final StringBuffer newString = new StringBuffer();
++            final StringBuilder newString = new StringBuilder();
+ 
+             // Find 'not' without parenthesis
+             final Pattern pattern = Pattern.compile("![^(][^\\)]+[)]");
+diff --git a/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/test/java/org/nuxeo/ecm/directory/ldap/MockLdapServer.java b/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/test/java/org/nuxeo/ecm/directory/ldap/MockLdapServer.java
+index dae8c2e0..c7f43810 100644
+--- a/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/test/java/org/nuxeo/ecm/directory/ldap/MockLdapServer.java
++++ b/modules/platform/nuxeo-platform-directory/nuxeo-platform-directory-ldap/src/test/java/org/nuxeo/ecm/directory/ldap/MockLdapServer.java
+@@ -251,7 +251,7 @@ public class MockLdapServer implements ContextProvider {
+ 
+     public void shutdownLdapServer() {
+ 
+-        Hashtable<String, Object> env = new Hashtable<>(new ShutdownConfiguration().toJndiEnvironment());
++        Map<String, Object> env = new HashMap<>()(new ShutdownConfiguration().toJndiEnvironment());
+         env.put(Context.INITIAL_CONTEXT_FACTORY, CoreContextFactory.class.getName());
+         env.put(Context.PROVIDER_URL, BASE_DN);
+ 
+diff --git a/modules/platform/nuxeo-platform-notification/src/main/java/org/nuxeo/ecm/platform/ec/notification/email/EmailHelper.java b/modules/platform/nuxeo-platform-notification/src/main/java/org/nuxeo/ecm/platform/ec/notification/email/EmailHelper.java
+index 74fde511..575c5e12 100644
+--- a/modules/platform/nuxeo-platform-notification/src/main/java/org/nuxeo/ecm/platform/ec/notification/email/EmailHelper.java
++++ b/modules/platform/nuxeo-platform-notification/src/main/java/org/nuxeo/ecm/platform/ec/notification/email/EmailHelper.java
+@@ -56,7 +56,7 @@ import freemarker.template.TemplateException;
+  * Helper class to build some {@link MailMessage}s from {@link Map}s and send them through the {@link MailService}.
+  *
+  * <pre>
+- * Hashtable mail = new Hashtable();
++ * Hashtable mail = new HashMap<>();
+  * mail.put(&quot;from&quot;, &quot;dion@almaer.com&quot;);
+  * mail.put(&quot;to&quot;, &quot;dion@almaer.com&quot;);
+  * mail.put(&quot;subject&quot;, &quot;a subject&quot;);
+diff --git a/modules/platform/nuxeo-platform-notification/src/test/java/org/nuxeo/ecm/platform/ec/notification/email/TestEmailResourceFactory.java b/modules/platform/nuxeo-platform-notification/src/test/java/org/nuxeo/ecm/platform/ec/notification/email/TestEmailResourceFactory.java
+index aafa7de5..51a9bb7e 100644
+--- a/modules/platform/nuxeo-platform-notification/src/test/java/org/nuxeo/ecm/platform/ec/notification/email/TestEmailResourceFactory.java
++++ b/modules/platform/nuxeo-platform-notification/src/test/java/org/nuxeo/ecm/platform/ec/notification/email/TestEmailResourceFactory.java
+@@ -24,8 +24,17 @@ import static org.nuxeo.mail.MailConstants.CONFIGURATION_MAIL_SMTP_PASSWORD;
+ import static org.nuxeo.mail.MailConstants.CONFIGURATION_MAIL_SMTP_USER;
+ 
+ import java.util.Enumeration;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.List;
+ import java.util.Properties;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.List;
+ import java.util.Vector;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.List;
+ 
+ import javax.naming.RefAddr;
+ import javax.naming.StringRefAddr;
+@@ -50,7 +59,7 @@ public class TestEmailResourceFactory {
+     public void testToProperties() {
+ 
+         EmailResourceFactory factory = new EmailResourceFactory();
+-        Vector<RefAddr> initialProperties = new Vector<>();
++        List<RefAddr> initialProperties = new ArrayList<>()();
+ 
+         // null property
+         Enumeration<RefAddr> attributes = initialProperties.elements();
+@@ -68,7 +77,7 @@ public class TestEmailResourceFactory {
+     @WithFrameworkProperty(name = "mail.transport.password", value = "varExpandedPassword")
+     public void testToPropertiesExpanded() {
+         EmailResourceFactory factory = new EmailResourceFactory();
+-        Vector<RefAddr> initialProperties = new Vector<>();
++        List<RefAddr> initialProperties = new ArrayList<>()();
+         // var property, needs to be expanded
+         initialProperties.add(new StringRefAddr(CONFIGURATION_MAIL_SMTP_PASSWORD, "${mail.transport.password}"));
+         var attributes = initialProperties.elements();
+diff --git a/modules/platform/nuxeo-platform-relations/nuxeo-platform-relations-core/src/main/java/org/nuxeo/ecm/platform/relations/services/RelationService.java b/modules/platform/nuxeo-platform-relations/nuxeo-platform-relations-core/src/main/java/org/nuxeo/ecm/platform/relations/services/RelationService.java
+index 45eea670..b7a05f5b 100644
+--- a/modules/platform/nuxeo-platform-relations/nuxeo-platform-relations-core/src/main/java/org/nuxeo/ecm/platform/relations/services/RelationService.java
++++ b/modules/platform/nuxeo-platform-relations/nuxeo-platform-relations-core/src/main/java/org/nuxeo/ecm/platform/relations/services/RelationService.java
+@@ -78,11 +78,11 @@ public class RelationService extends DefaultComponent implements RelationManager
+ 
+     public RelationService() {
+         // Hashtable to get implicit synchronization
+-        graphTypes = new Hashtable<>();
+-        graphDescriptions = new Hashtable<>();
+-        graphRegistry = new Hashtable<>();
+-        graphFactories = new Hashtable<>();
+-        resourceAdapterRegistry = new Hashtable<>();
++        graphTypes = new HashMap<>()();
++        graphDescriptions = new HashMap<>()();
++        graphRegistry = new HashMap<>()();
++        graphFactories = new HashMap<>()();
++        resourceAdapterRegistry = new HashMap<>()();
+     }
+ 
+     @Override
+diff --git a/modules/platform/nuxeo-platform-rendering/src/main/java/org/nuxeo/ecm/platform/rendering/wiki/extensions/PatternFilter.java b/modules/platform/nuxeo-platform-rendering/src/main/java/org/nuxeo/ecm/platform/rendering/wiki/extensions/PatternFilter.java
+index afaab6b2..734df9b8 100644
+--- a/modules/platform/nuxeo-platform-rendering/src/main/java/org/nuxeo/ecm/platform/rendering/wiki/extensions/PatternFilter.java
++++ b/modules/platform/nuxeo-platform-rendering/src/main/java/org/nuxeo/ecm/platform/rendering/wiki/extensions/PatternFilter.java
+@@ -51,7 +51,7 @@ public class PatternFilter implements WikiFilter {
+         if (!matcher.find()) {
+             return null;
+         }
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         do {
+             matcher.appendReplacement(sb, replacement);
+         } while (matcher.find());
+diff --git a/modules/platform/nuxeo-platform-suggestbox-core/src/main/java/org/nuxeo/ecm/platform/suggestbox/service/suggesters/I18nHelper.java b/modules/platform/nuxeo-platform-suggestbox-core/src/main/java/org/nuxeo/ecm/platform/suggestbox/service/suggesters/I18nHelper.java
+index 8d0a8e3f..4a144491 100644
+--- a/modules/platform/nuxeo-platform-suggestbox-core/src/main/java/org/nuxeo/ecm/platform/suggestbox/service/suggesters/I18nHelper.java
++++ b/modules/platform/nuxeo-platform-suggestbox-core/src/main/java/org/nuxeo/ecm/platform/suggestbox/service/suggesters/I18nHelper.java
+@@ -44,7 +44,7 @@ public class I18nHelper {
+ 
+     public static String interpolate(String message, Object... params) {
+         Matcher matcher = PLACEHOLDER.matcher(message);
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         while (matcher.find()) {
+             int paramId = Integer.valueOf(matcher.group(1));
+             if (paramId >= 0 && paramId < params.length) {
+diff --git a/modules/platform/nuxeo-platform-web-common/src/main/java/org/nuxeo/ecm/platform/web/common/requestcontroller/service/NuxeoCorsFilterDescriptor.java b/modules/platform/nuxeo-platform-web-common/src/main/java/org/nuxeo/ecm/platform/web/common/requestcontroller/service/NuxeoCorsFilterDescriptor.java
+index daa34d13..16c0dd54 100644
+--- a/modules/platform/nuxeo-platform-web-common/src/main/java/org/nuxeo/ecm/platform/web/common/requestcontroller/service/NuxeoCorsFilterDescriptor.java
++++ b/modules/platform/nuxeo-platform-web-common/src/main/java/org/nuxeo/ecm/platform/web/common/requestcontroller/service/NuxeoCorsFilterDescriptor.java
+@@ -147,7 +147,7 @@ public class NuxeoCorsFilterDescriptor implements Descriptor {
+     }
+ 
+     protected Dictionary<String, String> buildDictionary() {
+-        Dictionary<String, String> params = new Hashtable<>();
++        Dictionary<String, String> params = new HashMap<>()();
+         params.put(PROPERTIES_PREFIX + "allowGenericHttpRequests", Boolean.toString(allowGenericHttpRequests));
+ 
+         if (!isEmpty(allowOrigin)) {
+diff --git a/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/app/HeaderFixFilter.java b/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/app/HeaderFixFilter.java
+index a351919c..63e8301e 100644
+--- a/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/app/HeaderFixFilter.java
++++ b/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/app/HeaderFixFilter.java
+@@ -63,7 +63,7 @@ public class HeaderFixFilter extends HttpFilter {
+ 
+     protected class DefaultContentTypeRequestWrapper extends HttpServletRequestWrapper {
+ 
+-        protected final Hashtable<String, String[]> headers;
++        protected final Map<String, String[]> headers;
+ 
+         protected final String lCONTENT_TYPE = HttpHeaders.CONTENT_TYPE.toLowerCase();
+ 
+@@ -74,9 +74,9 @@ public class HeaderFixFilter extends HttpFilter {
+             headers = patchHeaders(request, patchCType, patchMType);
+         }
+ 
+-        protected Hashtable<String, String[]> patchHeaders(HttpServletRequest request, boolean patchCType,
++        protected Map<String, String[]> patchHeaders(HttpServletRequest request, boolean patchCType,
+                 boolean patchMType) {
+-            Hashtable<String, String[]> headers = new Hashtable<>();
++            Map<String, String[]> headers = new HashMap<>()();
+             // collect headers from request
+             Enumeration<String> eachNames = request.getHeaderNames();
+             while (eachNames.hasMoreElements()) {
+diff --git a/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/model/impl/TypeConfigurationProvider.java b/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/model/impl/TypeConfigurationProvider.java
+index 085cf2c8..23565452 100644
+--- a/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/model/impl/TypeConfigurationProvider.java
++++ b/modules/platform/nuxeo-webengine/nuxeo-webengine-core/src/main/java/org/nuxeo/ecm/webengine/model/impl/TypeConfigurationProvider.java
+@@ -39,7 +39,7 @@ public class TypeConfigurationProvider {
+     public TypeConfigurationProvider() {
+         types = new ArrayList<>();
+         services = new ArrayList<>();
+-        registries = new Vector<>();
++        registries = new ArrayList<>()();
+     }
+ 
+     public void flushCache() {
+diff --git a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/codec/CryptoProperties.java b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/codec/CryptoProperties.java
+index c5dfc6b1..993dbc7a 100644
+--- a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/codec/CryptoProperties.java
++++ b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/codec/CryptoProperties.java
+@@ -182,8 +182,8 @@ public class CryptoProperties extends Properties {
+             return defaults;
+         }
+ 
+-        public Hashtable<String, Object> getDefaultProperties() {
+-            Hashtable<String, Object> h = new Hashtable<>();
++        public Map<String, Object> getDefaultProperties() {
++            Map<String, Object> h = new HashMap<>()();
+             if (defaults != null) {
+                 Enumeration<?> allDefaultProperties = defaults.propertyNames();
+                 while (allDefaultProperties.hasMoreElements()) {
+diff --git a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/utils/i18n/I18NUtils.java b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/utils/i18n/I18NUtils.java
+index 832b61da..43b6ba05 100644
+--- a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/utils/i18n/I18NUtils.java
++++ b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/utils/i18n/I18NUtils.java
+@@ -58,7 +58,7 @@ public final class I18NUtils {
+ 
+         if (params != null && params.length != 0) {
+             MessageFormat mf = new MessageFormat(text, locale);
+-            text = mf.format(params, new StringBuffer(), null).toString();
++            text = mf.format(params, new StringBuilder(), null).toString();
+         }
+ 
+         return text;
+diff --git a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XMap.java b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XMap.java
+index 5042843d..7faa02ea 100644
+--- a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XMap.java
++++ b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XMap.java
+@@ -109,9 +109,9 @@ public class XMap {
+      * Creates a new XMap object.
+      */
+     public XMap() {
+-        objects = new Hashtable<>();
+-        roots = new Hashtable<>();
+-        factories = new Hashtable<>(XValueFactory.defaultFactories);
++        objects = new HashMap<>()();
++        roots = new HashMap<>()();
++        factories = new HashMap<>()(XValueFactory.defaultFactories);
+     }
+ 
+     /**
+diff --git a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XValueFactory.java b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XValueFactory.java
+index 1f9f5521..5140492c 100644
+--- a/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XValueFactory.java
++++ b/modules/runtime/nuxeo-common/src/main/java/org/nuxeo/common/xmap/XValueFactory.java
+@@ -42,7 +42,7 @@ import org.w3c.dom.Node;
+  */
+ public abstract class XValueFactory {
+ 
+-    static final Map<Class<?>, XValueFactory> defaultFactories = new Hashtable<>();
++    static final Map<Class<?>, XValueFactory> defaultFactories = new HashMap<>()();
+ 
+     public abstract Object deserialize(Context context, String value);
+ 
+diff --git a/modules/runtime/nuxeo-launcher-commons/src/main/java/org/nuxeo/launcher/config/ConfigurationLoader.java b/modules/runtime/nuxeo-launcher-commons/src/main/java/org/nuxeo/launcher/config/ConfigurationLoader.java
+index e8c45e37..c2efe84e 100644
+--- a/modules/runtime/nuxeo-launcher-commons/src/main/java/org/nuxeo/launcher/config/ConfigurationLoader.java
++++ b/modules/runtime/nuxeo-launcher-commons/src/main/java/org/nuxeo/launcher/config/ConfigurationLoader.java
+@@ -125,7 +125,7 @@ public class ConfigurationLoader {
+         }
+ 
+         Matcher matcher = ENV_VALUE_PATTERN.matcher(value);
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         while (matcher.find()) {
+             boolean booleanValue = "??".equals(matcher.group("boolean"));
+             String envVarName = matcher.group("envparam");
+diff --git a/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/jtajca/NuxeoContainer.java b/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/jtajca/NuxeoContainer.java
+index 0bbc0967..8b4c3616 100644
+--- a/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/jtajca/NuxeoContainer.java
++++ b/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/jtajca/NuxeoContainer.java
+@@ -28,8 +28,8 @@ import javax.naming.Name;
+ import javax.naming.NamingException;
+ import javax.naming.Reference;
+ import javax.naming.spi.NamingManager;
+-import javax.transaction.xa.XAException;
+-import javax.transaction.xa.XAResource;
++import jakarta.transaction.xa.XAException;
++import jakarta.transaction.xa.XAResource;
+ 
+ import jakarta.transaction.HeuristicMixedException;
+ import jakarta.transaction.HeuristicRollbackException;
+diff --git a/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/transaction/TransactionHelper.java b/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/transaction/TransactionHelper.java
+index 0c76f673..74212eae 100644
+--- a/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/transaction/TransactionHelper.java
++++ b/modules/runtime/nuxeo-runtime-jtajca/src/main/java/org/nuxeo/runtime/transaction/TransactionHelper.java
+@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
+ import java.util.function.Supplier;
+ 
+ import javax.naming.NamingException;
+-import javax.transaction.xa.XAResource;
++import jakarta.transaction.xa.XAResource;
+ 
+ import jakarta.transaction.HeuristicMixedException;
+ import jakarta.transaction.HeuristicRollbackException;
+diff --git a/modules/runtime/nuxeo-runtime-osgi/src/main/java/org/nuxeo/osgi/BundleManifestReader.java b/modules/runtime/nuxeo-runtime-osgi/src/main/java/org/nuxeo/osgi/BundleManifestReader.java
+index 36826e6e..3dc12279 100644
+--- a/modules/runtime/nuxeo-runtime-osgi/src/main/java/org/nuxeo/osgi/BundleManifestReader.java
++++ b/modules/runtime/nuxeo-runtime-osgi/src/main/java/org/nuxeo/osgi/BundleManifestReader.java
+@@ -94,7 +94,7 @@ public final class BundleManifestReader {
+     }
+ 
+     public static Dictionary<String, String> getDefaultHeaders(String symbolicName) {
+-        Dictionary<String, String> headers = new Hashtable<>();
++        Dictionary<String, String> headers = new HashMap<>()();
+         headers.put(Constants.BUNDLE_SYMBOLICNAME, symbolicName);
+         headers.put(Constants.BUNDLE_ACTIVATOR, NullActivator.class.getName());
+         return headers;
+@@ -106,7 +106,7 @@ public final class BundleManifestReader {
+         if (symbolicName == null) {
+             throw new BundleException("Missing " + Constants.BUNDLE_SYMBOLICNAME);
+         }
+-        Hashtable<String, String> headers = new Hashtable<>();
++        Map<String, String> headers = new HashMap<>()();
+         parseSymbolicName(headers, symbolicName);
+         String val = attrs.getValue(Constants.BUNDLE_ACTIVATOR);
+         if (val != null) {
+diff --git a/modules/runtime/nuxeo-runtime-test/src/main/java/org/nuxeo/runtime/test/runner/AnnotationScanner.java b/modules/runtime/nuxeo-runtime-test/src/main/java/org/nuxeo/runtime/test/runner/AnnotationScanner.java
+index 6e93a47f..806d7832 100644
+--- a/modules/runtime/nuxeo-runtime-test/src/main/java/org/nuxeo/runtime/test/runner/AnnotationScanner.java
++++ b/modules/runtime/nuxeo-runtime-test/src/main/java/org/nuxeo/runtime/test/runner/AnnotationScanner.java
+@@ -39,7 +39,7 @@ public class AnnotationScanner {
+ 
+     protected final Set<Class<?>> visitedClasses = new HashSet<>();
+ 
+-    protected final Map<Class<?>, List<Annotation>> classes = new Hashtable<>();
++    protected final Map<Class<?>, List<Annotation>> classes = new HashMap<>()();
+ 
+     protected final Map<Class<?>, Map<Class<?>, List<Annotation>>> classesAnnotations = new ConcurrentHashMap<>();
+ 
+diff --git a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/api/DefaultServiceProvider.java b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/api/DefaultServiceProvider.java
+index d7f81dde..1af9d51a 100644
+--- a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/api/DefaultServiceProvider.java
++++ b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/api/DefaultServiceProvider.java
+@@ -46,7 +46,7 @@ public class DefaultServiceProvider implements ServiceProvider {
+         return provider;
+     }
+ 
+-    protected final Map<Class<?>, ServiceRef> registry = new Hashtable<>();
++    protected final Map<Class<?>, ServiceRef> registry = new HashMap<>()();
+ 
+     @Override
+     @SuppressWarnings("unchecked")
+diff --git a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/DependencyTree.java b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/DependencyTree.java
+index c1be304e..76b74eb8 100644
+--- a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/DependencyTree.java
++++ b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/DependencyTree.java
+@@ -47,8 +47,8 @@ public class DependencyTree<K, T> implements Iterable<DependencyTree.Entry<K, T>
+     private final List<Entry<K, T>> resolved;
+ 
+     public DependencyTree() {
+-        registry = new Hashtable<>();
+-        resolved = new Vector<>();
++        registry = new HashMap<>()();
++        resolved = new ArrayList<>()();
+     }
+ 
+     @Override
+diff --git a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/FileChangeNotifier.java b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/FileChangeNotifier.java
+index d5b00018..24f6e6d6 100644
+--- a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/FileChangeNotifier.java
++++ b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/deploy/FileChangeNotifier.java
+@@ -39,7 +39,7 @@ public class FileChangeNotifier {
+ 
+     private final Timer timer = new Timer("FileChangeNotifier");
+ 
+-    private final Map<String, FileEntry> files = new Hashtable<>();
++    private final Map<String, FileEntry> files = new HashMap<>()();
+ 
+     public void start(int startAfter, int interval) {
+         timer.scheduleAtFixedRate(new WatchTask(), startAfter, interval);
+diff --git a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/services/event/EventService.java b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/services/event/EventService.java
+index 6aa7da1b..74e25ff2 100644
+--- a/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/services/event/EventService.java
++++ b/modules/runtime/nuxeo-runtime/src/main/java/org/nuxeo/runtime/services/event/EventService.java
+@@ -47,7 +47,7 @@ public class EventService extends DefaultComponent {
+ 
+     public EventService() {
+         topics = new HashMap<>();
+-        contributions = new Hashtable<>();
++        contributions = new HashMap<>()();
+     }
+ 
+     @Override
+diff --git a/pom.xml b/pom.xml
+index ce84bc45..4e78ff3b 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -2440,7 +2440,7 @@
+         <exclusions>
+           <!-- we use official jakarta.servlet:jakarta.servlet-api instead -->
+           <exclusion>
+-            <groupId>javax.servlet</groupId>
++            <groupId>jakarta.servlet</groupId>
+             <artifactId>servlet-api</artifactId> <!-- without javax. -->
+           </exclusion>
+           <exclusion>
+@@ -3059,8 +3059,8 @@
+             <artifactId>mailapi</artifactId>
+           </exclusion>
+           <exclusion>
+-            <groupId>javax.servlet</groupId>
+-            <artifactId>javax.servlet-api</artifactId>
++            <groupId>jakarta.servlet</groupId>
++            <artifactId>jakarta.servlet-api</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>ch.qos.logback</groupId>
+@@ -3394,7 +3394,7 @@
+         <!-- provided by Tomcat, excluded in final assembly -->
+       </dependency>
+       <dependency>
+-        <!-- this implements a more recent version of the EL spec than javax.el:el-api:1.0 -->
++        <!-- this implements a more recent version of the EL spec than jakarta.el:el-api:1.0 -->
+         <groupId>org.apache.tomcat</groupId>
+         <artifactId>tomcat-el-api</artifactId>
+         <version>${tomcat.version}</version>
+@@ -3762,8 +3762,8 @@
+         <version>${gcp.version}</version>
+         <exclusions>
+           <exclusion>
+-            <groupId>javax.annotation</groupId>
+-            <artifactId>javax.annotation-api</artifactId>
++            <groupId>jakarta.annotation</groupId>
++            <artifactId>jakarta.annotation-api</artifactId>
+           </exclusion>
+         </exclusions>
+       </dependency>
+@@ -3812,7 +3812,7 @@
+         <version>1.7.1</version>
+         <exclusions>
+          <exclusion>
+-            <groupId>javax.activation</groupId>
++            <groupId>jakarta.activation</groupId>
+             <artifactId>activation</artifactId>
+           </exclusion>
+         </exclusions>
+@@ -4729,9 +4729,9 @@
+               </bannedDependencies>
+               <bannedDependencies>
+                 <excludes>
+-                  <exclude>javax.el:el-api</exclude> <!-- use more recent org.apache.tomcat:tomcat-el-api instead -->
++                  <exclude>jakarta.el:el-api</exclude> <!-- use more recent org.apache.tomcat:tomcat-el-api instead -->
+                 </excludes>
+-                <message>javax.el:el-api must not be used, use org.apache.tomcat:tomcat-el-api instead</message>
++                <message>jakarta.el:el-api must not be used, use org.apache.tomcat:tomcat-el-api instead</message>
+               </bannedDependencies>
+               <bannedDependencies>
+                 <excludes>
+@@ -4753,30 +4753,30 @@
+               </bannedDependencies>
+               <bannedDependencies>
+                 <excludes>
+-                  <exclude>com.sun.activation:javax.activation</exclude>
+-                  <exclude>javax.activation:javax.activation-api</exclude>
+-                  <exclude>javax.annotation:javax.annotation-api</exclude>
+-                  <exclude>javax.annotations:jsr250-api</exclude>
+-                  <exclude>javax.inject:javax.inject</exclude>
+-                  <exclude>com.sun.mail:javax.mail</exclude>
++                  <exclude>com.sun.activation:jakarta.activation</exclude>
++                  <exclude>jakarta.activation:jakarta.activation-api</exclude>
++                  <exclude>jakarta.annotation:jakarta.annotation-api</exclude>
++                  <exclude>jakarta.annotations:jsr250-api</exclude>
++                  <exclude>jakarta.inject:jakarta.inject</exclude>
++                  <exclude>com.sun.mail:jakarta.mail</exclude>
+                   <exclude>com.sun.mail:mailapi</exclude>
+-                  <exclude>javax.mail:javax.mail-api</exclude>
+-                  <exclude>javax.mail:mail</exclude>
+-                  <exclude>javax.persistence:javax.persistence-api</exclude>
+-                  <exclude>javax.persistence:persistence-api</exclude>
+-                  <exclude>javax.servlet:javax.servlet-api</exclude>
+-                  <exclude>javax.servlet:servlet-api</exclude>
+-                  <exclude>javax.servlet.jsp:javax.servlet.jsp-api</exclude>
+-                  <exclude>javax.servlet.jsp:jsp-api</exclude>
+-                  <exclude>javax.servlet.jsp.jstl:jstl</exclude>
+-                  <exclude>javax.servlet:jstl</exclude>
+-                  <exclude>javax.transaction:javax.transaction-api</exclude>
+-                  <exclude>javax.transaction:transaction-api</exclude>
+-                  <exclude>javax.validation:validation-api</exclude>
+-                  <exclude>javax.ws.rs:javax.ws.rs-api</exclude>
+-                  <exclude>javax.ws.rs:jsr311-api</exclude>
+-                  <exclude>javax.xml.bind:jaxb-api</exclude>
+-                  <exclude>javax.xml.ws:jaxws-api</exclude>
++                  <exclude>jakarta.mail:jakarta.mail-api</exclude>
++                  <exclude>jakarta.mail:mail</exclude>
++                  <exclude>jakarta.persistence:jakarta.persistence-api</exclude>
++                  <exclude>jakarta.persistence:persistence-api</exclude>
++                  <exclude>jakarta.servlet:jakarta.servlet-api</exclude>
++                  <exclude>jakarta.servlet:servlet-api</exclude>
++                  <exclude>jakarta.servlet.jsp:jakarta.servlet.jsp-api</exclude>
++                  <exclude>jakarta.servlet.jsp:jsp-api</exclude>
++                  <exclude>jakarta.servlet.jsp.jstl:jstl</exclude>
++                  <exclude>jakarta.servlet:jstl</exclude>
++                  <exclude>jakarta.transaction:jakarta.transaction-api</exclude>
++                  <exclude>jakarta.transaction:transaction-api</exclude>
++                  <exclude>jakarta.validation:validation-api</exclude>
++                  <exclude>jakarta.ws.rs:jakarta.ws.rs-api</exclude>
++                  <exclude>jakarta.ws.rs:jsr311-api</exclude>
++                  <exclude>jakarta.xml.bind:jaxb-api</exclude>
++                  <exclude>jakarta.xml.ws:jaxws-api</exclude>
+                 </excludes>
+                 <message>javax artifacts must not be used, use their jakarta equivalent</message>
+               </bannedDependencies>
+diff --git a/server/nuxeo-nxr-server/src/main/resources/templates/common/META-INF/templates/jboss-deployment-structure.xml b/server/nuxeo-nxr-server/src/main/resources/templates/common/META-INF/templates/jboss-deployment-structure.xml
+index bd8a152c..19409465 100644
+--- a/server/nuxeo-nxr-server/src/main/resources/templates/common/META-INF/templates/jboss-deployment-structure.xml
++++ b/server/nuxeo-nxr-server/src/main/resources/templates/common/META-INF/templates/jboss-deployment-structure.xml
+@@ -26,8 +26,8 @@
+       <module name="org.jboss.logmanager" />
+       <module name="org.slf4j" />
+       <module name="org.slf4j.impl" />
+-      <module name="javax.jws.api"/>
+-      <module name="javax.xml.soap.api"/>
++      <module name="jakarta.jws.api"/>
++      <module name="jakarta.xml.soap.api"/>
+       <module name="io.undertow.jsp"/>
+       <module name="org.apache.xerces"/>
+     </dependencies>
+diff --git a/server/nuxeo-nxr-server/src/main/resources/templates/docker/lib/log4j2.xml b/server/nuxeo-nxr-server/src/main/resources/templates/docker/lib/log4j2.xml
+index 6110c5a4..b42da0e1 100644
+--- a/server/nuxeo-nxr-server/src/main/resources/templates/docker/lib/log4j2.xml
++++ b/server/nuxeo-nxr-server/src/main/resources/templates/docker/lib/log4j2.xml
+@@ -144,10 +144,10 @@
+     <Logger name="org.jboss.ws.core.MessageTrace" level="trace" />
+     -->
+ 
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.application" level="warn" />
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.renderkit" level="info" />
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.application" level="info" />
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.lifecycle" level="info" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.application" level="warn" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.renderkit" level="info" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.application" level="info" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.lifecycle" level="info" />
+     <Logger name="org.richfaces.log.Config" level="error" />
+     <Logger name="org.ajax4jsf" level="info" />
+     <Logger name="org.ajax4jsf.cache.LRUMapCacheFactory" level="error" />
+diff --git a/server/nuxeo-server-tomcat/src/main/resources/tomcat/lib/log4j2.xml b/server/nuxeo-server-tomcat/src/main/resources/tomcat/lib/log4j2.xml
+index aef87c37..dec0b104 100644
+--- a/server/nuxeo-server-tomcat/src/main/resources/tomcat/lib/log4j2.xml
++++ b/server/nuxeo-server-tomcat/src/main/resources/tomcat/lib/log4j2.xml
+@@ -220,10 +220,10 @@
+     <Logger name="org.jboss.ws.core.MessageTrace" level="trace" />
+     -->
+ 
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.application" level="warn" />
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.renderkit" level="info" />
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.application" level="info" />
+-    <Logger name="javax.enterprise.resource.webcontainer.jsf.lifecycle" level="info" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.application" level="warn" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.renderkit" level="info" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.application" level="info" />
++    <Logger name="jakarta.enterprise.resource.webcontainer.jsf.lifecycle" level="info" />
+     <Logger name="org.richfaces.log.Config" level="error" />
+     <Logger name="org.ajax4jsf" level="info" />
+     <Logger name="org.ajax4jsf.cache.LRUMapCacheFactory" level="error" />
+diff --git a/versions-rules.xml b/versions-rules.xml
+index 7b41b209..01c11362 100644
+--- a/versions-rules.xml
++++ b/versions-rules.xml
+@@ -7,7 +7,7 @@
+     <ignoreVersion type="regex">.*[-_\.]AM[0-9\.]*</ignoreVersion> <!-- org.apache.directory.server:apacheds-core 2.0.0.AM25 -->
+     <ignoreVersion type="regex">.*[-_\.]pr[0-9\.]*</ignoreVersion> <!-- com.fasterxml.jackson.core:jackson-core 2.10.0.pr3 -->
+     <ignoreVersion type="regex">.*[-_\.](rc|RC)-?[0-9\.]*</ignoreVersion> <!-- io.dropwizard.metrics:metrics-core 4.1.0-rc2 -->
+-    <ignoreVersion type="regex">.*[-_\.][Aa]lpha[0-9\.-]*</ignoreVersion> <!-- javax.resource:connector-api 1.6-alpha-1 -->
++    <ignoreVersion type="regex">.*[-_\.][Aa]lpha[0-9\.-]*</ignoreVersion> <!-- jakarta.resource:connector-api 1.6-alpha-1 -->
+     <ignoreVersion type="regex">.*[-_\.][Bb]eta[0-9\.-]*</ignoreVersion> <!-- org.ow2.asm:asm 7.0-beta -->
+     <ignoreVersion type="regex">.*[-_\.]next\.[0-9]+</ignoreVersion> <!-- dnsjava:dnsjava 3.0.0-next.1 -->
+     <ignoreVersion type="regex">.*-atlassian-[0-9\.]*</ignoreVersion> <!-- org.hamcrest:hamcrest-core 1.4-atlassian-1 -->
