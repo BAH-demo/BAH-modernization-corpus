@@ -1,0 +1,57 @@
+###############################################################################
+# Dependabot Configuration – Python/pip ecosystem
+# Weekly updates for all modernized Python systems
+###############################################################################
+version: 2
+updates:
+  # Odoo – Enterprise ERP
+  - package-ecosystem: "pip"
+    directory: "/odoo"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "odoo"
+    commit-message:
+      prefix: "deps(odoo):"
+
+  # Django Oscar – E-commerce Framework
+  - package-ecosystem: "pip"
+    directory: "/django-oscar"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "django-oscar"
+    commit-message:
+      prefix: "deps(django-oscar):"
+
+  # Mezzanine – CMS
+  - package-ecosystem: "pip"
+    directory: "/mezzanine"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "mezzanine"
+    commit-message:
+      prefix: "deps(mezzanine):"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "ci(deps):"
