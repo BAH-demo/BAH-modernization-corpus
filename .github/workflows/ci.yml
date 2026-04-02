@@ -26,16 +26,16 @@ jobs:
       - name: Validate analyzer imports
         run: |
           python -c "
-          import sys
-          sys.path.insert(0, '.')
-          from analysis_engine.analyzers.base_analyzer import BaseAnalyzer
-          from analysis_engine.analyzers.java_analyzer import JavaAnalyzer
-          from analysis_engine.analyzers.python_analyzer import PythonAnalyzer
-          from analysis_engine.analyzers.csharp_analyzer import CSharpAnalyzer
-          from analysis_engine.analyzers.cobol_analyzer import CobolAnalyzer
-          from analysis_engine.analyzers.fortran_analyzer import FortranAnalyzer
-          from analysis_engine.analyzers.assembly_analyzer import AssemblyAnalyzer
-          from analysis_engine.analyzers.coldfusion_analyzer import ColdFusionAnalyzer
+          import sys, importlib
+          sys.path.insert(0, 'analysis-engine')
+          importlib.import_module('analyzers.base_analyzer')
+          importlib.import_module('analyzers.java_analyzer')
+          importlib.import_module('analyzers.python_analyzer')
+          importlib.import_module('analyzers.csharp_analyzer')
+          importlib.import_module('analyzers.cobol_analyzer')
+          importlib.import_module('analyzers.fortran_analyzer')
+          importlib.import_module('analyzers.assembly_analyzer')
+          importlib.import_module('analyzers.coldfusion_analyzer')
           print('All analyzers imported successfully')
           "
 
@@ -45,14 +45,14 @@ jobs:
 
       - name: Run analysis on test corpus
         run: |
-          python -m analysis_engine.analyzer \
+          python analysis-engine/analyzer.py \
             --corpus-dir modernization-corpus-aggregate \
             --output-dir corpus-analysis-results \
             --systems monolith-enterprise mezzanine
 
       - name: Generate reports
         run: |
-          python -m analysis_engine.report_generator \
+          python analysis-engine/report_generator.py \
             --input-dir corpus-analysis-results \
             --output-dir corpus-analysis-results/reports
 
@@ -169,7 +169,7 @@ jobs:
         run: |
           python modernization-dashboard/generate_report.py \
             --analysis-dir corpus-analysis-results \
-            --test-dir test-framework/results \
+            --test-results-dir test-framework/results \
             --output MODERNIZATION-REPORT.md
 
       - name: Upload report

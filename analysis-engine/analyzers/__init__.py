@@ -1,11 +1,11 @@
 # Language-specific analyzers
-from analysis_engine.analyzers.java_analyzer import JavaAnalyzer
-from analysis_engine.analyzers.python_analyzer import PythonAnalyzer
-from analysis_engine.analyzers.csharp_analyzer import CSharpAnalyzer
-from analysis_engine.analyzers.cobol_analyzer import CobolAnalyzer
-from analysis_engine.analyzers.fortran_analyzer import FortranAnalyzer
-from analysis_engine.analyzers.assembly_analyzer import AssemblyAnalyzer
-from analysis_engine.analyzers.coldfusion_analyzer import ColdFusionAnalyzer
+from analyzers.java_analyzer import JavaAnalyzer
+from analyzers.python_analyzer import PythonAnalyzer
+from analyzers.csharp_analyzer import CSharpAnalyzer
+from analyzers.cobol_analyzer import CobolAnalyzer
+from analyzers.fortran_analyzer import FortranAnalyzer
+from analyzers.assembly_analyzer import AssemblyAnalyzer
+from analyzers.coldfusion_analyzer import ColdFusionAnalyzer
 
 ANALYZERS = {
     "Java": JavaAnalyzer,

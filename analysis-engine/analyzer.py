@@ -11,17 +11,17 @@ import os
 import sys
 from pathlib import Path
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add this directory to path for imports when run as a script
+sys.path.insert(0, str(Path(__file__).parent))
 
-from analysis_engine.analyzers.base_analyzer import BaseAnalyzer
-from analysis_engine.analyzers.java_analyzer import JavaAnalyzer
-from analysis_engine.analyzers.python_analyzer import PythonAnalyzer
-from analysis_engine.analyzers.csharp_analyzer import CSharpAnalyzer
-from analysis_engine.analyzers.cobol_analyzer import CobolAnalyzer
-from analysis_engine.analyzers.fortran_analyzer import FortranAnalyzer
-from analysis_engine.analyzers.assembly_analyzer import AssemblyAnalyzer
-from analysis_engine.analyzers.coldfusion_analyzer import ColdFusionAnalyzer
+from analyzers.base_analyzer import BaseAnalyzer
+from analyzers.java_analyzer import JavaAnalyzer
+from analyzers.python_analyzer import PythonAnalyzer
+from analyzers.csharp_analyzer import CSharpAnalyzer
+from analyzers.cobol_analyzer import CobolAnalyzer
+from analyzers.fortran_analyzer import FortranAnalyzer
+from analyzers.assembly_analyzer import AssemblyAnalyzer
+from analyzers.coldfusion_analyzer import ColdFusionAnalyzer
 
 LANGUAGE_ANALYZERS: dict[str, type[BaseAnalyzer]] = {
     "Java": JavaAnalyzer,

@@ -3,7 +3,7 @@
 import re
 from pathlib import Path
 
-from analysis_engine.analyzers.base_analyzer import BaseAnalyzer
+from analyzers.base_analyzer import BaseAnalyzer
 
 
 class JavaAnalyzer(BaseAnalyzer):
