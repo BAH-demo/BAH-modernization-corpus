@@ -1,0 +1,76 @@
+###############################################################################
+# Dockerfile – Umbraco CMS (.NET 8)
+# System: umbraco-cms | 761K LOC | C# | 31 .csproj files (net8.0)
+#
+# Multi-stage build: SDK for build, ASP.NET runtime for production
+###############################################################################
+
+# =============================================================================
+# Stage 1: Build
+# =============================================================================
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+WORKDIR /src
+
+# Copy project files first for better layer caching
+COPY modernization-corpus-aggregate/umbraco-cms/*.sln ./
+COPY modernization-corpus-aggregate/umbraco-cms/**/*.csproj ./
+
+# Recreate directory structure for .csproj files
+RUN find . -name "*.csproj" -exec sh -c \
+    'DIR=$(dirname "{}"); mkdir -p "/src/${DIR}"; mv "{}" "/src/${DIR}/"' \; 2>/dev/null || true
+
+# Restore dependencies
+RUN dotnet restore
+
+# Copy full source code
+COPY modernization-corpus-aggregate/umbraco-cms/ ./
+
+# Build and publish
+RUN dotnet publish -c Release -o /app/publish --no-restore \
+    /p:UseAppHost=false \
+    /p:DebugType=None \
+    /p:DebugSymbols=false
+
+# =============================================================================
+# Stage 2: Runtime
+# =============================================================================
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+# OCI Image Labels
+LABEL org.opencontainers.image.title="Umbraco CMS (.NET 8)" \
+      org.opencontainers.image.description="Modernized Umbraco CMS – migrated from .NET Framework to .NET 8" \
+      org.opencontainers.image.vendor="BAH Legacy Modernization" \
+      org.opencontainers.image.source="https://github.com/BAH-demo/BAH-modernization-corpus" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.base.name="mcr.microsoft.com/dotnet/aspnet:8.0"
+
+WORKDIR /app
+
+# Create non-root user for security
+RUN groupadd --gid 1001 appuser && \
+    useradd --uid 1001 --gid 1001 --shell /bin/false --create-home appuser
+
+# Copy published application from build stage
+COPY --from=build /app/publish .
+
+# Set ownership to non-root user
+RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose default ASP.NET port
+EXPOSE 8080
+
+# Configure ASP.NET to listen on port 8080
+ENV ASPNETCORE_URLS=http://+:8080 \
+    ASPNETCORE_ENVIRONMENT=Production \
+    DOTNET_RUNNING_IN_CONTAINER=true
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+
+ENTRYPOINT ["dotnet"]
+CMD ["Umbraco.Web.dll"]

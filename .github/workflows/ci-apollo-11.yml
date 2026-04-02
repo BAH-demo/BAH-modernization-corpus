@@ -1,0 +1,88 @@
+---
+###############################################################################
+# CI Pipeline – Apollo-11 AGC Flight Software (Preservation Artifact)
+# System: apollo-11 | 130K LOC | Assembly (AGC)
+# NOTE: Documentation validation only – no build/compile
+#       This is a historical preservation artifact from NASA's Apollo program.
+###############################################################################
+name: CI – Apollo-11 (Documentation)
+
+on:
+  push:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/apollo-11/**"
+      - ".github/workflows/ci-apollo-11.yml"
+  pull_request:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/apollo-11/**"
+      - ".github/workflows/ci-apollo-11.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SYSTEM_PATH: modernization-corpus-aggregate/apollo-11
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Documentation Validation
+  # ---------------------------------------------------------------------------
+  docs-validation:
+    name: Documentation Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (for markdownlint)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Lint Markdown files
+        run: |
+          echo "=== Apollo-11 Documentation Validation ==="
+          echo "This is a preservation artifact – documentation-only checks."
+          echo ""
+
+          MD_FILES=$(find "${{ env.SYSTEM_PATH }}" -name "*.md" -type f 2>/dev/null || true)
+
+          if [ -z "${MD_FILES}" ]; then
+            echo "No Markdown files found in ${{ env.SYSTEM_PATH }}"
+            echo "Checking repository-level documentation..."
+            MD_FILES=$(find . -maxdepth 2 -name "*.md" -type f 2>/dev/null || true)
+          fi
+
+          if [ -n "${MD_FILES}" ]; then
+            echo "Found Markdown files:"
+            echo "${MD_FILES}" | head -20
+            echo ""
+            # Run markdownlint – non-blocking (warnings only)
+            echo "${MD_FILES}" | xargs markdownlint --disable MD013 MD033 MD041 || true
+            echo ""
+            echo "Documentation lint complete."
+          else
+            echo "::notice::No Markdown files found for linting."
+          fi
+
+      - name: Verify preservation artifact structure
+        run: |
+          echo "=== Preservation Artifact Inventory ==="
+          echo ""
+          if [ -d "${{ env.SYSTEM_PATH }}" ]; then
+            echo "Directory structure:"
+            find "${{ env.SYSTEM_PATH }}" -type f | head -50
+            echo ""
+            echo "File type summary:"
+            find "${{ env.SYSTEM_PATH }}" -type f | sed 's/.*\.//' | sort | uniq -c | sort -rn | head -20
+          else
+            echo "::notice::Apollo-11 source directory not present (run aggregation script first)."
+          fi

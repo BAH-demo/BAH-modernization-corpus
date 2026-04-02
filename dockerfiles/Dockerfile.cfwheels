@@ -1,0 +1,49 @@
+###############################################################################
+# Dockerfile – CFWheels (ColdFusion MVC Framework)
+# System: cfwheels | 178K LOC | ColdFusion/CFML
+#
+# Based on CommandBox with Lucee CFML engine
+###############################################################################
+
+FROM ortussolutions/commandbox:latest AS runtime
+
+# OCI Image Labels
+LABEL org.opencontainers.image.title="CFWheels (ColdFusion MVC Framework)" \
+      org.opencontainers.image.description="Containerized CFWheels application running on CommandBox with Lucee" \
+      org.opencontainers.image.vendor="BAH Legacy Modernization" \
+      org.opencontainers.image.source="https://github.com/BAH-demo/BAH-modernization-corpus" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.base.name="ortussolutions/commandbox:latest"
+
+# Set environment variables for CommandBox / Lucee
+ENV BOX_SERVER_APP_CFENGINE=lucee@5 \
+    BOX_SERVER_WEB_HOST=0.0.0.0 \
+    BOX_SERVER_WEB_HTTP_PORT=8080 \
+    BOX_SERVER_PROFILE=production \
+    cfconfig_adminPassword="" \
+    cfconfig_requestTimeout="0,0,1,0"
+
+WORKDIR /app
+
+# Copy application files
+COPY modernization-corpus-aggregate/cfwheels/ /app/
+
+# Install dependencies via CommandBox (if box.json exists)
+RUN if [ -f "box.json" ]; then \
+      box install --production; \
+    fi
+
+# Warm up the server to pre-compile templates
+RUN box server start cfengine=lucee@5 port=8080 --debug && \
+    sleep 10 && \
+    box server stop || true
+
+# Expose HTTP port
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+    CMD curl -f http://localhost:8080/ || exit 1
+
+# Start CommandBox server in foreground
+CMD ["box", "server", "start", "--console"]

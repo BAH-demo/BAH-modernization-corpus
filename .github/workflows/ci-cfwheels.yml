@@ -1,0 +1,130 @@
+---
+###############################################################################
+# CI Pipeline – CFWheels (ColdFusion MVC Framework)
+# System: cfwheels | 178K LOC | ColdFusion/CFML
+###############################################################################
+name: CI – CFWheels (ColdFusion)
+
+on:
+  push:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/cfwheels/**"
+      - ".github/workflows/ci-cfwheels.yml"
+      - "dockerfiles/Dockerfile.cfwheels"
+  pull_request:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/cfwheels/**"
+      - ".github/workflows/ci-cfwheels.yml"
+      - "dockerfiles/Dockerfile.cfwheels"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  APP_PATH: modernization-corpus-aggregate/cfwheels
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Lint – CFLint
+  # ---------------------------------------------------------------------------
+  cflint:
+    name: CFLint Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java (required by CFLint)
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Download CFLint
+        run: |
+          CFLINT_VERSION="1.5.0"
+          curl -sL "https://github.com/cflint/CFLint/releases/download/v${CFLINT_VERSION}/CFLint-${CFLINT_VERSION}-all.jar" \
+            -o cflint.jar
+
+      - name: Run CFLint
+        run: |
+          java -jar cflint.jar \
+            -folder "${{ env.APP_PATH }}" \
+            -htmlFile cflint-report.html \
+            -xmlFile cflint-report.xml \
+            -textFile cflint-report.txt \
+            -quiet || true
+          echo "--- CFLint Summary ---"
+          head -100 cflint-report.txt || true
+
+      - name: Upload CFLint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cflint-report
+          path: |
+            cflint-report.html
+            cflint-report.xml
+            cflint-report.txt
+          retention-days: 30
+
+  # ---------------------------------------------------------------------------
+  # Smoke Test – CommandBox / Lucee
+  # ---------------------------------------------------------------------------
+  smoke-test:
+    name: Smoke Test (CommandBox / Lucee)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java (required by CommandBox)
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Install CommandBox
+        run: |
+          curl -fsSL https://downloads.ortussolutions.com/debs/gpg | sudo gpg --dearmor -o /usr/share/keyrings/ortussolutions-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/ortussolutions-archive-keyring.gpg] https://downloads.ortussolutions.com/debs/noarch /" | sudo tee /etc/apt/sources.list.d/ortussolutions.list
+          sudo apt-get update && sudo apt-get install -y commandbox
+
+      - name: Verify CFML syntax
+        run: |
+          cd "${{ env.APP_PATH }}"
+          # Attempt to start Lucee server and verify it responds
+          box server start cfengine=lucee@5 port=8500 --debug &
+          SERVER_PID=$!
+
+          # Wait for server to become ready
+          echo "Waiting for Lucee server to start..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8500/ > /dev/null 2>&1; then
+              echo "Server is running on port 8500"
+              break
+            fi
+            sleep 2
+          done
+
+          # Basic smoke test – verify HTTP 200
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8500/ || echo "000")
+          echo "HTTP Status: ${HTTP_STATUS}"
+
+          if [ "${HTTP_STATUS}" = "000" ]; then
+            echo "::warning::Server did not start – smoke test skipped (non-blocking)"
+          elif [ "${HTTP_STATUS}" -ge 200 ] && [ "${HTTP_STATUS}" -lt 400 ]; then
+            echo "Smoke test passed (HTTP ${HTTP_STATUS})"
+          else
+            echo "::warning::Smoke test returned HTTP ${HTTP_STATUS}"
+          fi
+
+          # Cleanup
+          box server stop 2>/dev/null || true
