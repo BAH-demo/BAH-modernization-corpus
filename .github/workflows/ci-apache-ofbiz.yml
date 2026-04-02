@@ -2,17 +2,18 @@ name: CI - Apache OFBiz
 
 on:
   push:
-    branches: [main]
+    branches: [main, "devin/**"]
     paths:
       - 'modernization-corpus-aggregate/apache-ofbiz/**'
       - '.github/workflows/ci-apache-ofbiz.yml'
       - 'dockerfiles/Dockerfile.apache-ofbiz'
   pull_request:
-    branches: [main]
+    branches: [main, "devin/**"]
     paths:
       - 'modernization-corpus-aggregate/apache-ofbiz/**'
       - '.github/workflows/ci-apache-ofbiz.yml'
       - 'dockerfiles/Dockerfile.apache-ofbiz'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,9 +25,32 @@ env:
   SYSTEM_PATH: modernization-corpus-aggregate/apache-ofbiz
 
 jobs:
+  preflight:
+    name: Preflight Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      source_exists: ${{ steps.check.outputs.exists }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for source directory
+        id: check
+        run: |
+          if [ -d "${{ env.SYSTEM_PATH }}" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Source directory found: ${{ env.SYSTEM_PATH }}"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Source directory not present. Run CORPUS-AGGREGATION-SETUP.sh to populate."
+          fi
+
   build:
     name: Build & Verify
     runs-on: ubuntu-latest
+    needs: preflight
+    if: needs.preflight.outputs.source_exists == 'true'
     defaults:
       run:
         working-directory: ${{ env.SYSTEM_PATH }}
@@ -60,6 +84,7 @@ jobs:
     name: SAST Scan (Semgrep)
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.result == 'success'
     container:
       image: semgrep/semgrep
 
@@ -81,6 +106,7 @@ jobs:
     name: Dependency Vulnerability Check
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.result == 'success'
 
     steps:
       - name: Checkout repository
@@ -106,6 +132,7 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.result == 'success'
 
     steps:
       - name: Checkout repository
