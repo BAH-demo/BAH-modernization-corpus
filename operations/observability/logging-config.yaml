@@ -1,0 +1,469 @@
+# Logging Pipeline Configuration
+# ELK Stack (Elasticsearch, Logstash, Kibana) + Fluentd for log collection
+# Covers all 13 modernized legacy systems
+
+# ============================================================
+# Fluentd Configuration - Log Collection Agent
+# Deploy on each application host
+# ============================================================
+fluentd:
+  # Global settings
+  system:
+    log_level: info
+    suppress_repeated_stacktrace: true
+
+  # ============================================================
+  # SOURCE: Java Systems (OFBiz, Alfresco, Nuxeo, B2CWeb, Monolith)
+  # ============================================================
+  sources:
+    # --- Apache OFBiz ---
+    - name: ofbiz-app
+      type: tail
+      path: /opt/ofbiz/runtime/logs/ofbiz.log
+      pos_file: /var/log/fluentd/ofbiz-app.pos
+      tag: java.ofbiz.app
+      parse:
+        type: multiline
+        format_firstline: '/^\d{4}-\d{2}-\d{2}/'
+        format1: '/^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) \[(?<thread>[^\]]+)\] (?<level>\w+)\s+(?<logger>[^\s]+) - (?<message>.*)/'
+      labels:
+        system: apache-ofbiz
+        tier: "1"
+        language: java
+
+    - name: ofbiz-access
+      type: tail
+      path: /opt/ofbiz/runtime/logs/access_log
+      pos_file: /var/log/fluentd/ofbiz-access.pos
+      tag: java.ofbiz.access
+      parse:
+        type: apache2
+      labels:
+        system: apache-ofbiz
+        log_type: access
+
+    # --- Alfresco ---
+    - name: alfresco-repo
+      type: tail
+      path: /opt/alfresco/tomcat/logs/alfresco.log
+      pos_file: /var/log/fluentd/alfresco-repo.pos
+      tag: java.alfresco.repo
+      parse:
+        type: multiline
+        format_firstline: '/^\d{4}-\d{2}-\d{2}/'
+        format1: '/^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?<level>\w+)\s+\[(?<logger>[^\]]+)\] \[(?<thread>[^\]]+)\] (?<message>.*)/'
+      labels:
+        system: alfresco-community
+        tier: "1"
+        language: java
+
+    - name: alfresco-share
+      type: tail
+      path: /opt/alfresco/tomcat-share/logs/share.log
+      pos_file: /var/log/fluentd/alfresco-share.pos
+      tag: java.alfresco.share
+      labels:
+        system: alfresco-community
+        component: share
+
+    - name: alfresco-solr
+      type: tail
+      path: /opt/alfresco/solr6/logs/solr.log
+      pos_file: /var/log/fluentd/alfresco-solr.pos
+      tag: java.alfresco.solr
+      labels:
+        system: alfresco-community
+        component: solr
+
+    # --- Nuxeo ---
+    - name: nuxeo-server
+      type: tail
+      path: /var/log/nuxeo/server.log
+      pos_file: /var/log/fluentd/nuxeo-server.pos
+      tag: java.nuxeo.server
+      parse:
+        type: multiline
+        format_firstline: '/^\d{4}-\d{2}-\d{2}/'
+        format1: '/^(?<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2},\d{3}) (?<level>\w+)\s+\[(?<logger>[^\]]+)\] (?<message>.*)/'
+      labels:
+        system: nuxeo
+        tier: "1"
+        language: java
+
+    - name: nuxeo-audit
+      type: tail
+      path: /var/log/nuxeo/audit.log
+      pos_file: /var/log/fluentd/nuxeo-audit.pos
+      tag: java.nuxeo.audit
+      labels:
+        system: nuxeo
+        log_type: audit
+
+    # --- B2CWeb ---
+    - name: b2cweb-app
+      type: tail
+      path: /opt/tomcat/logs/b2cweb.log
+      pos_file: /var/log/fluentd/b2cweb-app.pos
+      tag: java.b2cweb.app
+      parse:
+        type: multiline
+        format_firstline: '/^\d{4}-\d{2}-\d{2}/'
+      labels:
+        system: b2cweb
+        tier: "2"
+        language: java
+
+    - name: b2cweb-access
+      type: tail
+      path: /opt/tomcat/logs/access_log
+      pos_file: /var/log/fluentd/b2cweb-access.pos
+      tag: java.b2cweb.access
+      parse:
+        type: apache2
+      labels:
+        system: b2cweb
+        log_type: access
+
+    # --- Monolith Enterprise ---
+    - name: monolith-server
+      type: tail
+      path: /opt/wildfly/standalone/log/server.log
+      pos_file: /var/log/fluentd/monolith-server.pos
+      tag: java.monolith.server
+      parse:
+        type: multiline
+        format_firstline: '/^\d{4}-\d{2}-\d{2}/'
+      labels:
+        system: monolith-enterprise
+        tier: "1"
+        language: java
+
+    - name: monolith-audit
+      type: tail
+      path: /opt/wildfly/standalone/log/audit.log
+      pos_file: /var/log/fluentd/monolith-audit.pos
+      tag: java.monolith.audit
+      labels:
+        system: monolith-enterprise
+        log_type: audit
+
+  # ============================================================
+  # SOURCE: Python Systems (Odoo, Django Oscar, Mezzanine)
+  # ============================================================
+    # --- Odoo ---
+    - name: odoo-server
+      type: tail
+      path: /var/log/odoo/odoo-server.log
+      pos_file: /var/log/fluentd/odoo-server.pos
+      tag: python.odoo.server
+      parse:
+        type: multiline
+        format_firstline: '/^\d{4}-\d{2}-\d{2}/'
+        format1: '/^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?<pid>\d+) (?<level>\w+) (?<db>\S+) (?<logger>\S+): (?<message>.*)/'
+      labels:
+        system: odoo
+        tier: "1"
+        language: python
+
+    # --- Django Oscar ---
+    - name: oscar-app
+      type: tail
+      path: /var/log/oscar/oscar.log
+      pos_file: /var/log/fluentd/oscar-app.pos
+      tag: python.oscar.app
+      parse:
+        type: multiline
+        format_firstline: '/^\d{4}-\d{2}-\d{2}/'
+      labels:
+        system: django-oscar
+        tier: "2"
+        language: python
+
+    - name: oscar-celery
+      type: tail
+      path: /var/log/oscar/celery-worker.log
+      pos_file: /var/log/fluentd/oscar-celery.pos
+      tag: python.oscar.celery
+      labels:
+        system: django-oscar
+        component: celery
+
+    - name: oscar-gunicorn
+      type: tail
+      path: /var/log/oscar/gunicorn-access.log
+      pos_file: /var/log/fluentd/oscar-gunicorn.pos
+      tag: python.oscar.access
+      parse:
+        type: ltsv
+      labels:
+        system: django-oscar
+        log_type: access
+
+    # --- Mezzanine ---
+    - name: mezzanine-app
+      type: tail
+      path: /var/log/mezzanine/mezzanine.log
+      pos_file: /var/log/fluentd/mezzanine-app.pos
+      tag: python.mezzanine.app
+      labels:
+        system: mezzanine
+        tier: "2"
+        language: python
+
+    - name: mezzanine-gunicorn
+      type: tail
+      path: /var/log/mezzanine/gunicorn-access.log
+      pos_file: /var/log/fluentd/mezzanine-gunicorn.pos
+      tag: python.mezzanine.access
+      labels:
+        system: mezzanine
+        log_type: access
+
+  # ============================================================
+  # SOURCE: C# Systems (Umbraco, DFe-NET)
+  # ============================================================
+    # --- Umbraco CMS ---
+    - name: umbraco-app
+      type: tail
+      path: /opt/umbraco/umbraco/Logs/UmbracoTraceLog.*.json
+      pos_file: /var/log/fluentd/umbraco-app.pos
+      tag: dotnet.umbraco.app
+      parse:
+        type: json
+        time_key: Timestamp
+        time_format: '%Y-%m-%dT%H:%M:%S.%N%z'
+      labels:
+        system: umbraco-cms
+        tier: "2"
+        language: csharp
+
+    # --- DFe-NET ---
+    - name: dfe-net-app
+      type: tail
+      path: /var/log/dfe-net/app.log
+      pos_file: /var/log/fluentd/dfe-net-app.pos
+      tag: dotnet.dfenet.app
+      labels:
+        system: dfe-net
+        tier: "2"
+        language: csharp
+
+    - name: dfe-net-sefaz
+      type: tail
+      path: /var/log/dfe-net/sefaz.log
+      pos_file: /var/log/fluentd/dfe-net-sefaz.pos
+      tag: dotnet.dfenet.sefaz
+      labels:
+        system: dfe-net
+        log_type: sefaz
+        component: fiscal
+
+    - name: dfe-net-signing
+      type: tail
+      path: /var/log/dfe-net/signing.log
+      pos_file: /var/log/fluentd/dfe-net-signing.pos
+      tag: dotnet.dfenet.signing
+      labels:
+        system: dfe-net
+        log_type: signing
+
+  # ============================================================
+  # SOURCE: ColdFusion (CFWheels)
+  # ============================================================
+    - name: cfwheels-exception
+      type: tail
+      path: /opt/lucee/web/logs/exception.log
+      pos_file: /var/log/fluentd/cfwheels-exception.pos
+      tag: coldfusion.cfwheels.exception
+      labels:
+        system: cfwheels
+        tier: "2"
+        language: coldfusion
+
+    - name: cfwheels-catalina
+      type: tail
+      path: /opt/lucee/tomcat/logs/catalina.out
+      pos_file: /var/log/fluentd/cfwheels-catalina.pos
+      tag: coldfusion.cfwheels.catalina
+      labels:
+        system: cfwheels
+        component: tomcat
+
+  # ============================================================
+  # SOURCE: Fortran (NASTRAN-95) and Assembly (Apollo-11)
+  # ============================================================
+    - name: nastran-jobs
+      type: tail
+      path: /data/nastran/results/*.f06
+      pos_file: /var/log/fluentd/nastran-jobs.pos
+      tag: fortran.nastran.output
+      parse:
+        type: none
+      labels:
+        system: nastran-95
+        tier: "3"
+        language: fortran
+
+    - name: apollo11-simulator
+      type: tail
+      path: /opt/virtualagc/yaAGC.log
+      pos_file: /var/log/fluentd/apollo11-sim.pos
+      tag: assembly.apollo11.simulator
+      parse:
+        type: none
+      labels:
+        system: apollo-11
+        tier: "3"
+        language: assembly
+
+  # ============================================================
+  # FILTERS: Common processing
+  # ============================================================
+  filters:
+    # Add hostname and environment metadata
+    - name: add-metadata
+      match: "**"
+      type: record_transformer
+      record:
+        hostname: "#{Socket.gethostname}"
+        environment: "production"
+        portfolio: "federal-modernization"
+
+    # Parse log levels from unstructured logs
+    - name: detect-level
+      match: "**"
+      type: parser
+      key_name: message
+      reserve_data: true
+      suppress_parse_error_log: true
+      parse:
+        type: regexp
+        expression: '/(?<level>DEBUG|INFO|WARN|WARNING|ERROR|FATAL|CRITICAL)/'
+
+    # Filter out debug logs in production
+    - name: filter-debug
+      match: "**"
+      type: grep
+      exclude:
+        key: level
+        pattern: "^DEBUG$"
+
+    # Mask sensitive data (PII, credentials)
+    - name: mask-pii
+      match: "**"
+      type: record_transformer
+      enable_ruby: true
+      record:
+        message: '${record["message"].gsub(/\b\d{3}-\d{2}-\d{4}\b/, "***-**-****").gsub(/password[=:]\S+/i, "password=***MASKED***")}'
+
+  # ============================================================
+  # OUTPUT: Send to Elasticsearch
+  # ============================================================
+  outputs:
+    - name: elasticsearch-output
+      match: "**"
+      type: elasticsearch
+      host: elasticsearch.modernization.example.gov
+      port: 9200
+      scheme: https
+      ssl_verify: true
+      user: fluentd
+      password_file: /etc/fluentd/secrets/es_password
+      logstash_format: true
+      logstash_prefix: "modernization-${record['system'] || 'unknown'}"
+      logstash_dateformat: "%Y.%m.%d"
+      include_tag_key: true
+      type_name: "_doc"
+      buffer:
+        type: file
+        path: /var/log/fluentd/buffer/elasticsearch
+        flush_mode: interval
+        flush_interval: 10s
+        retry_type: exponential_backoff
+        retry_max_interval: 300s
+        chunk_limit_size: 8MB
+        total_limit_size: 2GB
+        overflow_action: drop_oldest_chunk
+
+# ============================================================
+# Elasticsearch Index Lifecycle Management
+# ============================================================
+elasticsearch:
+  ilm_policy:
+    name: modernization-logs
+    phases:
+      hot:
+        min_age: 0ms
+        actions:
+          rollover:
+            max_primary_shard_size: 50gb
+            max_age: 1d
+          set_priority:
+            priority: 100
+      warm:
+        min_age: 7d
+        actions:
+          shrink:
+            number_of_shards: 1
+          forcemerge:
+            max_num_segments: 1
+          set_priority:
+            priority: 50
+      cold:
+        min_age: 30d
+        actions:
+          freeze: {}
+          set_priority:
+            priority: 0
+      delete:
+        min_age: 90d
+        actions:
+          delete: {}
+
+  index_templates:
+    - name: modernization-logs
+      index_patterns:
+        - "modernization-*"
+      settings:
+        number_of_shards: 3
+        number_of_replicas: 1
+        index.lifecycle.name: modernization-logs
+        index.lifecycle.rollover_alias: modernization-logs
+      mappings:
+        properties:
+          timestamp:
+            type: date
+          system:
+            type: keyword
+          tier:
+            type: keyword
+          language:
+            type: keyword
+          level:
+            type: keyword
+          message:
+            type: text
+          hostname:
+            type: keyword
+          environment:
+            type: keyword
+
+# ============================================================
+# Kibana Saved Searches and Dashboards
+# ============================================================
+kibana:
+  index_patterns:
+    - title: "modernization-*"
+      time_field: "@timestamp"
+
+  saved_searches:
+    - name: "All Errors (All Systems)"
+      query: 'level:(ERROR OR FATAL OR CRITICAL)'
+    - name: "Java System Errors"
+      query: 'language:java AND level:(ERROR OR FATAL)'
+    - name: "Python System Errors"
+      query: 'language:python AND level:(ERROR OR CRITICAL)'
+    - name: "C# System Errors"
+      query: 'language:csharp AND level:(Error OR Fatal)'
+    - name: "Security Events"
+      query: 'message:(*authentication* OR *unauthorized* OR *denied* OR *forbidden*)'

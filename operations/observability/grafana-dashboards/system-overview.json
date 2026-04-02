@@ -1,0 +1,491 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Federal Modernization Portfolio - All 13 Systems Overview",
+  "editable": true,
+  "fiscalYearStartMonth": 10,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "Portfolio Health Overview",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "text": "DOWN" }, "1": { "color": "green", "text": "UP" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 1 },
+      "id": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "title": "System Availability",
+      "type": "stat",
+      "targets": [
+        { "expr": "up{job=\"ofbiz\"}", "legendFormat": "OFBiz", "refId": "A" },
+        { "expr": "up{job=\"alfresco-repo\"}", "legendFormat": "Alfresco", "refId": "B" },
+        { "expr": "up{job=\"nuxeo\"}", "legendFormat": "Nuxeo", "refId": "C" },
+        { "expr": "up{job=\"b2cweb\"}", "legendFormat": "B2CWeb", "refId": "D" },
+        { "expr": "up{job=\"monolith-enterprise\"}", "legendFormat": "Monolith", "refId": "E" },
+        { "expr": "up{job=\"odoo\"}", "legendFormat": "Odoo", "refId": "F" },
+        { "expr": "up{job=\"django-oscar\"}", "legendFormat": "Oscar", "refId": "G" },
+        { "expr": "up{job=\"mezzanine\"}", "legendFormat": "Mezzanine", "refId": "H" },
+        { "expr": "up{job=\"umbraco\"}", "legendFormat": "Umbraco", "refId": "I" },
+        { "expr": "up{job=\"dfe-net\"}", "legendFormat": "DFe-NET", "refId": "J" },
+        { "expr": "up{job=\"cfwheels\"}", "legendFormat": "CFWheels", "refId": "K" },
+        { "expr": "up{job=\"nastran-95\"}", "legendFormat": "NASTRAN", "refId": "L" },
+        { "expr": "up{job=\"apollo-11\"}", "legendFormat": "Apollo-11", "refId": "M" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 10 },
+              { "color": "red", "value": 20 }
+            ]
+          },
+          "unit": "none"
+        }
+      },
+      "gridPos": { "h": 4, "w": 8, "x": 0, "y": 5 },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "textMode": "auto"
+      },
+      "title": "Active Alerts",
+      "type": "stat",
+      "targets": [
+        { "expr": "count(ALERTS{alertstate=\"firing\"})", "legendFormat": "Firing", "refId": "A" },
+        { "expr": "count(ALERTS{alertstate=\"pending\"})", "legendFormat": "Pending", "refId": "B" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.8 },
+              { "color": "red", "value": 0.95 }
+            ]
+          },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 4, "w": 8, "x": 8, "y": 5 },
+      "id": 3,
+      "title": "Portfolio Uptime (24h)",
+      "type": "stat",
+      "targets": [
+        { "expr": "avg(avg_over_time(up{job=~\"ofbiz|alfresco-repo|nuxeo|b2cweb|monolith-enterprise|odoo|django-oscar|mezzanine|umbraco|dfe-net|cfwheels\"}[24h]))", "legendFormat": "Avg Uptime", "refId": "A" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.02 },
+              { "color": "red", "value": 0.05 }
+            ]
+          },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 4, "w": 8, "x": 16, "y": 5 },
+      "id": 4,
+      "title": "Portfolio Error Rate (5m)",
+      "type": "stat",
+      "targets": [
+        { "expr": "sum(rate(http_server_requests_total{status=~\"5..\"}[5m])) / sum(rate(http_server_requests_total[5m]))", "legendFormat": "5xx Rate", "refId": "A" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+      "id": 101,
+      "title": "Java Systems (Tier 1)",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2,
+            "spanNulls": true
+          },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+      "id": 10,
+      "options": { "legend": { "displayMode": "table", "placement": "right" }, "tooltip": { "mode": "multi" } },
+      "title": "JVM Heap Usage - Java Systems",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "jvm_memory_used_bytes{job=\"ofbiz\", area=\"heap\"} / jvm_memory_max_bytes{job=\"ofbiz\", area=\"heap\"}", "legendFormat": "OFBiz", "refId": "A" },
+        { "expr": "jvm_memory_used_bytes{job=\"alfresco-repo\", area=\"heap\"} / jvm_memory_max_bytes{job=\"alfresco-repo\", area=\"heap\"}", "legendFormat": "Alfresco", "refId": "B" },
+        { "expr": "jvm_memory_used_bytes{job=\"nuxeo\", area=\"heap\"} / jvm_memory_max_bytes{job=\"nuxeo\", area=\"heap\"}", "legendFormat": "Nuxeo", "refId": "C" },
+        { "expr": "jvm_memory_used_bytes{job=\"b2cweb\", area=\"heap\"} / jvm_memory_max_bytes{job=\"b2cweb\", area=\"heap\"}", "legendFormat": "B2CWeb", "refId": "D" },
+        { "expr": "jvm_memory_used_bytes{job=\"monolith-enterprise\", area=\"heap\"} / jvm_memory_max_bytes{job=\"monolith-enterprise\", area=\"heap\"}", "legendFormat": "Monolith", "refId": "E" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+      "id": 11,
+      "title": "Response Time P95 - Java Systems",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "http_server_requests_seconds{job=\"ofbiz\", quantile=\"0.95\"}", "legendFormat": "OFBiz", "refId": "A" },
+        { "expr": "http_server_requests_seconds{job=\"alfresco-repo\", quantile=\"0.95\"}", "legendFormat": "Alfresco", "refId": "B" },
+        { "expr": "http_server_requests_seconds{job=\"nuxeo\", quantile=\"0.95\"}", "legendFormat": "Nuxeo", "refId": "C" },
+        { "expr": "http_server_requests_seconds{job=\"b2cweb\", quantile=\"0.95\"}", "legendFormat": "B2CWeb", "refId": "D" },
+        { "expr": "http_server_requests_seconds{job=\"monolith-enterprise\", quantile=\"0.95\"}", "legendFormat": "Monolith", "refId": "E" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 30, "stacking": { "mode": "normal" } },
+          "unit": "reqps"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 18 },
+      "id": 12,
+      "title": "Request Rate - Java Systems",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "rate(http_server_requests_total{job=\"ofbiz\"}[5m])", "legendFormat": "OFBiz", "refId": "A" },
+        { "expr": "rate(http_server_requests_total{job=\"alfresco-repo\"}[5m])", "legendFormat": "Alfresco", "refId": "B" },
+        { "expr": "rate(http_server_requests_total{job=\"nuxeo\"}[5m])", "legendFormat": "Nuxeo", "refId": "C" },
+        { "expr": "rate(http_server_requests_total{job=\"b2cweb\"}[5m])", "legendFormat": "B2CWeb", "refId": "D" },
+        { "expr": "rate(http_server_requests_total{job=\"monolith-enterprise\"}[5m])", "legendFormat": "Monolith", "refId": "E" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 30, "stacking": { "mode": "normal" } },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 18 },
+      "id": 13,
+      "title": "Error Rate (5xx) - Java Systems",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "rate(http_server_requests_total{job=\"ofbiz\", status=~\"5..\"}[5m]) / rate(http_server_requests_total{job=\"ofbiz\"}[5m])", "legendFormat": "OFBiz", "refId": "A" },
+        { "expr": "rate(http_server_requests_total{job=\"alfresco-repo\", status=~\"5..\"}[5m]) / rate(http_server_requests_total{job=\"alfresco-repo\"}[5m])", "legendFormat": "Alfresco", "refId": "B" },
+        { "expr": "rate(http_server_requests_total{job=\"nuxeo\", status=~\"5..\"}[5m]) / rate(http_server_requests_total{job=\"nuxeo\"}[5m])", "legendFormat": "Nuxeo", "refId": "C" },
+        { "expr": "rate(http_server_requests_total{job=\"b2cweb\", status=~\"5..\"}[5m]) / rate(http_server_requests_total{job=\"b2cweb\"}[5m])", "legendFormat": "B2CWeb", "refId": "D" },
+        { "expr": "rate(http_server_requests_total{job=\"monolith-enterprise\", status=~\"5..\"}[5m]) / rate(http_server_requests_total{job=\"monolith-enterprise\"}[5m])", "legendFormat": "Monolith", "refId": "E" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 26 },
+      "id": 102,
+      "title": "Python Systems",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 27 },
+      "id": 20,
+      "title": "Response Time P95 - Python Systems",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "http_request_duration_seconds{job=\"odoo\", quantile=\"0.95\"}", "legendFormat": "Odoo", "refId": "A" },
+        { "expr": "django_http_requests_latency_seconds_by_view_method{job=\"django-oscar\", quantile=\"0.95\"}", "legendFormat": "Oscar", "refId": "B" },
+        { "expr": "django_http_requests_latency_seconds_by_view_method{job=\"mezzanine\", quantile=\"0.95\"}", "legendFormat": "Mezzanine", "refId": "C" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 30, "stacking": { "mode": "normal" } },
+          "unit": "reqps"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 27 },
+      "id": 21,
+      "title": "Request Rate - Python Systems",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "rate(http_request_total{job=\"odoo\"}[5m])", "legendFormat": "Odoo", "refId": "A" },
+        { "expr": "rate(django_http_requests_total_by_method{job=\"django-oscar\"}[5m])", "legendFormat": "Oscar", "refId": "B" },
+        { "expr": "rate(django_http_requests_total_by_method{job=\"mezzanine\"}[5m])", "legendFormat": "Mezzanine", "refId": "C" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 35 },
+      "id": 103,
+      "title": "C# / .NET Systems",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "bytes"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 36 },
+      "id": 30,
+      "title": ".NET Memory Usage",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "dotnet_total_memory_bytes{job=\"umbraco\"}", "legendFormat": "Umbraco", "refId": "A" },
+        { "expr": "dotnet_total_memory_bytes{job=\"dfe-net\"}", "legendFormat": "DFe-NET", "refId": "B" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "s"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 36 },
+      "id": 31,
+      "title": "Response Time P95 - .NET Systems",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "http_request_duration_seconds{job=\"umbraco\", quantile=\"0.95\"}", "legendFormat": "Umbraco", "refId": "A" },
+        { "expr": "http_request_duration_seconds{job=\"dfe-net\", quantile=\"0.95\"}", "legendFormat": "DFe-NET", "refId": "B" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 44 },
+      "id": 104,
+      "title": "Shared Infrastructure",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 45 },
+      "id": 40,
+      "title": "PostgreSQL Connections",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "pg_stat_activity_count{datname=~\"ofbiz|alfresco|nuxeo|odoo|oscar|mezzanine\"}", "legendFormat": "{{ datname }}", "refId": "A" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "bytes"
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 45 },
+      "id": 41,
+      "title": "Redis Memory Usage",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "redis_memory_used_bytes", "legendFormat": "Used", "refId": "A" },
+        { "expr": "redis_memory_max_bytes", "legendFormat": "Max", "refId": "B" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "green": { "color": "green", "text": "GREEN" }, "red": { "color": "red", "text": "RED" }, "yellow": { "color": "yellow", "text": "YELLOW" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 45 },
+      "id": 42,
+      "title": "Elasticsearch Cluster Health",
+      "type": "stat",
+      "targets": [
+        { "expr": "elasticsearch_cluster_health_status", "legendFormat": "{{ color }}", "refId": "A" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 53 },
+      "id": 105,
+      "title": "Host Resources",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 54 },
+      "id": 50,
+      "title": "Host CPU Usage",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "1 - avg by(instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m]))", "legendFormat": "{{ instance }}", "refId": "A" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 54 },
+      "id": 51,
+      "title": "Host Memory Usage",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)", "legendFormat": "{{ instance }}", "refId": "A" }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "fillOpacity": 20, "lineWidth": 2 },
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 62 },
+      "id": 52,
+      "title": "Disk Usage by Host",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "1 - (node_filesystem_avail_bytes{fstype!~\"tmpfs|fuse.lxcfs\"} / node_filesystem_size_bytes)", "legendFormat": "{{ instance }} - {{ mountpoint }}", "refId": "A" }
+      ]
+    }
+  ],
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["federal-modernization", "portfolio", "overview"],
+  "templating": {
+    "list": [
+      {
+        "current": { "selected": false, "text": "All", "value": "$__all" },
+        "datasource": "Prometheus",
+        "definition": "label_values(up, job)",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "system",
+        "options": [],
+        "query": "label_values(up, job)",
+        "refresh": 2,
+        "type": "query"
+      }
+    ]
+  },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "utc",
+  "title": "Federal Modernization Portfolio - System Overview",
+  "uid": "fed-mod-overview",
+  "version": 1
+}
