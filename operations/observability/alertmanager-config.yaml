@@ -1,0 +1,266 @@
+# AlertManager Configuration for Federal Modernization Portfolio
+# Routes alerts from Prometheus to appropriate notification channels
+
+global:
+  resolve_timeout: 5m
+  smtp_from: "alertmanager@modernization.example.gov"
+  smtp_smarthost: "smtp.example.gov:587"
+  smtp_auth_username: "alertmanager"
+  smtp_auth_password_file: "/etc/alertmanager/secrets/smtp_password"
+  smtp_require_tls: true
+
+# Notification templates
+templates:
+  - "/etc/alertmanager/templates/*.tmpl"
+
+# Inhibition rules - suppress lower severity when higher is active
+inhibit_rules:
+  # If a system is down (critical), suppress warnings for that system
+  - source_matchers:
+      - severity = "critical"
+    target_matchers:
+      - severity = "warning"
+    equal:
+      - system
+
+  # If PostgreSQL is down, suppress all DB-dependent system alerts
+  - source_matchers:
+      - alertname = "PostgreSQLDown"
+    target_matchers:
+      - severity =~ "warning|critical"
+    equal:
+      - instance
+
+  # If Elasticsearch cluster is red, suppress search-related alerts
+  - source_matchers:
+      - alertname = "ElasticsearchClusterRed"
+    target_matchers:
+      - alertname =~ ".*Search.*|.*Solr.*|.*Elasticsearch.*"
+
+  # If Redis is down, suppress cache-related warnings
+  - source_matchers:
+      - alertname = "RedisDown"
+    target_matchers:
+      - severity = "warning"
+      - component = "cache"
+
+route:
+  # Default receiver
+  receiver: "default-email"
+  # Group alerts by system and alertname
+  group_by: ["system", "alertname"]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+  routes:
+    # ============================================
+    # Critical alerts - immediate notification
+    # ============================================
+    - matchers:
+        - severity = "critical"
+      receiver: "critical-pagerduty"
+      group_wait: 10s
+      repeat_interval: 1h
+      continue: true
+
+    - matchers:
+        - severity = "critical"
+      receiver: "critical-slack"
+      group_wait: 10s
+      continue: true
+
+    - matchers:
+        - severity = "critical"
+      receiver: "critical-email"
+
+    # ============================================
+    # Tier 1 systems - highest priority
+    # ============================================
+    - matchers:
+        - tier = "1"
+      receiver: "tier1-pagerduty"
+      group_wait: 15s
+      repeat_interval: 2h
+      routes:
+        # OFBiz specific
+        - matchers:
+            - system = "apache-ofbiz"
+          receiver: "tier1-ofbiz-team"
+          continue: true
+
+        # Odoo specific
+        - matchers:
+            - system = "odoo"
+          receiver: "tier1-odoo-team"
+          continue: true
+
+        # Alfresco specific
+        - matchers:
+            - system = "alfresco-community"
+          receiver: "tier1-ecm-team"
+          continue: true
+
+        # Nuxeo specific
+        - matchers:
+            - system = "nuxeo"
+          receiver: "tier1-ecm-team"
+          continue: true
+
+    # ============================================
+    # Tier 2 systems
+    # ============================================
+    - matchers:
+        - tier = "2"
+      receiver: "tier2-slack"
+      group_wait: 30s
+      repeat_interval: 4h
+      routes:
+        - matchers:
+            - system = "dfe-net"
+          receiver: "tier2-dfe-team"
+          continue: true
+
+        - matchers:
+            - system = "django-oscar"
+          receiver: "tier2-ecommerce-team"
+          continue: true
+
+    # ============================================
+    # Tier 3 systems - lower priority
+    # ============================================
+    - matchers:
+        - tier = "3"
+      receiver: "tier3-email"
+      group_wait: 1m
+      repeat_interval: 12h
+
+    # ============================================
+    # Security-related alerts
+    # ============================================
+    - matchers:
+        - alertname =~ ".*Security.*|.*Integrity.*|.*Certificate.*|.*Auth.*"
+      receiver: "security-team"
+      group_wait: 10s
+      repeat_interval: 1h
+      continue: true
+
+    # ============================================
+    # Infrastructure alerts
+    # ============================================
+    - matchers:
+        - component =~ "postgresql|redis|elasticsearch|sqlserver|host"
+      receiver: "infrastructure-team"
+      group_wait: 15s
+      repeat_interval: 2h
+
+receivers:
+  # Default email receiver
+  - name: "default-email"
+    email_configs:
+      - to: "ops-team@modernization.example.gov"
+        send_resolved: true
+
+  # Critical - PagerDuty
+  - name: "critical-pagerduty"
+    pagerduty_configs:
+      - service_key_file: "/etc/alertmanager/secrets/pagerduty_critical_key"
+        severity: critical
+        description: '{{ .GroupLabels.system }}: {{ .CommonAnnotations.summary }}'
+        details:
+          system: '{{ .GroupLabels.system }}'
+          firing: '{{ .Alerts.Firing | len }}'
+          resolved: '{{ .Alerts.Resolved | len }}'
+
+  # Critical - Slack
+  - name: "critical-slack"
+    slack_configs:
+      - api_url_file: "/etc/alertmanager/secrets/slack_webhook"
+        channel: "#ops-critical"
+        title: '{{ .GroupLabels.system }} - {{ .CommonAnnotations.summary }}'
+        text: >-
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *System:* {{ .Labels.system }}
+          *Severity:* {{ .Labels.severity }}
+          *Description:* {{ .Annotations.description }}
+          {{ if .Annotations.runbook_url }}*Runbook:* {{ .Annotations.runbook_url }}{{ end }}
+          {{ end }}
+        send_resolved: true
+        color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
+
+  # Critical - Email
+  - name: "critical-email"
+    email_configs:
+      - to: "ops-critical@modernization.example.gov"
+        send_resolved: true
+        headers:
+          Subject: '[CRITICAL] {{ .GroupLabels.system }}: {{ .CommonAnnotations.summary }}'
+
+  # Tier 1 - PagerDuty
+  - name: "tier1-pagerduty"
+    pagerduty_configs:
+      - service_key_file: "/etc/alertmanager/secrets/pagerduty_tier1_key"
+        severity: '{{ .GroupLabels.severity }}'
+
+  # Tier 1 - System-specific teams
+  - name: "tier1-ofbiz-team"
+    email_configs:
+      - to: "ofbiz-team@modernization.example.gov"
+    slack_configs:
+      - api_url_file: "/etc/alertmanager/secrets/slack_webhook"
+        channel: "#team-erp"
+
+  - name: "tier1-odoo-team"
+    email_configs:
+      - to: "odoo-team@modernization.example.gov"
+    slack_configs:
+      - api_url_file: "/etc/alertmanager/secrets/slack_webhook"
+        channel: "#team-erp"
+
+  - name: "tier1-ecm-team"
+    email_configs:
+      - to: "ecm-team@modernization.example.gov"
+    slack_configs:
+      - api_url_file: "/etc/alertmanager/secrets/slack_webhook"
+        channel: "#team-ecm"
+
+  # Tier 2 - Slack
+  - name: "tier2-slack"
+    slack_configs:
+      - api_url_file: "/etc/alertmanager/secrets/slack_webhook"
+        channel: "#ops-tier2"
+        send_resolved: true
+
+  - name: "tier2-dfe-team"
+    email_configs:
+      - to: "fiscal-team@modernization.example.gov"
+
+  - name: "tier2-ecommerce-team"
+    email_configs:
+      - to: "ecommerce-team@modernization.example.gov"
+
+  # Tier 3 - Email only
+  - name: "tier3-email"
+    email_configs:
+      - to: "ops-team@modernization.example.gov"
+        send_resolved: true
+
+  # Security team
+  - name: "security-team"
+    email_configs:
+      - to: "security-team@modernization.example.gov"
+    slack_configs:
+      - api_url_file: "/etc/alertmanager/secrets/slack_webhook"
+        channel: "#security-alerts"
+    pagerduty_configs:
+      - service_key_file: "/etc/alertmanager/secrets/pagerduty_security_key"
+        severity: critical
+
+  # Infrastructure team
+  - name: "infrastructure-team"
+    email_configs:
+      - to: "infra-team@modernization.example.gov"
+    slack_configs:
+      - api_url_file: "/etc/alertmanager/secrets/slack_webhook"
+        channel: "#ops-infrastructure"
