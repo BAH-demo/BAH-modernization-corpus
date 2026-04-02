@@ -58,6 +58,7 @@ resource "aws_eks_cluster" "main" {
 resource "aws_cloudwatch_log_group" "eks" {
   name              = "/aws/eks/${var.cluster_name}/cluster"
   retention_in_days = 90
+  kms_key_id        = aws_kms_key.cloudwatch.arn
 
   tags = {
     Name = "${var.cluster_name}-logs"

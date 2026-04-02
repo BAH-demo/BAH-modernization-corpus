@@ -1,8 +1,8 @@
 diff --git a/pom.xml b/pom.xml
-index 7aa0417..fd16973 100644
+index 7aa0417..eeaeed9 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -11,7 +11,7 @@
+@@ -11,14 +11,14 @@
      <properties>
          <spring.version>[4.3.18,)</spring.version>
          <junit.version>4.13.1</junit.version>
@@ -10,8 +10,20 @@ index 7aa0417..fd16973 100644
 +        <java.version>17</java.version>
          <mockito.version>1.10.19</mockito.version>
          <powermock.version>1.7.3</powermock.version>
-         <jetty.version>[9.4.11.v20180605,)</jetty.version>
-@@ -39,13 +39,13 @@
+-        <jetty.version>[9.4.11.v20180605,)</jetty.version>
+-        <jaxrs.version>2.0</jaxrs.version>
+-        <bean.validation.version>2.0.0.Final</bean.validation.version>
+-        <expression.language.version>3.0.0</expression.language.version>
+-        <glassfish.expression.language>2.2.6</glassfish.expression.language>
++        <jetty.version>11.0.24</jetty.version>
++        <jaxrs.version>3.1.0</jaxrs.version>
++        <bean.validation.version>3.0.2</bean.validation.version>
++        <expression.language.version>5.0.1</expression.language.version>
++        <glassfish.expression.language>5.0.0-M1</glassfish.expression.language>
+         <hibernate.validator.version>5.4.2.Final</hibernate.validator.version>
+         <apache.commons-lang3.version>3.6</apache.commons-lang3.version>
+         <jackson.databind.version>[2.8.11.1,)</jackson.databind.version>
+@@ -39,14 +39,14 @@
      <dependencies>
  
          <dependency>
@@ -24,10 +36,12 @@ index 7aa0417..fd16973 100644
  
          <dependency>
 -            <groupId>javax.validation</groupId>
+-            <artifactId>validation-api</artifactId>
 +            <groupId>jakarta.validation</groupId>
-             <artifactId>validation-api</artifactId>
++            <artifactId>jakarta.validation-api</artifactId>
              <version>${bean.validation.version}</version>
          </dependency>
+ 
 @@ -57,14 +57,14 @@
          </dependency>
  
@@ -40,12 +54,32 @@ index 7aa0417..fd16973 100644
          </dependency>
  
          <dependency>
-             <groupId>org.glassfish.web</groupId>
+-            <groupId>org.glassfish.web</groupId>
 -            <artifactId>javax.el</artifactId>
++            <groupId>org.glassfish</groupId>
 +            <artifactId>jakarta.el</artifactId>
              <version>${glassfish.expression.language}</version>
          </dependency>
  
+@@ -186,6 +186,18 @@
+             <version>${slf4j.api.version}</version>
+         </dependency>
+ 
++        <dependency>
++            <groupId>jakarta.persistence</groupId>
++            <artifactId>jakarta.persistence-api</artifactId>
++            <version>3.1.0</version>
++        </dependency>
++
++        <dependency>
++            <groupId>jakarta.jms</groupId>
++            <artifactId>jakarta.jms-api</artifactId>
++            <version>3.1.0</version>
++        </dependency>
++
+         <dependency>
+             <groupId>org.hibernate</groupId>
+             <artifactId>hibernate-core</artifactId>
 diff --git a/src/main/java/com/mycompany/entapp/snowman/domain/model/Client.java b/src/main/java/com/mycompany/entapp/snowman/domain/model/Client.java
 index 29cb23c..2e75e1d 100644
 --- a/src/main/java/com/mycompany/entapp/snowman/domain/model/Client.java

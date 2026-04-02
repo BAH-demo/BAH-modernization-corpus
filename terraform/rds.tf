@@ -322,8 +322,9 @@ resource "aws_db_instance" "umbraco" {
   final_snapshot_identifier = "${var.project_name}-umbraco-final"
   copy_tags_to_snapshot     = true
 
-  monitoring_interval = 60
-  monitoring_role_arn = aws_iam_role.rds_monitoring.arn
+  enabled_cloudwatch_logs_exports = ["agent", "error"]
+  monitoring_interval             = 60
+  monitoring_role_arn             = aws_iam_role.rds_monitoring.arn
 
   performance_insights_enabled    = true
   performance_insights_kms_key_id = aws_kms_key.rds.arn
