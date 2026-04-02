@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: dfe-net
+  namespace: legacy-modernization
+  labels:
+    app: dfe-net
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: dfe-net

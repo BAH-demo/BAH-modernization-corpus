@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: mezzanine
+  namespace: legacy-modernization
+  labels:
+    app: mezzanine
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: mezzanine

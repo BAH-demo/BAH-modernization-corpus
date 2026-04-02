@@ -1,0 +1,20 @@
+{{- $systems := list "apache-ofbiz" "odoo" "alfresco-community" "nuxeo" "django-oscar" "umbraco-cms" "mezzanine" "b2cweb" "dfe-net" "monolith-enterprise" "cfwheels" }}
+{{- range $name := $systems }}
+{{- $sys := index $.Values $name }}
+{{- if $sys.enabled }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Values.global.namespace }}
+  labels:
+    {{- include "legacy-modernization.labels" $ | nindent 4 }}
+    app: {{ $name }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: {{ $name }}
+{{- end }}
+{{- end }}

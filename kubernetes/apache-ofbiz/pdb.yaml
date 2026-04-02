@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: apache-ofbiz
+  namespace: legacy-modernization
+  labels:
+    app: apache-ofbiz
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: apache-ofbiz

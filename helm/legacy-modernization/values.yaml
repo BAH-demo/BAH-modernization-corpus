@@ -1,0 +1,532 @@
+# Global configuration
+global:
+  namespace: legacy-modernization
+  imageRegistry: ghcr.io/bah-demo
+  imagePullPolicy: Always
+  tlsEnabled: true
+  clusterIssuer: letsencrypt-prod
+  domainSuffix: legacy.gov
+
+# ============================================================
+# Tier 1 - Enterprise Monoliths (100K+ LOC)
+# ============================================================
+
+apache-ofbiz:
+  enabled: true
+  runtime: java
+  image:
+    repository: ghcr.io/bah-demo/apache-ofbiz
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8443
+  container:
+    port: 8443
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: apache-ofbiz.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: apache-ofbiz
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8443"
+
+odoo:
+  enabled: true
+  runtime: python
+  image:
+    repository: ghcr.io/bah-demo/odoo
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8069
+  container:
+    port: 8069
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1500m
+      memory: 3Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: odoo.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: odoo
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8069"
+
+alfresco-community:
+  enabled: true
+  runtime: java
+  image:
+    repository: ghcr.io/bah-demo/alfresco-community
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8080
+  container:
+    port: 8080
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: alfresco-community.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: alfresco-community
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8080"
+
+# ============================================================
+# Tier 2 - Enterprise Applications
+# ============================================================
+
+nuxeo:
+  enabled: true
+  runtime: java
+  image:
+    repository: ghcr.io/bah-demo/nuxeo
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8080
+  container:
+    port: 8080
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: nuxeo.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: nuxeo
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8080"
+
+django-oscar:
+  enabled: true
+  runtime: python
+  image:
+    repository: ghcr.io/bah-demo/django-oscar
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8000
+  container:
+    port: 8000
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: django-oscar.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: django-oscar
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8000"
+
+umbraco-cms:
+  enabled: true
+  runtime: dotnet
+  image:
+    repository: ghcr.io/bah-demo/umbraco-cms
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 5000
+  container:
+    port: 5000
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: umbraco-cms.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: umbraco-cms
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "5000"
+
+mezzanine:
+  enabled: true
+  runtime: python
+  image:
+    repository: ghcr.io/bah-demo/mezzanine
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8000
+  container:
+    port: 8000
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 800m
+      memory: 1Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: mezzanine.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: mezzanine
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8000"
+
+b2cweb:
+  enabled: true
+  runtime: java
+  image:
+    repository: ghcr.io/bah-demo/b2cweb
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8080
+  container:
+    port: 8080
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 1500m
+      memory: 3Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: b2cweb.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: b2cweb
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8080"
+
+dfe-net:
+  enabled: true
+  runtime: dotnet
+  image:
+    repository: ghcr.io/bah-demo/dfe-net
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 5000
+  container:
+    port: 5000
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: dfe-net.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: dfe-net
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "5000"
+
+monolith-enterprise:
+  enabled: true
+  runtime: java
+  image:
+    repository: ghcr.io/bah-demo/monolith-enterprise
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8080
+  container:
+    port: 8080
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: monolith-enterprise.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: monolith-enterprise
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8080"
+
+cfwheels:
+  enabled: true
+  runtime: lucee
+  image:
+    repository: ghcr.io/bah-demo/cfwheels
+    tag: latest
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8888
+  container:
+    port: 8888
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  autoscaling:
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  probes:
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+  ingress:
+    host: cfwheels.legacy.gov
+  config:
+    APP_ENV: production
+    APP_NAME: cfwheels
+    LOG_LEVEL: info
+    TZ: UTC
+    PORT: "8888"
+
+# ============================================================
+# Tier 3 - Legacy/Federal
+# ============================================================
+
+nastran-95:
+  enabled: true
+  runtime: fortran
+  type: job
+  image:
+    repository: ghcr.io/bah-demo/nastran-95
+    tag: latest
+  resources:
+    requests:
+      cpu: 2000m
+      memory: 8Gi
+    limits:
+      cpu: 4000m
+      memory: 16Gi
+  job:
+    backoffLimit: 3
+    activeDeadlineSeconds: 86400
+    ttlSecondsAfterFinished: 604800
+    inputFile: /data/input/model.dat
+    outputDir: /data/output
+
+apollo-11:
+  enabled: true
+  type: static-docs
+  image:
+    repository: nginx
+    tag: 1.27-alpine
+  replicaCount: 2
+  service:
+    port: 80
+    targetPort: 8080
+  container:
+    port: 8080
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  probes:
+    readiness:
+      path: /
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    liveness:
+      path: /
+      initialDelaySeconds: 10
+      periodSeconds: 15

@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nuxeo-config
+  namespace: legacy-modernization
+  labels:
+    app: nuxeo
+data:
+  APP_ENV: "production"
+  APP_NAME: "nuxeo"
+  LOG_LEVEL: "info"
+  TZ: "UTC"
+  PORT: "8080"

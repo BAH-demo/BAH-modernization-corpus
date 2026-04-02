@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: b2cweb-config
+  namespace: legacy-modernization
+  labels:
+    app: b2cweb
+data:
+  APP_ENV: "production"
+  APP_NAME: "b2cweb"
+  LOG_LEVEL: "info"
+  TZ: "UTC"
+  PORT: "8080"

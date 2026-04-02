@@ -1,0 +1,19 @@
+{{- $systems := list "apache-ofbiz" "odoo" "alfresco-community" "nuxeo" "django-oscar" "umbraco-cms" "mezzanine" "b2cweb" "dfe-net" "monolith-enterprise" "cfwheels" }}
+{{- range $name := $systems }}
+{{- $sys := index $.Values $name }}
+{{- if $sys.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}-config
+  namespace: {{ $.Values.global.namespace }}
+  labels:
+    {{- include "legacy-modernization.labels" $ | nindent 4 }}
+    app: {{ $name }}
+data:
+  {{- range $key, $value := $sys.config }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}
+{{- end }}

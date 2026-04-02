@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dfe-net-config
+  namespace: legacy-modernization
+  labels:
+    app: dfe-net
+data:
+  APP_ENV: "production"
+  APP_NAME: "dfe-net"
+  LOG_LEVEL: "info"
+  TZ: "UTC"
+  PORT: "5000"
