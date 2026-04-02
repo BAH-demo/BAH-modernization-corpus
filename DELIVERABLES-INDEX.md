@@ -111,7 +111,8 @@ This document serves as the master index for all deliverables produced during th
 
 ## Phase 6 — Operational Documentation
 
-### PR (pending) — Operational Docs Package
+### PR #10 — Operational Docs Package
+**PR:** https://github.com/BAH-demo/BAH-modernization-corpus/pull/10
 | Deliverable | Count |
 |-------------|-------|
 | Per-System Runbooks | 13 |
@@ -120,7 +121,7 @@ This document serves as the master index for all deliverables produced during th
 | Per-System Decommission Plans | 13 |
 | Database Migration Plans & SQL | 18 (6 systems × 3 files) |
 | Deployment Strategy Docs | 4 (Blue/Green, Canary, Rollback, Cutover Checklist) |
-| **Total Files** | **~58** |
+| **Total Files** | **58** |
 
 ---
 
@@ -172,7 +173,7 @@ This document serves as the master index for all deliverables produced during th
 | [#7](https://github.com/BAH-demo/BAH-modernization-corpus/pull/7) | Kubernetes, Helm Charts & Terraform IaC | Open | ~100 |
 | [#8](https://github.com/BAH-demo/BAH-modernization-corpus/pull/8) | Executive Leadership Briefing Package | Open | 7 |
 | [#9](https://github.com/BAH-demo/BAH-modernization-corpus/pull/9) | Security & Compliance Package | Open | 19 |
-| Pending | Operational Docs Package | In Progress | ~58 |
+| [#10](https://github.com/BAH-demo/BAH-modernization-corpus/pull/10) | Operational Docs Package | Open | 58 |
 
 ---
 
