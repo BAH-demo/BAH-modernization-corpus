@@ -1,0 +1,179 @@
+name: Legacy Modernization CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  analysis-engine:
+    name: Analysis Engine Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r analysis-engine/requirements.txt
+          pip install pytest
+
+      - name: Validate analyzer imports
+        run: |
+          python -c "
+          import sys, importlib
+          sys.path.insert(0, 'analysis-engine')
+          importlib.import_module('analyzers.base_analyzer')
+          importlib.import_module('analyzers.java_analyzer')
+          importlib.import_module('analyzers.python_analyzer')
+          importlib.import_module('analyzers.csharp_analyzer')
+          importlib.import_module('analyzers.cobol_analyzer')
+          importlib.import_module('analyzers.fortran_analyzer')
+          importlib.import_module('analyzers.assembly_analyzer')
+          importlib.import_module('analyzers.coldfusion_analyzer')
+          print('All analyzers imported successfully')
+          "
+
+      - name: Clone small test corpus
+        run: |
+          bash CORPUS-AGGREGATION-SETUP.sh monolith-enterprise mezzanine
+
+      - name: Run analysis on test corpus
+        run: |
+          python analysis-engine/analyzer.py \
+            --corpus-dir modernization-corpus-aggregate \
+            --output-dir corpus-analysis-results \
+            --systems monolith-enterprise mezzanine
+
+      - name: Generate reports
+        run: |
+          python analysis-engine/report_generator.py \
+            --input-dir corpus-analysis-results \
+            --output-dir corpus-analysis-results/reports
+
+      - name: Upload analysis results
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-results
+          path: corpus-analysis-results/
+
+  fortran-python-tests:
+    name: Fortran→Python Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          cd modernization-targets/fortran-to-python
+          pip install -e ".[test]"
+
+      - name: Run pytest
+        run: |
+          cd modernization-targets/fortran-to-python
+          python -m pytest tests/ -v --tb=short
+
+  assembly-c-tests:
+    name: Assembly→C Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and test
+        run: |
+          cd modernization-targets/assembly-to-c
+          make clean || true
+          make test
+
+  cobol-java-tests:
+    name: COBOL→Java Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Run Maven tests
+        run: |
+          cd modernization-targets/cobol-to-java
+          mvn test -q
+
+  functional-parity:
+    name: Functional Parity Tests
+    runs-on: ubuntu-latest
+    needs: [fortran-python-tests, assembly-c-tests, cobol-java-tests]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run functional parity tests
+        run: |
+          python test-framework/functional_parity.py \
+            --output test-framework/results/functional-parity.json
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-framework/results/
+
+  dashboard:
+    name: Generate Dashboard Report
+    runs-on: ubuntu-latest
+    needs: [analysis-engine, functional-parity]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install jinja2
+
+      - name: Download analysis results
+        uses: actions/download-artifact@v4
+        with:
+          name: analysis-results
+          path: corpus-analysis-results/
+        continue-on-error: true
+
+      - name: Download test results
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results
+          path: test-framework/results/
+        continue-on-error: true
+
+      - name: Generate modernization report
+        run: |
+          python modernization-dashboard/generate_report.py \
+            --analysis-dir corpus-analysis-results \
+            --test-results-dir test-framework/results \
+            --output MODERNIZATION-REPORT.md
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: modernization-report
+          path: MODERNIZATION-REPORT.md
