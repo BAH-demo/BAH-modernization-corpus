@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: apollo-11
+  namespace: legacy-modernization
+  labels:
+    app: apollo-11
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: apollo-11

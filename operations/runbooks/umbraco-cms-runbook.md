@@ -360,3 +360,39 @@ else
     exit 1
 fi
 ```
+
+
+## Alerting
+
+### Alert Configuration
+- **High CPU Usage** (>80% for 5 minutes): Page on-call engineer
+- **High Memory Usage** (>85% for 5 minutes): Page on-call engineer
+- **Pod Restart Loop** (>3 restarts in 10 minutes): Page on-call engineer
+- **HTTP 5xx Error Rate** (>5% for 2 minutes): Page on-call engineer
+- **Response Latency P99** (>2s for 5 minutes): Notify team channel
+- **Disk Usage** (>90%): Page on-call engineer
+
+### Alert Channels
+- **PagerDuty**: Critical and high-severity alerts
+- **Slack (#ops-alerts)**: All alerts including warnings
+- **Email**: Daily digest of warning-level alerts
+
+
+## Monitoring
+
+### Health Check Endpoints
+- **Liveness**: `/healthz` — returns 200 if process is running
+- **Readiness**: `/readyz` — returns 200 if accepting traffic
+- **Metrics**: `/metrics` — Prometheus-format metrics endpoint
+
+### Key Metrics to Monitor
+- Request rate (requests/second)
+- Error rate (5xx responses / total responses)
+- Response latency (P50, P95, P99)
+- CPU and memory utilization
+- Active database connections
+- Pod restart count
+
+### Dashboards
+- Grafana: `legacy-modernization` dashboard
+- CloudWatch: Custom namespace metrics

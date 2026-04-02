@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nastran-95
+  namespace: legacy-modernization
+  labels:
+    app: nastran-95
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: nastran-95

@@ -406,3 +406,77 @@ else
     exit 1
 fi
 ```
+
+
+## Alerting
+
+### Alert Configuration
+- **High CPU Usage** (>80% for 5 minutes): Page on-call engineer
+- **High Memory Usage** (>85% for 5 minutes): Page on-call engineer
+- **Pod Restart Loop** (>3 restarts in 10 minutes): Page on-call engineer
+- **HTTP 5xx Error Rate** (>5% for 2 minutes): Page on-call engineer
+- **Response Latency P99** (>2s for 5 minutes): Notify team channel
+- **Disk Usage** (>90%): Page on-call engineer
+
+### Alert Channels
+- **PagerDuty**: Critical and high-severity alerts
+- **Slack (#ops-alerts)**: All alerts including warnings
+- **Email**: Daily digest of warning-level alerts
+
+
+## Monitoring
+
+### Health Check Endpoints
+- **Liveness**: `/healthz` — returns 200 if process is running
+- **Readiness**: `/readyz` — returns 200 if accepting traffic
+- **Metrics**: `/metrics` — Prometheus-format metrics endpoint
+
+### Key Metrics to Monitor
+- Request rate (requests/second)
+- Error rate (5xx responses / total responses)
+- Response latency (P50, P95, P99)
+- CPU and memory utilization
+- Active database connections
+- Pod restart count
+
+### Dashboards
+- Grafana: `legacy-modernization` dashboard
+- CloudWatch: Custom namespace metrics
+
+
+## Escalation Procedures
+
+### Escalation Tiers
+| Tier | Response Time | Contact | Scope |
+|------|--------------|---------|-------|
+| L1 — On-Call Engineer | 15 minutes | PagerDuty rotation | Initial triage, known-issue runbook execution |
+| L2 — Team Lead | 30 minutes | Slack + phone | Complex issues, requires code-level investigation |
+| L3 — Architecture Lead | 1 hour | Direct contact | Systemic issues, cross-service failures |
+| L4 — Program Manager | 2 hours | Email + phone | Business-impacting outages, stakeholder communication |
+
+### When to Escalate
+- Issue not resolved within 30 minutes at current tier
+- Customer-facing impact detected
+- Data integrity concerns identified
+- Security incident suspected (immediately escalate to L3 + Security team)
+
+
+## Restart Procedures
+
+### Graceful Restart
+```bash
+kubectl rollout restart deployment/nastran-95 -n legacy-modernization
+kubectl rollout status deployment/nastran-95 -n legacy-modernization --timeout=300s
+```
+
+### Force Restart (if graceful fails)
+```bash
+kubectl delete pod -l app=nastran-95 -n legacy-modernization
+kubectl get pods -l app=nastran-95 -n legacy-modernization -w
+```
+
+### Post-Restart Verification
+1. Confirm all pods are in `Running` state
+2. Check readiness probe is passing
+3. Verify application logs show successful startup
+4. Confirm metrics endpoint is responding

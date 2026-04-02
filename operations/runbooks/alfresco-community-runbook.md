@@ -415,3 +415,36 @@ sudo systemctl start alfresco alfresco-search alfresco-share
 sleep 60
 curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/alfresco/api/-default-/public/alfresco/versions/1/probes/-live-
 ```
+
+
+## Alerting
+
+### Alert Configuration
+- **High CPU Usage** (>80% for 5 minutes): Page on-call engineer
+- **High Memory Usage** (>85% for 5 minutes): Page on-call engineer
+- **Pod Restart Loop** (>3 restarts in 10 minutes): Page on-call engineer
+- **HTTP 5xx Error Rate** (>5% for 2 minutes): Page on-call engineer
+- **Response Latency P99** (>2s for 5 minutes): Notify team channel
+- **Disk Usage** (>90%): Page on-call engineer
+
+### Alert Channels
+- **PagerDuty**: Critical and high-severity alerts
+- **Slack (#ops-alerts)**: All alerts including warnings
+- **Email**: Daily digest of warning-level alerts
+
+
+## Escalation Procedures
+
+### Escalation Tiers
+| Tier | Response Time | Contact | Scope |
+|------|--------------|---------|-------|
+| L1 — On-Call Engineer | 15 minutes | PagerDuty rotation | Initial triage, known-issue runbook execution |
+| L2 — Team Lead | 30 minutes | Slack + phone | Complex issues, requires code-level investigation |
+| L3 — Architecture Lead | 1 hour | Direct contact | Systemic issues, cross-service failures |
+| L4 — Program Manager | 2 hours | Email + phone | Business-impacting outages, stakeholder communication |
+
+### When to Escalate
+- Issue not resolved within 30 minutes at current tier
+- Customer-facing impact detected
+- Data integrity concerns identified
+- Security incident suspected (immediately escalate to L3 + Security team)

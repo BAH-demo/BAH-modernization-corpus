@@ -177,3 +177,42 @@ NASTRAN-95 is typically not web-accessible. Cutover involves:
 ```
 
 **Estimated rollback time**: 2-4 hours (primarily module/queue reconfiguration)
+
+
+## Decommission Timeline
+
+| Phase | Duration | Activities | Exit Criteria |
+|-------|----------|-----------|---------------|
+| **Phase 1: Preparation** | Weeks 1-2 | Stakeholder notification, access audit, backup verification | All stakeholders acknowledged, backups validated |
+| **Phase 2: Traffic Migration** | Weeks 3-4 | DNS cutover to modernized system, monitor error rates | Zero traffic to legacy system for 48 hours |
+| **Phase 3: Read-Only Mode** | Weeks 5-6 | Disable write access, maintain read-only for audit trail | All data queries served by modernized system |
+| **Phase 4: Shutdown** | Week 7 | Stop application services, revoke network access | All services stopped, no active connections |
+| **Phase 5: Archive** | Week 8 | Final data export, archive to cold storage, documentation | Archive verified, retention policy applied |
+| **Phase 6: Cleanup** | Weeks 9-10 | Remove infrastructure, decommission servers, close accounts | All resources released, cost savings confirmed |
+
+### Key Milestones
+- **T-30 days**: Stakeholder notification sent
+- **T-14 days**: Final data backup completed and verified
+- **T-7 days**: Read-only mode enabled
+- **T-0**: Legacy system shutdown
+- **T+7 days**: Post-shutdown verification complete
+- **T+30 days**: Infrastructure cleanup complete
+
+
+## Backup & Data Preservation
+
+### Pre-Decommission Backup Checklist
+- [ ] Full database backup (encrypted, stored in S3 with lifecycle policy)
+- [ ] Application configuration export
+- [ ] User data export (PII handled per data classification policy)
+- [ ] Audit log archive (minimum 7-year retention per federal requirements)
+- [ ] SSL/TLS certificates archived
+- [ ] DNS records documented
+
+### Backup Verification
+```bash
+# Verify backup integrity
+aws s3 ls s3://legacy-backups/nastran-95/
+# Test restore to staging environment
+./scripts/restore-backup.sh --target staging --verify-only
+```

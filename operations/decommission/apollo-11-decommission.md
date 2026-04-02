@@ -204,3 +204,23 @@ Preservation requirements:
 **Estimated rollback time**: 30-60 minutes (source is in public Git repos)
 
 **NOTE**: Due to the public and open-source nature of this system, rollback risk is minimal. The upstream GitHub repository serves as a permanent, redundant backup.
+
+
+## Decommission Timeline
+
+| Phase | Duration | Activities | Exit Criteria |
+|-------|----------|-----------|---------------|
+| **Phase 1: Preparation** | Weeks 1-2 | Stakeholder notification, access audit, backup verification | All stakeholders acknowledged, backups validated |
+| **Phase 2: Traffic Migration** | Weeks 3-4 | DNS cutover to modernized system, monitor error rates | Zero traffic to legacy system for 48 hours |
+| **Phase 3: Read-Only Mode** | Weeks 5-6 | Disable write access, maintain read-only for audit trail | All data queries served by modernized system |
+| **Phase 4: Shutdown** | Week 7 | Stop application services, revoke network access | All services stopped, no active connections |
+| **Phase 5: Archive** | Week 8 | Final data export, archive to cold storage, documentation | Archive verified, retention policy applied |
+| **Phase 6: Cleanup** | Weeks 9-10 | Remove infrastructure, decommission servers, close accounts | All resources released, cost savings confirmed |
+
+### Key Milestones
+- **T-30 days**: Stakeholder notification sent
+- **T-14 days**: Final data backup completed and verified
+- **T-7 days**: Read-only mode enabled
+- **T-0**: Legacy system shutdown
+- **T+7 days**: Post-shutdown verification complete
+- **T+30 days**: Infrastructure cleanup complete

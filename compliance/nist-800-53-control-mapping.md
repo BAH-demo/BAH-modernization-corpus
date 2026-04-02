@@ -284,10 +284,32 @@ The modernization effort addresses **application-level** controls that are the r
 
 ---
 
-## 6. References
+## 6. Infrastructure Modernization Technology Mapping
+
+The following modernized infrastructure technologies are deployed as part of this program and have direct control implications:
+
+| Technology | Purpose | Key Controls Impacted |
+|-----------|---------|----------------------|
+| **Docker** (multi-stage builds) | Application containerization for all 11 deployable systems | CM-2 (baseline), CM-7 (least functionality), SC-39 (process isolation) |
+| **Kubernetes** (EKS) | Container orchestration with namespace isolation, RBAC, NetworkPolicy | AC-3 (access enforcement), AC-4 (information flow), SC-7 (boundary protection) |
+| **Terraform** | Infrastructure-as-Code for AWS EKS, VPC, RDS, S3, IAM | CM-2 (baseline), CM-3 (change control), SA-10 (developer config mgmt) |
+| **Helm** (umbrella chart) | Declarative deployment management for fleet-wide consistency | CM-2 (baseline), CM-6 (configuration settings) |
+| **Prometheus / Grafana / AlertManager** | Observability stack for metrics, dashboards, and alerting | AU-6 (audit review), IR-5 (incident monitoring), SI-4 (system monitoring) |
+| **Semgrep / Trivy / Bandit** | SAST/SCA scanning integrated into CI/CD pipelines | RA-5 (vulnerability scanning), SA-11 (developer testing), SI-2 (flaw remediation) |
+| **Dependabot** | Automated dependency update management | SI-2 (flaw remediation), SI-5 (security alerts), CM-3 (change control) |
+| **GitHub Actions** | CI/CD pipeline automation with build, test, scan stages | SA-3 (SDLC), SA-10 (developer config mgmt), SA-11 (developer testing) |
+| **.NET 8** (net8.0) | Runtime modernization for C# systems (Umbraco, DFe.NET) | SC-13 (crypto protection), IA-7 (crypto module auth), SI-16 (memory protection) |
+| **importlib** (Python 3.12) | Replacement for deprecated `imp` module in Python systems | SI-2 (flaw remediation), CM-7 (least functionality) |
+
+---
+
+## 7. References
 
 - NIST SP 800-53 Rev 5: https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final
 - NIST SP 800-53A Rev 5: Assessment Procedures
 - FedRAMP Control Baselines: https://www.fedramp.gov/documents/
 - CISA BOD 22-01: Known Exploited Vulnerabilities Catalog
 - CISA BOD 23-01: Improving Asset Visibility and Vulnerability Detection
+- Docker Security Best Practices: https://docs.docker.com/develop/security-best-practices/
+- Kubernetes Security: https://kubernetes.io/docs/concepts/security/
+- Terraform Security: https://developer.hashicorp.com/terraform/cloud-docs/recommended-practices
