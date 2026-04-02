@@ -2,6 +2,10 @@
 ###############################################################################
 # CI Pipeline – DFe .NET (Digital Fiscal Documents)
 # System: dfe-net | 112K LOC | C# | 51 .csproj files (net8.0)
+#
+# NOTE: The source directory (modernization-corpus-aggregate/dfe-net) is
+# populated at runtime by CORPUS-AGGREGATION-SETUP.sh and is NOT checked into
+# version control. Jobs gracefully skip when the directory is absent.
 ###############################################################################
 name: CI – DFe .NET (.NET 8)
 
@@ -32,12 +36,38 @@ env:
 
 jobs:
   # ---------------------------------------------------------------------------
+  # Preflight – Check if source directory exists
+  # ---------------------------------------------------------------------------
+  preflight:
+    name: Preflight Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      source_exists: ${{ steps.check.outputs.exists }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for source directory
+        id: check
+        run: |
+          if [ -d "${{ env.SOLUTION_PATH }}" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Source directory found: ${{ env.SOLUTION_PATH }}"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Source directory not present. Run CORPUS-AGGREGATION-SETUP.sh to populate."
+          fi
+
+  # ---------------------------------------------------------------------------
   # Build & Test
   # ---------------------------------------------------------------------------
   build-and-test:
     name: Build & Test (.NET 8)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    needs: preflight
+    if: needs.preflight.outputs.source_exists == 'true'
 
     steps:
       - name: Checkout repository
@@ -84,6 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: build-and-test
+    if: needs.build-and-test.result == 'success'
 
     steps:
       - name: Checkout repository
@@ -107,6 +138,8 @@ jobs:
     name: NuGet Vulnerability Audit
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    needs: preflight
+    if: needs.preflight.outputs.source_exists == 'true'
 
     steps:
       - name: Checkout repository

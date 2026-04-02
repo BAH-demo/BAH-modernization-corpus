@@ -2,6 +2,10 @@
 ###############################################################################
 # CI Pipeline – CFWheels (ColdFusion MVC Framework)
 # System: cfwheels | 178K LOC | ColdFusion/CFML
+#
+# NOTE: The source directory (modernization-corpus-aggregate/cfwheels) is
+# populated at runtime by CORPUS-AGGREGATION-SETUP.sh and is NOT checked into
+# version control. Jobs gracefully skip when the directory is absent.
 ###############################################################################
 name: CI – CFWheels (ColdFusion)
 
@@ -28,12 +32,38 @@ env:
 
 jobs:
   # ---------------------------------------------------------------------------
+  # Preflight – Check if source directory exists
+  # ---------------------------------------------------------------------------
+  preflight:
+    name: Preflight Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      source_exists: ${{ steps.check.outputs.exists }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for source directory
+        id: check
+        run: |
+          if [ -d "${{ env.APP_PATH }}" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Source directory found: ${{ env.APP_PATH }}"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Source directory not present. Run CORPUS-AGGREGATION-SETUP.sh to populate."
+          fi
+
+  # ---------------------------------------------------------------------------
   # Lint – CFLint
   # ---------------------------------------------------------------------------
   cflint:
     name: CFLint Analysis
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    needs: preflight
+    if: needs.preflight.outputs.source_exists == 'true'
 
     steps:
       - name: Checkout repository
@@ -80,6 +110,8 @@ jobs:
     name: Smoke Test (CommandBox / Lucee)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    needs: preflight
+    if: needs.preflight.outputs.source_exists == 'true'
 
     steps:
       - name: Checkout repository

@@ -3,6 +3,10 @@
 # CI Pipeline – NASTRAN-95 (Fortran 77 Structural Analysis)
 # System: nastran-95 | 417K LOC | Fortran 77
 # NOTE: Compile check only – no runtime tests (legacy numerical code)
+#
+# The source directory (modernization-corpus-aggregate/nastran-95) is
+# populated at runtime by CORPUS-AGGREGATION-SETUP.sh and is NOT checked into
+# version control. Jobs gracefully skip when the directory is absent.
 ###############################################################################
 name: CI – NASTRAN-95 (Fortran 77)
 
@@ -27,12 +31,38 @@ env:
 
 jobs:
   # ---------------------------------------------------------------------------
+  # Preflight – Check if source directory exists
+  # ---------------------------------------------------------------------------
+  preflight:
+    name: Preflight Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      source_exists: ${{ steps.check.outputs.exists }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for source directory
+        id: check
+        run: |
+          if [ -d "${{ env.SOURCE_PATH }}" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Source directory found: ${{ env.SOURCE_PATH }}"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Source directory not present. Run CORPUS-AGGREGATION-SETUP.sh to populate."
+          fi
+
+  # ---------------------------------------------------------------------------
   # Compile Check with Static Analysis Flags
   # ---------------------------------------------------------------------------
   compile-check:
     name: Fortran Compile Check (gfortran)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    needs: preflight
+    if: needs.preflight.outputs.source_exists == 'true'
 
     steps:
       - name: Checkout repository
