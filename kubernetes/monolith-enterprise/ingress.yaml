@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monolith-enterprise
+  namespace: legacy-modernization
+  labels:
+    app: monolith-enterprise
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - monolith-enterprise.legacy.gov
+      secretName: monolith-enterprise-tls
+  rules:
+    - host: monolith-enterprise.legacy.gov
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monolith-enterprise
+                port:
+                  name: http

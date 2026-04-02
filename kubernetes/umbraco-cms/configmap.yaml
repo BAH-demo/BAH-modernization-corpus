@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: umbraco-cms-config
+  namespace: legacy-modernization
+  labels:
+    app: umbraco-cms
+data:
+  APP_ENV: "production"
+  APP_NAME: "umbraco-cms"
+  LOG_LEVEL: "info"
+  TZ: "UTC"
+  PORT: "5000"

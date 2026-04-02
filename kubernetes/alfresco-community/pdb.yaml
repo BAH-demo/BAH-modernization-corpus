@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: alfresco-community
+  namespace: legacy-modernization
+  labels:
+    app: alfresco-community
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: alfresco-community

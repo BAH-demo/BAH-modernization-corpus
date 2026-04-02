@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monolith-enterprise
+  namespace: legacy-modernization
+  labels:
+    app: monolith-enterprise
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: monolith-enterprise

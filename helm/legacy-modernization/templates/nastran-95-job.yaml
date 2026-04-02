@@ -1,0 +1,70 @@
+{{- $sys := index .Values "nastran-95" }}
+{{- if $sys.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nastran-95
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "legacy-modernization.labels" . | nindent 4 }}
+    app: nastran-95
+    tier: legacy-modernization
+    runtime: {{ $sys.runtime }}
+spec:
+  backoffLimit: {{ $sys.job.backoffLimit }}
+  activeDeadlineSeconds: {{ $sys.job.activeDeadlineSeconds }}
+  ttlSecondsAfterFinished: {{ $sys.job.ttlSecondsAfterFinished }}
+  template:
+    metadata:
+      labels:
+        app: nastran-95
+        tier: legacy-modernization
+        runtime: {{ $sys.runtime }}
+    spec:
+      restartPolicy: OnFailure
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 1000
+      containers:
+        - name: nastran-95
+          image: "{{ $sys.image.repository }}:{{ $sys.image.tag }}"
+          imagePullPolicy: {{ $.Values.global.imagePullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Starting NASTRAN-95 structural analysis batch job"
+              /opt/nastran/bin/nastran "{{ $sys.job.inputFile }}" -o "{{ $sys.job.outputDir }}/results.dat"
+              echo "NASTRAN-95 batch job completed"
+          env:
+            - name: INPUT_FILE
+              value: "{{ $sys.job.inputFile }}"
+            - name: OUTPUT_DIR
+              value: "{{ $sys.job.outputDir }}"
+          resources:
+            requests:
+              cpu: "{{ $sys.resources.requests.cpu }}"
+              memory: "{{ $sys.resources.requests.memory }}"
+            limits:
+              cpu: "{{ $sys.resources.limits.cpu }}"
+              memory: "{{ $sys.resources.limits.memory }}"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: input-data
+              mountPath: /data/input
+              readOnly: true
+            - name: output-data
+              mountPath: /data/output
+      volumes:
+        - name: input-data
+          persistentVolumeClaim:
+            claimName: nastran-95-input
+        - name: output-data
+          persistentVolumeClaim:
+            claimName: nastran-95-output
+{{- end }}

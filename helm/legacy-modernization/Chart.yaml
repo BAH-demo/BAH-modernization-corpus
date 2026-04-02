@@ -1,0 +1,15 @@
+apiVersion: v2
+name: legacy-modernization
+description: Umbrella Helm chart for deploying all 13 modernized federal legacy systems
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - legacy-modernization
+  - federal
+  - kubernetes
+  - erp
+  - cms
+maintainers:
+  - name: BAH Modernization Team
+    email: modernization@bah.com

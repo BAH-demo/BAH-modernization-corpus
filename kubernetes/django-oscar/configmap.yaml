@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-oscar-config
+  namespace: legacy-modernization
+  labels:
+    app: django-oscar
+data:
+  APP_ENV: "production"
+  APP_NAME: "django-oscar"
+  LOG_LEVEL: "info"
+  TZ: "UTC"
+  PORT: "8000"

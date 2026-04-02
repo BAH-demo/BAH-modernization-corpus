@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apache-ofbiz-config
+  namespace: legacy-modernization
+  labels:
+    app: apache-ofbiz
+data:
+  APP_ENV: "production"
+  APP_NAME: "apache-ofbiz"
+  LOG_LEVEL: "info"
+  TZ: "UTC"
+  PORT: "8443"
