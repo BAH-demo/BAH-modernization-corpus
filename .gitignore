@@ -12,6 +12,9 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+.classpath
+.project
+.settings/
 
 # Build artifacts
 node_modules/

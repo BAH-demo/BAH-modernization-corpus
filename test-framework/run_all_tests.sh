@@ -148,7 +148,7 @@ run_analysis_engine_tests() {
     log "Validating Analysis Engine..."
     
     # Check that analyzer.py can be imported
-    if python3 -c "import sys; sys.path.insert(0, '$REPO_ROOT'); from analysis_engine.analyzers.base_analyzer import BaseAnalyzer; print('OK')" 2>/dev/null; then
+    if python3 -c "import sys; sys.path.insert(0, '$REPO_ROOT/analysis-engine'); from analyzers.base_analyzer import BaseAnalyzer; print('OK')" 2>/dev/null; then
         log_pass "Analysis Engine: Core imports successful"
         echo '{"target":"analysis-engine","status":"passed","framework":"python-import"}' > "$RESULTS_DIR/analysis-engine.json"
     else
