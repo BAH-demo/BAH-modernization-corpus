@@ -1,0 +1,81 @@
+###############################################################################
+# Dockerfile – Mezzanine (CMS, ~64K LOC Python/Django)
+# Multi-stage build · Python 3.12 · Gunicorn · Non-root · OCI labels
+# Critical imp -> importlib fix applied
+###############################################################################
+
+# ---------------------------------------------------------------------------
+# Stage 1 – Build
+# ---------------------------------------------------------------------------
+FROM python:3.12 AS builder
+
+WORKDIR /build
+
+# Install system dependencies required for building Python packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        libpq-dev \
+        libjpeg-dev \
+        zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy dependency manifests first for better layer caching
+COPY mezzanine/requirements.txt requirements.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt && \
+    pip install --no-cache-dir --prefix=/install gunicorn
+
+# Copy application source
+COPY mezzanine/ /build/app/
+
+# Collect static files if manage.py exists
+RUN if [ -f /build/app/manage.py ]; then \
+        PYTHONPATH=/install/lib/python3.12/site-packages \
+        python /build/app/manage.py collectstatic --noinput 2>/dev/null || true; \
+    fi
+
+# ---------------------------------------------------------------------------
+# Stage 2 – Runtime
+# ---------------------------------------------------------------------------
+FROM python:3.12-slim AS runtime
+
+LABEL org.opencontainers.image.title="Mezzanine (Modernized)" \
+      org.opencontainers.image.description="CMS modernized with critical imp to importlib migration" \
+      org.opencontainers.image.source="https://github.com/BAH-demo/BAH-modernization-corpus" \
+      org.opencontainers.image.vendor="BAH Modernization Corpus" \
+      org.opencontainers.image.licenses="BSD-2-Clause"
+
+# Install only runtime system libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libpq5 \
+        libjpeg62-turbo \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy installed Python packages from builder
+COPY --from=builder /install /usr/local
+
+# Create non-root user
+RUN groupadd --gid 1000 mezzanine && \
+    useradd --uid 1000 --gid mezzanine --create-home --shell /bin/bash mezzanine
+
+WORKDIR /app
+COPY --from=builder /build/app/ /app/
+
+# Create directories for media, static, and logs
+RUN mkdir -p /app/static /app/media /var/log/mezzanine && \
+    chown -R mezzanine:mezzanine /app /var/log/mezzanine
+
+USER mezzanine
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:8000/healthcheck/ || exit 1
+
+ENTRYPOINT ["gunicorn"]
+CMD ["config.wsgi:application", \
+     "--bind=0.0.0.0:8000", \
+     "--workers=4", \
+     "--timeout=120", \
+     "--access-logfile=-", \
+     "--error-logfile=-"]

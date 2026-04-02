@@ -48,7 +48,7 @@ updates:
       - java
       - b2cweb
 
-  # Monolith Enterprise - Enterprise Monolith (migrated from Java 7 to Java 17)
+  # Monolith Enterprise
   - package-ecosystem: maven
     directory: /modernization-corpus-aggregate/monolith-enterprise
     schedule:
@@ -59,6 +59,45 @@ updates:
       - dependencies
       - java
       - monolith-enterprise
+
+  # Odoo - Enterprise ERP (Python)
+  - package-ecosystem: pip
+    directory: /odoo
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - odoo
+    commit-message:
+      prefix: "deps(odoo):"
+
+  # Django Oscar - E-commerce Framework (Python)
+  - package-ecosystem: pip
+    directory: /django-oscar
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - django-oscar
+    commit-message:
+      prefix: "deps(django-oscar):"
+
+  # Mezzanine - CMS (Python)
+  - package-ecosystem: pip
+    directory: /mezzanine
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - mezzanine
+    commit-message:
+      prefix: "deps(mezzanine):"
 
   # GitHub Actions dependency updates
   - package-ecosystem: github-actions

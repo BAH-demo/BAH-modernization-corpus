@@ -1,0 +1,77 @@
+###############################################################################
+# Dockerfile – Django Oscar (E-commerce Framework, ~85K LOC Python/Django)
+# Multi-stage build · Python 3.12 · Gunicorn · Non-root · OCI labels
+###############################################################################
+
+# ---------------------------------------------------------------------------
+# Stage 1 – Build
+# ---------------------------------------------------------------------------
+FROM python:3.12 AS builder
+
+WORKDIR /build
+
+# Install system dependencies required for building Python packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy dependency manifests first for better layer caching
+COPY django-oscar/requirements.txt requirements.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt && \
+    pip install --no-cache-dir --prefix=/install gunicorn
+
+# Copy application source
+COPY django-oscar/ /build/app/
+
+# Collect static files if manage.py exists
+RUN if [ -f /build/app/manage.py ]; then \
+        PYTHONPATH=/install/lib/python3.12/site-packages \
+        python /build/app/manage.py collectstatic --noinput 2>/dev/null || true; \
+    fi
+
+# ---------------------------------------------------------------------------
+# Stage 2 – Runtime
+# ---------------------------------------------------------------------------
+FROM python:3.12-slim AS runtime
+
+LABEL org.opencontainers.image.title="Django Oscar (Modernized)" \
+      org.opencontainers.image.description="E-commerce framework modernized for Python 3.12 compatibility" \
+      org.opencontainers.image.source="https://github.com/BAH-demo/BAH-modernization-corpus" \
+      org.opencontainers.image.vendor="BAH Modernization Corpus" \
+      org.opencontainers.image.licenses="BSD-3-Clause"
+
+# Install only runtime system libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libpq5 \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy installed Python packages from builder
+COPY --from=builder /install /usr/local
+
+# Create non-root user
+RUN groupadd --gid 1000 oscar && \
+    useradd --uid 1000 --gid oscar --create-home --shell /bin/bash oscar
+
+WORKDIR /app
+COPY --from=builder /build/app/ /app/
+
+# Create directories for media and static files
+RUN mkdir -p /app/static /app/media /var/log/oscar && \
+    chown -R oscar:oscar /app /var/log/oscar
+
+USER oscar
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:8000/healthcheck/ || exit 1
+
+ENTRYPOINT ["gunicorn"]
+CMD ["config.wsgi:application", \
+     "--bind=0.0.0.0:8000", \
+     "--workers=4", \
+     "--timeout=120", \
+     "--access-logfile=-", \
+     "--error-logfile=-"]
