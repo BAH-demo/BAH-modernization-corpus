@@ -1,0 +1,126 @@
+---
+###############################################################################
+# CI Pipeline – NASTRAN-95 (Fortran 77 Structural Analysis)
+# System: nastran-95 | 417K LOC | Fortran 77
+# NOTE: Compile check only – no runtime tests (legacy numerical code)
+#
+# The source directory (modernization-corpus-aggregate/nastran-95) is
+# populated at runtime by CORPUS-AGGREGATION-SETUP.sh and is NOT checked into
+# version control. Jobs gracefully skip when the directory is absent.
+###############################################################################
+name: CI – NASTRAN-95 (Fortran 77)
+
+on:
+  push:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/nastran-95/**"
+      - ".github/workflows/ci-nastran-95.yml"
+  pull_request:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/nastran-95/**"
+      - ".github/workflows/ci-nastran-95.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_PATH: modernization-corpus-aggregate/nastran-95
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Preflight – Check if source directory exists
+  # ---------------------------------------------------------------------------
+  preflight:
+    name: Preflight Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      source_exists: ${{ steps.check.outputs.exists }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for source directory
+        id: check
+        run: |
+          if [ -d "${{ env.SOURCE_PATH }}" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Source directory found: ${{ env.SOURCE_PATH }}"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Source directory not present. Run CORPUS-AGGREGATION-SETUP.sh to populate."
+          fi
+
+  # ---------------------------------------------------------------------------
+  # Compile Check with Static Analysis Flags
+  # ---------------------------------------------------------------------------
+  compile-check:
+    name: Fortran Compile Check (gfortran)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: preflight
+    if: needs.preflight.outputs.source_exists == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install gfortran
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran
+
+      - name: Display compiler version
+        run: gfortran --version
+
+      - name: Compile Fortran sources with static analysis flags
+        run: |
+          echo "=== NASTRAN-95 Fortran Compile Check ==="
+          echo "Compiler flags: -Wall -Wextra -std=legacy -fsyntax-only"
+          echo ""
+
+          TOTAL=0
+          PASS=0
+          FAIL=0
+          ERRORS_LOG="compile-errors.log"
+          > "${ERRORS_LOG}"
+
+          # Find all Fortran source files (.f, .for, .f77)
+          while IFS= read -r src; do
+            TOTAL=$((TOTAL + 1))
+            BASENAME=$(basename "$src")
+
+            if gfortran -Wall -Wextra -std=legacy -fsyntax-only "$src" 2>> "${ERRORS_LOG}"; then
+              PASS=$((PASS + 1))
+            else
+              FAIL=$((FAIL + 1))
+              echo "::warning file=${src}::Compilation warning/error in ${BASENAME}"
+            fi
+          done < <(find "${{ env.SOURCE_PATH }}" -type f \( -name "*.f" -o -name "*.for" -o -name "*.f77" -o -name "*.F" \) | sort)
+
+          echo ""
+          echo "=== Compile Check Summary ==="
+          echo "Total files:  ${TOTAL}"
+          echo "Passed:       ${PASS}"
+          echo "Failed:       ${FAIL}"
+          echo ""
+
+          if [ "${TOTAL}" -eq 0 ]; then
+            echo "::warning::No Fortran source files found in ${SOURCE_PATH}"
+          fi
+
+          # Report errors but do not fail the build (legacy code expected to have warnings)
+          if [ "${FAIL}" -gt 0 ]; then
+            echo "::warning::${FAIL} file(s) had compile issues – see artifact for details"
+          fi
+
+      - name: Upload compile log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nastran-compile-log
+          path: compile-errors.log
+          retention-days: 30

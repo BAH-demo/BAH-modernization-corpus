@@ -1,0 +1,97 @@
+---
+###############################################################################
+# CI Pipeline – CICS Banking Sample (Preservation Artifact)
+# System: cics-banking-sample | COBOL | Mainframe banking application
+# NOTE: Documentation validation only – no build/compile
+#       Repository may be access-restricted (403). This pipeline validates
+#       any available documentation and modernization analysis artifacts.
+###############################################################################
+name: CI – CICS Banking Sample (Documentation)
+
+on:
+  push:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/cics-banking-sample/**"
+      - "modernization-results/cics-banking-sample/**"
+      - ".github/workflows/ci-cics-banking-sample.yml"
+  pull_request:
+    branches: ["main", "devin/**"]
+    paths:
+      - "modernization-corpus-aggregate/cics-banking-sample/**"
+      - "modernization-results/cics-banking-sample/**"
+      - ".github/workflows/ci-cics-banking-sample.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SYSTEM_PATH: modernization-corpus-aggregate/cics-banking-sample
+  RESULTS_PATH: modernization-results/cics-banking-sample
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Documentation Validation
+  # ---------------------------------------------------------------------------
+  docs-validation:
+    name: Documentation Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (for markdownlint)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Lint Markdown files
+        run: |
+          echo "=== CICS Banking Sample Documentation Validation ==="
+          echo "This is a preservation artifact – documentation-only checks."
+          echo "NOTE: Original repository may be access-restricted (403)."
+          echo ""
+
+          # Check both the source directory and modernization results
+          MD_FILES=""
+          for DIR in "${{ env.SYSTEM_PATH }}" "${{ env.RESULTS_PATH }}"; do
+            if [ -d "${DIR}" ]; then
+              FOUND=$(find "${DIR}" -name "*.md" -type f 2>/dev/null || true)
+              MD_FILES="${MD_FILES} ${FOUND}"
+            fi
+          done
+
+          MD_FILES=$(echo "${MD_FILES}" | xargs)
+
+          if [ -n "${MD_FILES}" ]; then
+            echo "Found Markdown files:"
+            echo "${MD_FILES}" | tr ' ' '\n' | head -20
+            echo ""
+            # Run markdownlint – non-blocking (warnings only)
+            echo "${MD_FILES}" | tr ' ' '\n' | xargs markdownlint --disable MD013 MD033 MD041 || true
+            echo ""
+            echo "Documentation lint complete."
+          else
+            echo "::notice::No documentation found. Source repo may be unavailable (HTTP 403)."
+            echo "::notice::Run CORPUS-AGGREGATION-SETUP.sh to attempt source retrieval."
+          fi
+
+      - name: Verify analysis artifacts
+        run: |
+          echo "=== Analysis Artifact Inventory ==="
+          echo ""
+          for DIR in "${{ env.SYSTEM_PATH }}" "${{ env.RESULTS_PATH }}"; do
+            if [ -d "${DIR}" ]; then
+              echo "Contents of ${DIR}:"
+              find "${DIR}" -type f | head -30
+              echo ""
+            else
+              echo "${DIR}: not present"
+            fi
+          done
