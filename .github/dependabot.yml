@@ -1,0 +1,72 @@
+version: 2
+updates:
+  # Apache OFBiz - Enterprise ERP
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/apache-ofbiz
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - apache-ofbiz
+
+  # Alfresco Community - Content Management
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/alfresco-community
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - alfresco-community
+
+  # Nuxeo - Content Platform
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/nuxeo
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - nuxeo
+
+  # B2CWeb - Web Application
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/b2cweb
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - b2cweb
+
+  # Monolith Enterprise - Enterprise Monolith (migrated from Java 7 to Java 17)
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/monolith-enterprise
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - monolith-enterprise
+
+  # GitHub Actions dependency updates
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - ci

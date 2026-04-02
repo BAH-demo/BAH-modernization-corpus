@@ -1,0 +1,51 @@
+# =============================================================================
+# Dockerfile for Monolith Enterprise - Enterprise Monolith Application
+# Multi-stage build: Maven + JDK 17 (build) → JRE 17 (runtime)
+# Migrated from Java 7 → Java 17
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Stage 1: Build
+# ---------------------------------------------------------------------------
+FROM eclipse-temurin:17-jdk AS build
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends maven && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY modernization-corpus-aggregate/monolith-enterprise/pom.xml ./pom.xml
+RUN mvn dependency:go-offline -B || true
+
+COPY modernization-corpus-aggregate/monolith-enterprise/ ./
+RUN mvn clean package -DskipTests -B
+
+# ---------------------------------------------------------------------------
+# Stage 2: Runtime
+# ---------------------------------------------------------------------------
+FROM eclipse-temurin:17-jre
+
+LABEL org.opencontainers.image.title="monolith-enterprise" \
+      org.opencontainers.image.description="Monolith Enterprise Application - migrated from Java 7 to Jakarta EE / Java 17" \
+      org.opencontainers.image.vendor="BAH Modernization" \
+      org.opencontainers.image.source="https://github.com/BAH-demo/BAH-modernization-corpus" \
+      org.opencontainers.image.licenses="MIT"
+
+RUN groupadd --gid 1001 appuser && \
+    useradd  --uid 1001 --gid appuser --shell /bin/false --create-home appuser
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
+RUN chown -R appuser:appuser /app
+
+USER appuser
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,0 +1,50 @@
+# =============================================================================
+# Dockerfile for Alfresco Community - Content Management System
+# Multi-stage build: Maven + JDK 17 (build) → JRE 17 (runtime)
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Stage 1: Build
+# ---------------------------------------------------------------------------
+FROM eclipse-temurin:17-jdk AS build
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends maven && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY modernization-corpus-aggregate/alfresco-community/pom.xml ./pom.xml
+RUN mvn dependency:go-offline -B || true
+
+COPY modernization-corpus-aggregate/alfresco-community/ ./
+RUN mvn clean package -DskipTests -B
+
+# ---------------------------------------------------------------------------
+# Stage 2: Runtime
+# ---------------------------------------------------------------------------
+FROM eclipse-temurin:17-jre
+
+LABEL org.opencontainers.image.title="alfresco-community" \
+      org.opencontainers.image.description="Alfresco Community Content Management - modernized to Jakarta EE / Java 17" \
+      org.opencontainers.image.vendor="BAH Modernization" \
+      org.opencontainers.image.source="https://github.com/BAH-demo/BAH-modernization-corpus" \
+      org.opencontainers.image.licenses="LGPL-3.0"
+
+RUN groupadd --gid 1001 appuser && \
+    useradd  --uid 1001 --gid appuser --shell /bin/false --create-home appuser
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
+RUN chown -R appuser:appuser /app
+
+USER appuser
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8080/alfresco/api/-default-/public/cmis/versions/1.1/atom || exit 1
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
