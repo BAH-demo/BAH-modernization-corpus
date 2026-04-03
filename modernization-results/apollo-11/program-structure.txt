@@ -1,0 +1,3 @@
+=== AGC Program Structure ===
+Comanche (CM): 85 files
+Luminary (LM): 90 files

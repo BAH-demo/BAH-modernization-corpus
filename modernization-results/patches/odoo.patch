@@ -1,0 +1,315 @@
+diff --git a/addons/http_routing/__init__.py b/addons/http_routing/__init__.py
+index ad6393ee..c3f94ff7 100644
+--- a/addons/http_routing/__init__.py
++++ b/addons/http_routing/__init__.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from . import controllers
+diff --git a/addons/http_routing/controllers/main.py b/addons/http_routing/controllers/main.py
+index d15e4abe..bb9db51e 100644
+--- a/addons/http_routing/controllers/main.py
++++ b/addons/http_routing/controllers/main.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import http
+diff --git a/addons/http_routing/models/ir_http.py b/addons/http_routing/models/ir_http.py
+index d508ceb8..5ebb3375 100644
+--- a/addons/http_routing/models/ir_http.py
++++ b/addons/http_routing/models/ir_http.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ import logging
+diff --git a/addons/http_routing/models/ir_qweb.py b/addons/http_routing/models/ir_qweb.py
+index 39ffe927..86c2b84d 100644
+--- a/addons/http_routing/models/ir_qweb.py
++++ b/addons/http_routing/models/ir_qweb.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ import logging
+diff --git a/addons/http_routing/models/res_lang.py b/addons/http_routing/models/res_lang.py
+index e82c025e..716dd5ed 100644
+--- a/addons/http_routing/models/res_lang.py
++++ b/addons/http_routing/models/res_lang.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import models
+diff --git a/addons/http_routing/tests/common.py b/addons/http_routing/tests/common.py
+index 47bd502f..2075840c 100644
+--- a/addons/http_routing/tests/common.py
++++ b/addons/http_routing/tests/common.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import contextlib
+ from unittest.mock import MagicMock, Mock, patch
+ 
+diff --git a/addons/http_routing/tests/test_res_lang.py b/addons/http_routing/tests/test_res_lang.py
+index 134d05b8..260d3da5 100644
+--- a/addons/http_routing/tests/test_res_lang.py
++++ b/addons/http_routing/tests/test_res_lang.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # -*- coding: utf-8 -*-
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+diff --git a/addons/l10n_dz/models/template_dz.py b/addons/l10n_dz/models/template_dz.py
+index 8936746e..8b234a42 100644
+--- a/addons/l10n_dz/models/template_dz.py
++++ b/addons/l10n_dz/models/template_dz.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ from odoo import models
+ from odoo.addons.account.models.chart_template import template
+diff --git a/addons/website_sale_collect/__init__.py b/addons/website_sale_collect/__init__.py
+index f7ee4f08..7b46572a 100644
+--- a/addons/website_sale_collect/__init__.py
++++ b/addons/website_sale_collect/__init__.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from . import models
+diff --git a/addons/website_sale_collect/controllers/delivery.py b/addons/website_sale_collect/controllers/delivery.py
+index f4c06aa5..bc9e1855 100644
+--- a/addons/website_sale_collect/controllers/delivery.py
++++ b/addons/website_sale_collect/controllers/delivery.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.http import request, route
+diff --git a/addons/website_sale_collect/controllers/main.py b/addons/website_sale_collect/controllers/main.py
+index c150e09e..5185a9ec 100644
+--- a/addons/website_sale_collect/controllers/main.py
++++ b/addons/website_sale_collect/controllers/main.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import _
+diff --git a/addons/website_sale_collect/controllers/payment.py b/addons/website_sale_collect/controllers/payment.py
+index d96016ad..de52e31f 100644
+--- a/addons/website_sale_collect/controllers/payment.py
++++ b/addons/website_sale_collect/controllers/payment.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import _
+diff --git a/addons/website_sale_collect/models/delivery_carrier.py b/addons/website_sale_collect/models/delivery_carrier.py
+index a961c35d..ef85fbf8 100644
+--- a/addons/website_sale_collect/models/delivery_carrier.py
++++ b/addons/website_sale_collect/models/delivery_carrier.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import _, api, fields, models
+diff --git a/addons/website_sale_collect/models/payment_provider.py b/addons/website_sale_collect/models/payment_provider.py
+index e047f1fd..cbddf36e 100644
+--- a/addons/website_sale_collect/models/payment_provider.py
++++ b/addons/website_sale_collect/models/payment_provider.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import _, api, fields, models
+diff --git a/addons/website_sale_collect/models/payment_transaction.py b/addons/website_sale_collect/models/payment_transaction.py
+index d78d9767..71ac2019 100644
+--- a/addons/website_sale_collect/models/payment_transaction.py
++++ b/addons/website_sale_collect/models/payment_transaction.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import models
+diff --git a/addons/website_sale_collect/models/product_template.py b/addons/website_sale_collect/models/product_template.py
+index a0f93838..3ee6733c 100644
+--- a/addons/website_sale_collect/models/product_template.py
++++ b/addons/website_sale_collect/models/product_template.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import models
+diff --git a/addons/website_sale_collect/models/res_config_settings.py b/addons/website_sale_collect/models/res_config_settings.py
+index abb2a236..4746e0ec 100644
+--- a/addons/website_sale_collect/models/res_config_settings.py
++++ b/addons/website_sale_collect/models/res_config_settings.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import _, models
+diff --git a/addons/website_sale_collect/models/sale_order.py b/addons/website_sale_collect/models/sale_order.py
+index 7fb86086..710daa47 100644
+--- a/addons/website_sale_collect/models/sale_order.py
++++ b/addons/website_sale_collect/models/sale_order.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ import json
+diff --git a/addons/website_sale_collect/models/stock_warehouse.py b/addons/website_sale_collect/models/stock_warehouse.py
+index 4ffc0626..49f420c5 100644
+--- a/addons/website_sale_collect/models/stock_warehouse.py
++++ b/addons/website_sale_collect/models/stock_warehouse.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import fields, models
+diff --git a/addons/website_sale_collect/models/website.py b/addons/website_sale_collect/models/website.py
+index 42558be7..7ed74c88 100644
+--- a/addons/website_sale_collect/models/website.py
++++ b/addons/website_sale_collect/models/website.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo import fields, models
+diff --git a/addons/website_sale_collect/tests/common.py b/addons/website_sale_collect/tests/common.py
+index 57fbf28c..062fd439 100644
+--- a/addons/website_sale_collect/tests/common.py
++++ b/addons/website_sale_collect/tests/common.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.fields import Command
+diff --git a/addons/website_sale_collect/tests/test_click_and_collect_express_checkout.py b/addons/website_sale_collect/tests/test_click_and_collect_express_checkout.py
+index eb73e71e..6b9da8e0 100644
+--- a/addons/website_sale_collect/tests/test_click_and_collect_express_checkout.py
++++ b/addons/website_sale_collect/tests/test_click_and_collect_express_checkout.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.tests import tagged
+diff --git a/addons/website_sale_collect/tests/test_click_and_collect_flow.py b/addons/website_sale_collect/tests/test_click_and_collect_flow.py
+index e94e836a..1e4c1a1c 100644
+--- a/addons/website_sale_collect/tests/test_click_and_collect_flow.py
++++ b/addons/website_sale_collect/tests/test_click_and_collect_flow.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.tests import tagged
+diff --git a/addons/website_sale_collect/tests/test_delivery_carrier.py b/addons/website_sale_collect/tests/test_delivery_carrier.py
+index f87e2523..bf4f102d 100644
+--- a/addons/website_sale_collect/tests/test_delivery_carrier.py
++++ b/addons/website_sale_collect/tests/test_delivery_carrier.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from unittest.mock import patch
+diff --git a/addons/website_sale_collect/tests/test_in_store_delivery.py b/addons/website_sale_collect/tests/test_in_store_delivery.py
+index b5df9e68..8b3ce562 100644
+--- a/addons/website_sale_collect/tests/test_in_store_delivery.py
++++ b/addons/website_sale_collect/tests/test_in_store_delivery.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from unittest.mock import patch
+diff --git a/addons/website_sale_collect/tests/test_payment_provider.py b/addons/website_sale_collect/tests/test_payment_provider.py
+index 45628dd7..98166c17 100644
+--- a/addons/website_sale_collect/tests/test_payment_provider.py
++++ b/addons/website_sale_collect/tests/test_payment_provider.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.tests import HttpCase, tagged
+diff --git a/addons/website_sale_collect/tests/test_payment_transaction.py b/addons/website_sale_collect/tests/test_payment_transaction.py
+index 14255156..e54dc138 100644
+--- a/addons/website_sale_collect/tests/test_payment_transaction.py
++++ b/addons/website_sale_collect/tests/test_payment_transaction.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.tests import HttpCase, tagged
+diff --git a/addons/website_sale_collect/tests/test_product_template.py b/addons/website_sale_collect/tests/test_product_template.py
+index afc70ef1..fc100dc0 100644
+--- a/addons/website_sale_collect/tests/test_product_template.py
++++ b/addons/website_sale_collect/tests/test_product_template.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from datetime import datetime
+diff --git a/addons/website_sale_collect/tests/test_sale_order.py b/addons/website_sale_collect/tests/test_sale_order.py
+index 98611375..7c63f0f1 100644
+--- a/addons/website_sale_collect/tests/test_sale_order.py
++++ b/addons/website_sale_collect/tests/test_sale_order.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.fields import Command
+diff --git a/addons/website_sale_collect/tests/test_stock_warehouse.py b/addons/website_sale_collect/tests/test_stock_warehouse.py
+index 48a7d4ee..4be463d4 100644
+--- a/addons/website_sale_collect/tests/test_stock_warehouse.py
++++ b/addons/website_sale_collect/tests/test_stock_warehouse.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from unittest.mock import patch
+diff --git a/addons/website_sale_collect/tests/test_website.py b/addons/website_sale_collect/tests/test_website.py
+index 2b526d03..abc91691 100644
+--- a/addons/website_sale_collect/tests/test_website.py
++++ b/addons/website_sale_collect/tests/test_website.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+ from odoo.fields import Command
+diff --git a/addons/website_sale_collect/utils.py b/addons/website_sale_collect/utils.py
+index 38385d65..10ae10b8 100644
+--- a/addons/website_sale_collect/utils.py
++++ b/addons/website_sale_collect/utils.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import math
+ 
+ 
+diff --git a/setup/package.py b/setup/package.py
+index 2fcd7a15..81ccc31a 100755
+--- a/setup/package.py
++++ b/setup/package.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ #!/usr/bin/env python3
+ # Part of Odoo. See LICENSE file for full copyright and licensing details.
+ 
+diff --git a/setup/requirements-check.py b/setup/requirements-check.py
+index ac049cfd..58b1c839 100755
+--- a/setup/requirements-check.py
++++ b/setup/requirements-check.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ #!/usr/bin/env python3
+ 
+ """
+@@ -183,7 +184,7 @@ class Distribution(ABC):
+     def get_version(self, package: str) -> Optional[Version]:
+         ...
+ 
+-    def __str__(self):
++    def __str__(self) -> str:
+         return f'{type(self).__name__.lower()} {self._release}'
+ 
+     @classmethod

@@ -1,0 +1,66 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nastran-95
+  namespace: legacy-modernization
+  labels:
+    app: nastran-95
+    tier: legacy-modernization
+    runtime: fortran
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 86400
+  ttlSecondsAfterFinished: 604800
+  template:
+    metadata:
+      labels:
+        app: nastran-95
+        tier: legacy-modernization
+        runtime: fortran
+    spec:
+      restartPolicy: OnFailure
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 1000
+      containers:
+        - name: nastran-95
+          image: ghcr.io/bah-demo/nastran-95:latest
+          imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Starting NASTRAN-95 structural analysis batch job"
+              /opt/nastran/bin/nastran "$INPUT_FILE" -o "$OUTPUT_DIR/results.dat"
+              echo "NASTRAN-95 batch job completed"
+          env:
+            - name: INPUT_FILE
+              value: "/data/input/model.dat"
+            - name: OUTPUT_DIR
+              value: "/data/output"
+          resources:
+            requests:
+              cpu: "2000m"
+              memory: "8Gi"
+            limits:
+              cpu: "4000m"
+              memory: "16Gi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: input-data
+              mountPath: /data/input
+              readOnly: true
+            - name: output-data
+              mountPath: /data/output
+      volumes:
+        - name: input-data
+          persistentVolumeClaim:
+            claimName: nastran-95-input
+        - name: output-data
+          persistentVolumeClaim:
+            claimName: nastran-95-output

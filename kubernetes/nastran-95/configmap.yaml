@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nastran-95-config
+  namespace: legacy-modernization
+  labels:
+    app: nastran-95
+data:
+  APP_ENV: "production"
+  APP_NAME: "nastran-95"
+  LOG_LEVEL: "info"
+  TZ: "UTC"
+  MAX_MEMORY: "16Gi"
+  SOLVER_THREADS: "4"

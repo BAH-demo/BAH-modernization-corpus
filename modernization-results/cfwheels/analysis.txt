@@ -1,0 +1,5 @@
+cfm_template_files: 335
+cfc_component_files: 761
+deprecated_cfml_tags: 0
+potential_sql_injection: 46
+test_files: 81

@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cfwheels
+  namespace: legacy-modernization
+  labels:
+    app: cfwheels
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: cfwheels

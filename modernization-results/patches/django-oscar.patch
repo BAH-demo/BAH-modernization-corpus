@@ -1,0 +1,333 @@
+diff --git a/docs/source/conf.py b/docs/source/conf.py
+index 6fc6ed5..b60a5aa 100644
+--- a/docs/source/conf.py
++++ b/docs/source/conf.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # -*- coding: utf-8 -*-
+ #
+ # django-oscar documentation build configuration file, created by
+diff --git a/sandbox/apps/offers.py b/sandbox/apps/offers.py
+index 77a93e9..ecb85e3 100644
+--- a/sandbox/apps/offers.py
++++ b/sandbox/apps/offers.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from oscar.apps.offer import models
+ 
+ 
+diff --git a/sandbox/apps/sitemaps.py b/sandbox/apps/sitemaps.py
+index 3355e1e..b9d6616 100644
+--- a/sandbox/apps/sitemaps.py
++++ b/sandbox/apps/sitemaps.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # -*- coding: utf-8 -*-
+ from django.conf import settings
+ from django.contrib.sitemaps import Sitemap
+diff --git a/sandbox/apps/user/models.py b/sandbox/apps/user/models.py
+index ef40ce2..916191b 100644
+--- a/sandbox/apps/user/models.py
++++ b/sandbox/apps/user/models.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ """
+ Sample user/profile models for testing.  These aren't enabled by default in the
+ sandbox
+@@ -55,7 +56,7 @@ class CustomUserModel(AbstractBaseUser):
+ 
+     objects = CustomUserManager()
+ 
+-    def __str__(self):
++    def __str__(self) -> str:
+         return self.email
+ 
+     def get_full_name(self):
+diff --git a/setup.py b/setup.py
+index 7900f44..be8b57a 100755
+--- a/setup.py
++++ b/setup.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ #!/usr/bin/env python
+ import os
+ import sys
+diff --git a/tests/functional/basket/test_manipulation.py b/tests/functional/basket/test_manipulation.py
+index ceb261d..0c2273d 100644
+--- a/tests/functional/basket/test_manipulation.py
++++ b/tests/functional/basket/test_manipulation.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from oscar.apps.basket import models
+ from oscar.core.loading import get_model
+ from oscar.test import factories
+diff --git a/tests/functional/checkout/__init__.py b/tests/functional/checkout/__init__.py
+index e3226ef..f96e4f1 100644
+--- a/tests/functional/checkout/__init__.py
++++ b/tests/functional/checkout/__init__.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # pylint: disable=unused-argument, no-value-for-parameter
+ from decimal import Decimal as D
+ from http import client as http_client
+diff --git a/tests/functional/checkout/test_customer_checkout.py b/tests/functional/checkout/test_customer_checkout.py
+index 11ab6fd..d0327fa 100644
+--- a/tests/functional/checkout/test_customer_checkout.py
++++ b/tests/functional/checkout/test_customer_checkout.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.urls import reverse
+ 
+ from oscar.core.loading import get_model
+diff --git a/tests/functional/checkout/test_guest_checkout.py b/tests/functional/checkout/test_guest_checkout.py
+index 158194c..dbc7ee7 100644
+--- a/tests/functional/checkout/test_guest_checkout.py
++++ b/tests/functional/checkout/test_guest_checkout.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import sys
+ from importlib import import_module, reload
+ from unittest import mock
+diff --git a/tests/functional/checkout/test_session.py b/tests/functional/checkout/test_session.py
+index abbe88b..ecbc8a8 100644
+--- a/tests/functional/checkout/test_session.py
++++ b/tests/functional/checkout/test_session.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.urls import reverse
+ 
+ from oscar.test import testcases
+diff --git a/tests/functional/customer/test_alert.py b/tests/functional/customer/test_alert.py
+index 5eaf13e..dadfc75 100644
+--- a/tests/functional/customer/test_alert.py
++++ b/tests/functional/customer/test_alert.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from unittest import mock
+ 
+ from django.contrib.auth.models import AnonymousUser
+diff --git a/tests/functional/customer/test_auth.py b/tests/functional/customer/test_auth.py
+index 11292e2..89f30d4 100644
+--- a/tests/functional/customer/test_auth.py
++++ b/tests/functional/customer/test_auth.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import re
+ 
+ from django.core import mail
+diff --git a/tests/functional/dashboard/test_catalogue.py b/tests/functional/dashboard/test_catalogue.py
+index 6b337c9..4419875 100644
+--- a/tests/functional/dashboard/test_catalogue.py
++++ b/tests/functional/dashboard/test_catalogue.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from http import client as http_client
+ 
+ from django.urls import reverse
+diff --git a/tests/functional/dashboard/test_catalogue_option.py b/tests/functional/dashboard/test_catalogue_option.py
+index db90421..53f2915 100644
+--- a/tests/functional/dashboard/test_catalogue_option.py
++++ b/tests/functional/dashboard/test_catalogue_option.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.contrib.messages import ERROR
+ from django.utils.text import slugify
+ from django.utils.translation import gettext
+diff --git a/tests/functional/dashboard/test_catalogue_option_group.py b/tests/functional/dashboard/test_catalogue_option_group.py
+index fbf2815..3bd4872 100644
+--- a/tests/functional/dashboard/test_catalogue_option_group.py
++++ b/tests/functional/dashboard/test_catalogue_option_group.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.contrib.messages import ERROR
+ from django.utils.translation import gettext
+ 
+diff --git a/tests/functional/dashboard/test_category.py b/tests/functional/dashboard/test_category.py
+index 3b2122e..c27ca82 100644
+--- a/tests/functional/dashboard/test_category.py
++++ b/tests/functional/dashboard/test_category.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.urls import reverse
+ 
+ from oscar.apps.catalogue.categories import create_from_breadcrumbs
+diff --git a/tests/functional/dashboard/test_communication.py b/tests/functional/dashboard/test_communication.py
+index 866ff17..e974039 100644
+--- a/tests/functional/dashboard/test_communication.py
++++ b/tests/functional/dashboard/test_communication.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.core import mail
+ from django.urls import reverse
+ from django.test import TestCase
+diff --git a/tests/functional/dashboard/test_dashboard.py b/tests/functional/dashboard/test_dashboard.py
+index ce480d2..88fa081 100644
+--- a/tests/functional/dashboard/test_dashboard.py
++++ b/tests/functional/dashboard/test_dashboard.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from decimal import Decimal as D
+ 
+ from django.urls import reverse
+diff --git a/tests/functional/dashboard/test_offer.py b/tests/functional/dashboard/test_offer.py
+index 309c735..e7536d7 100644
+--- a/tests/functional/dashboard/test_offer.py
++++ b/tests/functional/dashboard/test_offer.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.urls import reverse
+ from django.utils import timezone
+ 
+diff --git a/tests/functional/dashboard/test_order.py b/tests/functional/dashboard/test_order.py
+index 4a95509..ef4a3dc 100644
+--- a/tests/functional/dashboard/test_order.py
++++ b/tests/functional/dashboard/test_order.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from http import client as http_client
+ 
+ from django.conf import settings
+diff --git a/tests/functional/dashboard/test_page.py b/tests/functional/dashboard/test_page.py
+index 816b538..34d2765 100644
+--- a/tests/functional/dashboard/test_page.py
++++ b/tests/functional/dashboard/test_page.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.contrib.flatpages.models import FlatPage
+ from django.test import TestCase
+ from django.urls import reverse
+diff --git a/tests/functional/dashboard/test_partner.py b/tests/functional/dashboard/test_partner.py
+index 1d1e7d8..a5847fc 100644
+--- a/tests/functional/dashboard/test_partner.py
++++ b/tests/functional/dashboard/test_partner.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.urls import reverse
+ 
+ from oscar.apps.partner import models
+diff --git a/tests/functional/dashboard/test_product.py b/tests/functional/dashboard/test_product.py
+index 2e045c6..d4a1083 100644
+--- a/tests/functional/dashboard/test_product.py
++++ b/tests/functional/dashboard/test_product.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import datetime
+ import io
+ import os
+diff --git a/tests/functional/dashboard/test_range.py b/tests/functional/dashboard/test_range.py
+index 0dc1c68..79363f7 100644
+--- a/tests/functional/dashboard/test_range.py
++++ b/tests/functional/dashboard/test_range.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import random
+ 
+ from django.contrib.messages.constants import SUCCESS, WARNING
+diff --git a/tests/functional/dashboard/test_reports.py b/tests/functional/dashboard/test_reports.py
+index 261da8c..4f1f116 100644
+--- a/tests/functional/dashboard/test_reports.py
++++ b/tests/functional/dashboard/test_reports.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.urls import reverse
+ 
+ from oscar.core.loading import get_class
+diff --git a/tests/functional/dashboard/test_review.py b/tests/functional/dashboard/test_review.py
+index 2d48c73..a09ba0e 100644
+--- a/tests/functional/dashboard/test_review.py
++++ b/tests/functional/dashboard/test_review.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from datetime import timedelta, timezone as datetime_timezone
+ 
+ from django.urls import reverse
+diff --git a/tests/functional/dashboard/test_shipping.py b/tests/functional/dashboard/test_shipping.py
+index 9d4c08d..cb48806 100644
+--- a/tests/functional/dashboard/test_shipping.py
++++ b/tests/functional/dashboard/test_shipping.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from decimal import Decimal as D
+ 
+ from django.urls import reverse
+diff --git a/tests/functional/dashboard/test_user.py b/tests/functional/dashboard/test_user.py
+index dcaaaf8..1f8482f 100644
+--- a/tests/functional/dashboard/test_user.py
++++ b/tests/functional/dashboard/test_user.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.core import mail
+ from django.urls import reverse, reverse_lazy
+ from django.utils.translation import gettext_lazy as _
+diff --git a/tests/functional/dashboard/test_voucher.py b/tests/functional/dashboard/test_voucher.py
+index 7e85534..896d7c0 100644
+--- a/tests/functional/dashboard/test_voucher.py
++++ b/tests/functional/dashboard/test_voucher.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.urls import reverse
+ 
+ from oscar.core.loading import get_class
+diff --git a/tests/functional/dashboard/test_widgets.py b/tests/functional/dashboard/test_widgets.py
+index bec5cbd..601bd3f 100644
+--- a/tests/functional/dashboard/test_widgets.py
++++ b/tests/functional/dashboard/test_widgets.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django import forms
+ from django.test import TestCase, override_settings
+ 
+diff --git a/tests/functional/dashboard/testcases.py b/tests/functional/dashboard/testcases.py
+index bb430c6..b12cc96 100644
+--- a/tests/functional/dashboard/testcases.py
++++ b/tests/functional/dashboard/testcases.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ # pylint: disable=abstract-method
+ import json
+ from http import client as http_client
+diff --git a/tests/functional/order/test_emails.py b/tests/functional/order/test_emails.py
+index 5136ba4..88d5e90 100644
+--- a/tests/functional/order/test_emails.py
++++ b/tests/functional/order/test_emails.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import os
+ 
+ from django.core import mail
+diff --git a/tests/functional/test_basket.py b/tests/functional/test_basket.py
+index deff767..474f80a 100644
+--- a/tests/functional/test_basket.py
++++ b/tests/functional/test_basket.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import datetime
+ from decimal import Decimal as D
+ from http import client as http_client
+diff --git a/tests/functional/test_offer.py b/tests/functional/test_offer.py
+index a4ecd9c..e33dc5b 100644
+--- a/tests/functional/test_offer.py
++++ b/tests/functional/test_offer.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.test import TestCase
+ 
+ from oscar.test.factories.offer import (
+diff --git a/tests/functional/test_stock_alert.py b/tests/functional/test_stock_alert.py
+index cd197c8..5ab7110 100644
+--- a/tests/functional/test_stock_alert.py
++++ b/tests/functional/test_stock_alert.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from decimal import Decimal as D
+ 
+ from django.test import TestCase
+diff --git a/tests/functional/wishlists/test_wishlists.py b/tests/functional/wishlists/test_wishlists.py
+index e53037a..841ca5e 100644
+--- a/tests/functional/wishlists/test_wishlists.py
++++ b/tests/functional/wishlists/test_wishlists.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from django.contrib.auth import get_user_model
+ from django.test import TestCase, override_settings
+ from django.urls import reverse

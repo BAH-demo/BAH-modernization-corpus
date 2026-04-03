@@ -1,0 +1,7 @@
+javax_imports: 52
+java_version: unknown
+deprecated_annotations: 0
+static_mutable_state: 4
+hardcoded_secrets_candidates: 2
+test_files: 3
+spring_version: none

@@ -1,0 +1,111 @@
+version: 2
+updates:
+  # Apache OFBiz - Enterprise ERP
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/apache-ofbiz
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - apache-ofbiz
+
+  # Alfresco Community - Content Management
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/alfresco-community
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - alfresco-community
+
+  # Nuxeo - Content Platform
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/nuxeo
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - nuxeo
+
+  # B2CWeb - Web Application
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/b2cweb
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - b2cweb
+
+  # Monolith Enterprise
+  - package-ecosystem: maven
+    directory: /modernization-corpus-aggregate/monolith-enterprise
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - java
+      - monolith-enterprise
+
+  # Odoo - Enterprise ERP (Python)
+  - package-ecosystem: pip
+    directory: /odoo
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - odoo
+    commit-message:
+      prefix: "deps(odoo):"
+
+  # Django Oscar - E-commerce Framework (Python)
+  - package-ecosystem: pip
+    directory: /django-oscar
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - django-oscar
+    commit-message:
+      prefix: "deps(django-oscar):"
+
+  # Mezzanine - CMS (Python)
+  - package-ecosystem: pip
+    directory: /mezzanine
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - mezzanine
+    commit-message:
+      prefix: "deps(mezzanine):"
+
+  # GitHub Actions dependency updates
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - ci

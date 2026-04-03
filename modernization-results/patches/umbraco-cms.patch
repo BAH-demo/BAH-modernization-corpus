@@ -1,0 +1,533 @@
+diff --git a/src/Umbraco.Cms.Api.Common/Umbraco.Cms.Api.Common.csproj b/src/Umbraco.Cms.Api.Common/Umbraco.Cms.Api.Common.csproj
+index 2a476aa7..dc4dc60f 100644
+--- a/src/Umbraco.Cms.Api.Common/Umbraco.Cms.Api.Common.csproj
++++ b/src/Umbraco.Cms.Api.Common/Umbraco.Cms.Api.Common.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - API Common</Title>
+     <Description>Contains the bits and pieces that are shared between the Umbraco CMS APIs.</Description>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Cms.Api.Delivery/Umbraco.Cms.Api.Delivery.csproj b/src/Umbraco.Cms.Api.Delivery/Umbraco.Cms.Api.Delivery.csproj
+index 6a44c014..c7807a2c 100644
+--- a/src/Umbraco.Cms.Api.Delivery/Umbraco.Cms.Api.Delivery.csproj
++++ b/src/Umbraco.Cms.Api.Delivery/Umbraco.Cms.Api.Delivery.csproj
+@@ -1,10 +1,14 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Delivery API</Title>
+     <Description>Contains the presentation layer for the Umbraco CMS Delivery API.</Description>
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [CS0618/CS0612] update obsolete references
+diff --git a/src/Umbraco.Cms.Api.Management/Umbraco.Cms.Api.Management.csproj b/src/Umbraco.Cms.Api.Management/Umbraco.Cms.Api.Management.csproj
+index 14676c2e..4e221af1 100644
+--- a/src/Umbraco.Cms.Api.Management/Umbraco.Cms.Api.Management.csproj
++++ b/src/Umbraco.Cms.Api.Management/Umbraco.Cms.Api.Management.csproj
+@@ -1,10 +1,14 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Management API</Title>
+     <Description>Contains the presentation layer for the Umbraco CMS Management API.</Description>
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SA1117] params all on same line
+diff --git a/src/Umbraco.Cms.DevelopmentMode.Backoffice/Umbraco.Cms.DevelopmentMode.Backoffice.csproj b/src/Umbraco.Cms.DevelopmentMode.Backoffice/Umbraco.Cms.DevelopmentMode.Backoffice.csproj
+index bacbbd7c..b3c10a01 100644
+--- a/src/Umbraco.Cms.DevelopmentMode.Backoffice/Umbraco.Cms.DevelopmentMode.Backoffice.csproj
++++ b/src/Umbraco.Cms.DevelopmentMode.Backoffice/Umbraco.Cms.DevelopmentMode.Backoffice.csproj
+@@ -1,6 +1,8 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - DevelopmentMode - Backoffice</Title>
+     <Description>Adds backoffice development mode.</Description>
+     <RootNamespace>Umbraco.Cms.DevelopmentMode.Backoffice</RootNamespace>
+diff --git a/src/Umbraco.Cms.Imaging.ImageSharp/Umbraco.Cms.Imaging.ImageSharp.csproj b/src/Umbraco.Cms.Imaging.ImageSharp/Umbraco.Cms.Imaging.ImageSharp.csproj
+index 77aed066..d88f204b 100644
+--- a/src/Umbraco.Cms.Imaging.ImageSharp/Umbraco.Cms.Imaging.ImageSharp.csproj
++++ b/src/Umbraco.Cms.Imaging.ImageSharp/Umbraco.Cms.Imaging.ImageSharp.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Imaging - ImageSharp</Title>
+     <Description>Adds imaging support using ImageSharp/ImageSharp.Web to Umbraco CMS.</Description>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Cms.Imaging.ImageSharp2/Umbraco.Cms.Imaging.ImageSharp2.csproj b/src/Umbraco.Cms.Imaging.ImageSharp2/Umbraco.Cms.Imaging.ImageSharp2.csproj
+index 8dbac922..78b649af 100644
+--- a/src/Umbraco.Cms.Imaging.ImageSharp2/Umbraco.Cms.Imaging.ImageSharp2.csproj
++++ b/src/Umbraco.Cms.Imaging.ImageSharp2/Umbraco.Cms.Imaging.ImageSharp2.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Imaging - ImageSharp 2</Title>
+     <Description>Adds imaging support using ImageSharp/ImageSharp.Web version 2 to Umbraco CMS.</Description>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Cms.Persistence.EFCore.SqlServer/Umbraco.Cms.Persistence.EFCore.SqlServer.csproj b/src/Umbraco.Cms.Persistence.EFCore.SqlServer/Umbraco.Cms.Persistence.EFCore.SqlServer.csproj
+index 5229f513..39f457dd 100644
+--- a/src/Umbraco.Cms.Persistence.EFCore.SqlServer/Umbraco.Cms.Persistence.EFCore.SqlServer.csproj
++++ b/src/Umbraco.Cms.Persistence.EFCore.SqlServer/Umbraco.Cms.Persistence.EFCore.SqlServer.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Persistence - Entity Framework Core - SQL Server migrations</Title>
+     <Description>Adds support for Entity Framework Core SQL Server migrations to Umbraco CMS.</Description>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Cms.Persistence.EFCore.Sqlite/Umbraco.Cms.Persistence.EFCore.Sqlite.csproj b/src/Umbraco.Cms.Persistence.EFCore.Sqlite/Umbraco.Cms.Persistence.EFCore.Sqlite.csproj
+index f847ef47..8f346e2b 100644
+--- a/src/Umbraco.Cms.Persistence.EFCore.Sqlite/Umbraco.Cms.Persistence.EFCore.Sqlite.csproj
++++ b/src/Umbraco.Cms.Persistence.EFCore.Sqlite/Umbraco.Cms.Persistence.EFCore.Sqlite.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Persistence - Entity Framework Core - SQLite migrations</Title>
+     <Description>Adds support for Entity Framework Core SQLite migrations to Umbraco CMS.</Description>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Cms.Persistence.EFCore/Umbraco.Cms.Persistence.EFCore.csproj b/src/Umbraco.Cms.Persistence.EFCore/Umbraco.Cms.Persistence.EFCore.csproj
+index 71d84a51..674a8846 100644
+--- a/src/Umbraco.Cms.Persistence.EFCore/Umbraco.Cms.Persistence.EFCore.csproj
++++ b/src/Umbraco.Cms.Persistence.EFCore/Umbraco.Cms.Persistence.EFCore.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Persistence - Entity Framework Core</Title>
+     <Description>Adds support for Entity Framework Core to Umbraco CMS.</Description>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Cms.Persistence.SqlServer/Umbraco.Cms.Persistence.SqlServer.csproj b/src/Umbraco.Cms.Persistence.SqlServer/Umbraco.Cms.Persistence.SqlServer.csproj
+index 66162802..8e9b7485 100644
+--- a/src/Umbraco.Cms.Persistence.SqlServer/Umbraco.Cms.Persistence.SqlServer.csproj
++++ b/src/Umbraco.Cms.Persistence.SqlServer/Umbraco.Cms.Persistence.SqlServer.csproj
+@@ -1,10 +1,14 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Persistence - SQL Server</Title>
+     <Description>Adds support for SQL Server to Umbraco CMS.</Description>
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SA1405] Debug assert message text
+diff --git a/src/Umbraco.Cms.Persistence.Sqlite/Umbraco.Cms.Persistence.Sqlite.csproj b/src/Umbraco.Cms.Persistence.Sqlite/Umbraco.Cms.Persistence.Sqlite.csproj
+index f9c871f0..1e186012 100644
+--- a/src/Umbraco.Cms.Persistence.Sqlite/Umbraco.Cms.Persistence.Sqlite.csproj
++++ b/src/Umbraco.Cms.Persistence.Sqlite/Umbraco.Cms.Persistence.Sqlite.csproj
+@@ -1,10 +1,14 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Persistence - SQLite</Title>
+     <Description>Adds support for SQLite to Umbraco CMS.</Description>
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO (V18): Fix and remove overrides - Change 'virtual' to 'override' in SqliteSyntaxProvider.Format methods.
+       [CS0114] Resolve hiding inherited members
+diff --git a/src/Umbraco.Cms.StaticAssets/Umbraco.Cms.StaticAssets.csproj b/src/Umbraco.Cms.StaticAssets/Umbraco.Cms.StaticAssets.csproj
+index 31935332..0a05e93f 100644
+--- a/src/Umbraco.Cms.StaticAssets/Umbraco.Cms.StaticAssets.csproj
++++ b/src/Umbraco.Cms.StaticAssets/Umbraco.Cms.StaticAssets.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk.Razor">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Static assets</Title>
+     <Description>Contains the static assets needed to run Umbraco CMS.</Description>
+     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+@@ -9,6 +11,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [NU5123] Rename files so path is shorter
+@@ -35,6 +39,8 @@
+ 
+   <!-- BEGIN: Restore and build backoffice project -->
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <BackofficeProjectDirectory Condition="'$(BackofficeProjectDirectory)' == ''">..\Umbraco.Web.UI.Client\</BackofficeProjectDirectory>
+     <BackofficeAssetsPath>$(ProjectDir)wwwroot\umbraco\backoffice</BackofficeAssetsPath>
+   </PropertyGroup>
+@@ -93,6 +99,8 @@
+ 
+   <!-- BEGIN: Restore and build login project -->
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <LoginProjectDirectory Condition="'$(LoginProjectDirectory)' == ''">..\Umbraco.Web.UI.Login\</LoginProjectDirectory>
+     <LoginAssetsPath>$(ProjectDir)wwwroot\umbraco\login</LoginAssetsPath>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Cms.Targets/Umbraco.Cms.Targets.csproj b/src/Umbraco.Cms.Targets/Umbraco.Cms.Targets.csproj
+index 66e6595e..d4243f0f 100644
+--- a/src/Umbraco.Cms.Targets/Umbraco.Cms.Targets.csproj
++++ b/src/Umbraco.Cms.Targets/Umbraco.Cms.Targets.csproj
+@@ -1,11 +1,15 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS</Title>
+     <Description>Installs Umbraco CMS with minimal dependencies in your ASP.NET Core project.</Description>
+     <IncludeBuildOutput>false</IncludeBuildOutput>
+     <IncludeSymbols>false</IncludeSymbols>
+   </PropertyGroup>
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [IDE0270] Simplify null checks
+@@ -27,6 +31,8 @@
+ 
+   <!-- Add JSON schema references (and include MSBuild task) -->
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <_UmbracoCmsJsonSchemaReference>appsettings-schema.Umbraco.Cms.json</_UmbracoCmsJsonSchemaReference>
+     <_UmbracoCmsPackageSchemaReference>umbraco-package-schema.json</_UmbracoCmsPackageSchemaReference>
+     <NoWarn>$(NoWarn),NU5100,NU5128</NoWarn>
+diff --git a/src/Umbraco.Cms/Umbraco.Cms.csproj b/src/Umbraco.Cms/Umbraco.Cms.csproj
+index 3bc60ebd..b76eb813 100644
+--- a/src/Umbraco.Cms/Umbraco.Cms.csproj
++++ b/src/Umbraco.Cms/Umbraco.Cms.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS</Title>
+     <Description>Installs Umbraco CMS with all default dependencies in your ASP.NET Core project.</Description>
+     <IncludeBuildOutput>false</IncludeBuildOutput>
+diff --git a/src/Umbraco.Core/Umbraco.Core.csproj b/src/Umbraco.Core/Umbraco.Core.csproj
+index 12fa7084..e94a3e39 100644
+--- a/src/Umbraco.Core/Umbraco.Core.csproj
++++ b/src/Umbraco.Core/Umbraco.Core.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <PackageId>Umbraco.Cms.Core</PackageId>
+     <Title>Umbraco CMS - Core</Title>
+     <Description>Contains the core assembly needed to run Umbraco CMS.</Description>
+@@ -7,6 +9,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SA1117] params all on same line
+diff --git a/src/Umbraco.Examine.Lucene/Umbraco.Examine.Lucene.csproj b/src/Umbraco.Examine.Lucene/Umbraco.Examine.Lucene.csproj
+index 89f8ebea..b9ec7e59 100644
+--- a/src/Umbraco.Examine.Lucene/Umbraco.Examine.Lucene.csproj
++++ b/src/Umbraco.Examine.Lucene/Umbraco.Examine.Lucene.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <PackageId>Umbraco.Cms.Examine.Lucene</PackageId>
+     <Title>Umbraco CMS - Examine - Lucene</Title>
+     <Description>Adds Examine searching support using Lucene to Umbraco CMS.</Description>
+@@ -7,6 +9,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [CS0618] Handle member obsolete appropriately
+diff --git a/src/Umbraco.Infrastructure/Umbraco.Infrastructure.csproj b/src/Umbraco.Infrastructure/Umbraco.Infrastructure.csproj
+index 171c873e..e56afc92 100644
+--- a/src/Umbraco.Infrastructure/Umbraco.Infrastructure.csproj
++++ b/src/Umbraco.Infrastructure/Umbraco.Infrastructure.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <PackageId>Umbraco.Cms.Infrastructure</PackageId>
+     <Title>Umbraco CMS - Infrastructure</Title>
+     <Description>Contains the infrastructure assembly needed to run Umbraco CMS.</Description>
+@@ -7,6 +9,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [CS0618] handle member obsolete appropriately
+diff --git a/src/Umbraco.PublishedCache.HybridCache/Umbraco.PublishedCache.HybridCache.csproj b/src/Umbraco.PublishedCache.HybridCache/Umbraco.PublishedCache.HybridCache.csproj
+index da522754..7e00b30c 100644
+--- a/src/Umbraco.PublishedCache.HybridCache/Umbraco.PublishedCache.HybridCache.csproj
++++ b/src/Umbraco.PublishedCache.HybridCache/Umbraco.PublishedCache.HybridCache.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <PackageId>Umbraco.Cms.PublishedCache.HybridCache</PackageId>
+     <Title>Umbraco CMS - Published cache - HybridCache</Title>
+     <Description>Contains the published cache assembly needed to run Umbraco CMS.</Description>
+@@ -7,6 +9,8 @@
+   </PropertyGroup>
+   
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!-- TODO: Fix all warnings and remove this override -->
+     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+   </PropertyGroup>
+diff --git a/src/Umbraco.Web.Common/Umbraco.Web.Common.csproj b/src/Umbraco.Web.Common/Umbraco.Web.Common.csproj
+index 22da7733..49fe942c 100644
+--- a/src/Umbraco.Web.Common/Umbraco.Web.Common.csproj
++++ b/src/Umbraco.Web.Common/Umbraco.Web.Common.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <PackageId>Umbraco.Cms.Web.Common</PackageId>
+     <Title>Umbraco CMS - Web</Title>
+     <Description>Contains the web assembly needed to run Umbraco CMS.</Description>
+@@ -7,6 +9,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SA1117] params all on same line
+diff --git a/src/Umbraco.Web.UI/Umbraco.Web.UI.csproj b/src/Umbraco.Web.UI/Umbraco.Web.UI.csproj
+index 80ceab60..498e646d 100644
+--- a/src/Umbraco.Web.UI/Umbraco.Web.UI.csproj
++++ b/src/Umbraco.Web.UI/Umbraco.Web.UI.csproj
+@@ -1,5 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <RootNamespace>Umbraco.Cms.Web.UI</RootNamespace>
+     <IsPackable>false</IsPackable>
+     <EnablePackageValidation>false</EnablePackageValidation>
+@@ -10,6 +12,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SA1119] Correct unnecessary parenthesis
+@@ -42,11 +46,15 @@
+   </ItemGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!-- Razor files are needed for the backoffice to work correctly -->
+     <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!-- Remove RazorCompileOnBuild and RazorCompileOnPublish when not using ModelsMode InMemoryAuto -->
+     <RazorCompileOnBuild>false</RazorCompileOnBuild>
+     <RazorCompileOnPublish>false</RazorCompileOnPublish>
+diff --git a/src/Umbraco.Web.Website/Umbraco.Web.Website.csproj b/src/Umbraco.Web.Website/Umbraco.Web.Website.csproj
+index 73a272d0..0c104631 100644
+--- a/src/Umbraco.Web.Website/Umbraco.Web.Website.csproj
++++ b/src/Umbraco.Web.Website/Umbraco.Web.Website.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <PackageId>Umbraco.Cms.Web.Website</PackageId>
+     <Title>Umbraco CMS - Web - Website</Title>
+     <Description>Contains the website assembly needed to run the frontend of Umbraco CMS.</Description>
+@@ -7,6 +9,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [CS0618] handle member obsolete appropriately
+diff --git a/templates/Umbraco.Templates.csproj b/templates/Umbraco.Templates.csproj
+index 294d6bf5..f8413827 100644
+--- a/templates/Umbraco.Templates.csproj
++++ b/templates/Umbraco.Templates.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <Title>Umbraco CMS - Templates</Title>
+     <Description>Contains templates for Umbraco CMS.</Description>
+     <Description>Contains templates for Umbraco CMS, as well as the templates for creating new packages for the Umbraco CMS.</Description>
+diff --git a/tests/Umbraco.TestData/Umbraco.TestData.csproj b/tests/Umbraco.TestData/Umbraco.TestData.csproj
+index 531e0853..4bcc4e8a 100644
+--- a/tests/Umbraco.TestData/Umbraco.TestData.csproj
++++ b/tests/Umbraco.TestData/Umbraco.TestData.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [CS0618] handle member obsolete appropriately
+diff --git a/tests/Umbraco.Tests.AcceptanceTest.UmbracoProject/Umbraco.Tests.AcceptanceTest.UmbracoProject.csproj b/tests/Umbraco.Tests.AcceptanceTest.UmbracoProject/Umbraco.Tests.AcceptanceTest.UmbracoProject.csproj
+index ac71f98e..802ef0ed 100644
+--- a/tests/Umbraco.Tests.AcceptanceTest.UmbracoProject/Umbraco.Tests.AcceptanceTest.UmbracoProject.csproj
++++ b/tests/Umbraco.Tests.AcceptanceTest.UmbracoProject/Umbraco.Tests.AcceptanceTest.UmbracoProject.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk.Web">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!-- All C# files in the root of this project will be copied to the E2E/Acceptance Test application during build -->
+     <OutputType>Library</OutputType>
+     <RootNamespace>UmbracoProject</RootNamespace>
+diff --git a/tests/Umbraco.Tests.Benchmarks/Umbraco.Tests.Benchmarks.csproj b/tests/Umbraco.Tests.Benchmarks/Umbraco.Tests.Benchmarks.csproj
+index b3206544..b0bc0962 100644
+--- a/tests/Umbraco.Tests.Benchmarks/Umbraco.Tests.Benchmarks.csproj
++++ b/tests/Umbraco.Tests.Benchmarks/Umbraco.Tests.Benchmarks.csproj
+@@ -1,5 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <OutputType>Exe</OutputType>
+     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+     <IsPackable>false</IsPackable>
+@@ -7,6 +9,8 @@
+   </PropertyGroup>
+   
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SYSLIB0021] API supports obsolete serialization
+diff --git a/tests/Umbraco.Tests.Common/Umbraco.Tests.Common.csproj b/tests/Umbraco.Tests.Common/Umbraco.Tests.Common.csproj
+index 65dbbcbc..8ba77d68 100644
+--- a/tests/Umbraco.Tests.Common/Umbraco.Tests.Common.csproj
++++ b/tests/Umbraco.Tests.Common/Umbraco.Tests.Common.csproj
+@@ -1,5 +1,7 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <PackageId>Umbraco.Cms.Tests</PackageId>
+     <Title>Umbraco CMS - Test tools</Title>
+     <Description>Contains commonly used tools to write tests for Umbraco CMS, such as various builders for content etc.</Description>
+diff --git a/tests/Umbraco.Tests.Integration/Umbraco.Tests.Integration.csproj b/tests/Umbraco.Tests.Integration/Umbraco.Tests.Integration.csproj
+index ecc972ce..d83f9438 100644
+--- a/tests/Umbraco.Tests.Integration/Umbraco.Tests.Integration.csproj
++++ b/tests/Umbraco.Tests.Integration/Umbraco.Tests.Integration.csproj
+@@ -1,5 +1,7 @@
+ ﻿<Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <IsTestProject>true</IsTestProject>
+     <PackageId>Umbraco.Cms.Tests.Integration</PackageId>
+     <Title>Umbraco CMS - Integration tests</Title>
+@@ -11,6 +13,8 @@
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [CS0108] hidden inherited members
+diff --git a/tests/Umbraco.Tests.UnitTests/Umbraco.Tests.UnitTests.csproj b/tests/Umbraco.Tests.UnitTests/Umbraco.Tests.UnitTests.csproj
+index e253b160..8d3eaa8e 100644
+--- a/tests/Umbraco.Tests.UnitTests/Umbraco.Tests.UnitTests.csproj
++++ b/tests/Umbraco.Tests.UnitTests/Umbraco.Tests.UnitTests.csproj
+@@ -1,10 +1,14 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <IsTestProject>true</IsTestProject>
+     <RootNamespace>Umbraco.Cms.Tests.UnitTests</RootNamespace>
+   </PropertyGroup>
+ 
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SYSLIB0013] and [CS0618] obsolete
+diff --git a/tools/Umbraco.JsonSchema/Umbraco.JsonSchema.csproj b/tools/Umbraco.JsonSchema/Umbraco.JsonSchema.csproj
+index a22a6641..6fa29cf1 100644
+--- a/tools/Umbraco.JsonSchema/Umbraco.JsonSchema.csproj
++++ b/tools/Umbraco.JsonSchema/Umbraco.JsonSchema.csproj
+@@ -1,11 +1,15 @@
+ <Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <OutputType>Exe</OutputType>
+     <IsPackable>false</IsPackable>
+     <EnablePackageValidation>false</EnablePackageValidation>
+   </PropertyGroup>
+   
+   <PropertyGroup>
++    <ImplicitUsings>enable</ImplicitUsings>
++    <Nullable>enable</Nullable>
+     <!--
+       TODO: Fix and remove overrides:
+       [SA1117] params all on same line

@@ -1,0 +1,30 @@
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:490:            + "        register\t\tRegister your instance with an existing Connect account. You must provide the credentials, the project name or ID, its type and a description.\n" //
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:508:            + "                Output decrypted value for <cryptedValue>. The secret key is read from stdin.\n\n"
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1136:    public char[] promptPassword(String message) {
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1139:            return console.readPassword(message);
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1150:        return promptPassword("Please enter your token: ");
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1397:                encryptedString = crypto.encrypt(algorithm, Crypto.getBytes(console.readPassword(message)));
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1422:        String message = "Please enter the secret key: ";
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1424:            validKey = crypto.verifyKey(console.readPassword(message));
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1470:        boolean keyChecked = false; // Secret key is asked only once
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1522:                        value = crypto.encrypt(algorithm, Crypto.getBytes(console.readPassword(fmt, key)));
+modernization-corpus-aggregate/nuxeo/server/nuxeo-launcher/src/main/java/org/nuxeo/launcher/NuxeoLauncher.java:1524:                        value = Base64.encodeBase64String(Crypto.getBytes(console.readPassword(fmt, key)));
+modernization-corpus-aggregate/nuxeo/server/nuxeo-nxr-server/src/main/resources/templates/common/config/default-directories-bundle.xml:18:      <passwordField>password</passwordField>
+modernization-corpus-aggregate/nuxeo/server/nuxeo-nxr-server/src/main/resources/templates/common/config/default-directories-bundle.xml:19:      <passwordHashAlgorithm>SSHA</passwordHashAlgorithm>
+modernization-corpus-aggregate/nuxeo/server/nuxeo-nxr-server/src/main/resources/templates/common/config/default-directories-bundle.xml:70:      <passwordField>password</passwordField>
+modernization-corpus-aggregate/nuxeo/server/nuxeo-nxr-server/src/main/resources/templates/common/config/login-digest-config.xml:9:      <passwordField>password</passwordField>
+modernization-corpus-aggregate/nuxeo/docker/nuxeo/pom.xml:71:                  <secret>
+modernization-corpus-aggregate/nuxeo/docker/nuxeo/pom.xml:75:                  </secret>
+modernization-corpus-aggregate/nuxeo/packages/nuxeo-duoweb-authentication-package/src/main/resources/install/templates/duoweb-authentication/nxserver/config/duo-authentication-config.xml:20:        <parameter name="SKEY">${nuxeo.duoweb.clientSecret}</parameter>
+modernization-corpus-aggregate/nuxeo/packages/nuxeo-amazon-jdbc-package/pom.xml:19:    <!--   AWS Secrets Manager Authentication Connection -->
+modernization-corpus-aggregate/nuxeo/packages/nuxeo-amazon-jdbc-package/pom.xml:35:    <!--   AWS Secrets Manager Authentication Connection -->
+modernization-corpus-aggregate/nuxeo/packages/nuxeo-amazon-jdbc-package/pom.xml:38:      <artifactId>secretsmanager</artifactId>
+modernization-corpus-aggregate/nuxeo/packages/nuxeo-openid-login-package/src/main/resources/package.xml:4:  <description>The OpenID Authentication addon allows you to use the decentralized authentication protocol of OpenID on your Nuxeo Platform instance. It supports login credentials from Amazon, GitHub, Google, Google+, LinkedIn and Facebook.</description>
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:6:label.login.password=Password
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:11:label.login.invalidUsernameOrPassword=Invalid username or password
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:424:label.immediateCreation=Set User Password
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:427:immediateCreation.no.tip=The user will receive an invitation by email to set a password and access the platform.
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:434:password=Password
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:808:label.userManager.password.changed=Password changed.
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:809:label.userManager.old.password.error=Invalid old password.
+modernization-corpus-aggregate/nuxeo/modules/platform/nuxeo-platform-lang/src/main/resources/web/nuxeo.war/WEB-INF/classes/messages_en_US.properties:810:label.userManager.password.not.match=Passwords do not match.

@@ -1,0 +1,79 @@
+{{- $systems := list "apache-ofbiz" "odoo" "alfresco-community" "nuxeo" "django-oscar" "umbraco-cms" "mezzanine" "b2cweb" "dfe-net" "monolith-enterprise" "cfwheels" }}
+{{- range $name := $systems }}
+{{- $sys := index $.Values $name }}
+{{- if $sys.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Values.global.namespace }}
+  labels:
+    {{- include "legacy-modernization.labels" $ | nindent 4 }}
+    app: {{ $name }}
+    tier: legacy-modernization
+    runtime: {{ $sys.runtime }}
+spec:
+  replicas: {{ $sys.replicaCount }}
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: {{ $name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+        tier: legacy-modernization
+        runtime: {{ $sys.runtime }}
+    spec:
+      serviceAccountName: {{ $name }}
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 1000
+      containers:
+        - name: {{ $name }}
+          image: "{{ $sys.image.repository }}:{{ $sys.image.tag }}"
+          imagePullPolicy: {{ $.Values.global.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ $sys.container.port }}
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ $name }}-config
+          resources:
+            requests:
+              cpu: "{{ $sys.resources.requests.cpu }}"
+              memory: "{{ $sys.resources.requests.memory }}"
+            limits:
+              cpu: "{{ $sys.resources.limits.cpu }}"
+              memory: "{{ $sys.resources.limits.memory }}"
+          readinessProbe:
+            httpGet:
+              path: {{ $sys.probes.readiness.path }}
+              port: http
+            initialDelaySeconds: {{ $sys.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ $sys.probes.readiness.periodSeconds }}
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: {{ $sys.probes.liveness.path }}
+              port: http
+            initialDelaySeconds: {{ $sys.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ $sys.probes.liveness.periodSeconds }}
+            timeoutSeconds: 5
+            failureThreshold: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+{{- end }}
+{{- end }}

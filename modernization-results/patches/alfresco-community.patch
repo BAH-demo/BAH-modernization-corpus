@@ -1,0 +1,1642 @@
+diff --git a/amps/share-services/pom.xml b/amps/share-services/pom.xml
+index 84f8c91..d7f63e1 100644
+--- a/amps/share-services/pom.xml
++++ b/amps/share-services/pom.xml
+@@ -29,7 +29,7 @@
+                 </exclusion>
+                 <!-- SHA-2432 -->
+                 <exclusion>
+-                    <groupId>javax.servlet</groupId>
++                    <groupId>jakarta.servlet</groupId>
+                     <artifactId>jstl</artifactId>
+                 </exclusion>
+                 <exclusion>
+@@ -91,7 +91,7 @@
+                 </exclusion>
+                 <!-- SHA-2432 -->
+                 <exclusion>
+-                    <groupId>javax.servlet</groupId>
++                    <groupId>jakarta.servlet</groupId>
+                     <artifactId>jstl</artifactId>
+                 </exclusion>
+                 <exclusion>
+diff --git a/amps/share-services/src/main/java/org/alfresco/repo/web/scripts/datalist/DataListDownloadWebScript.java b/amps/share-services/src/main/java/org/alfresco/repo/web/scripts/datalist/DataListDownloadWebScript.java
+index 11b673d..108d5cf 100644
+--- a/amps/share-services/src/main/java/org/alfresco/repo/web/scripts/datalist/DataListDownloadWebScript.java
++++ b/amps/share-services/src/main/java/org/alfresco/repo/web/scripts/datalist/DataListDownloadWebScript.java
+@@ -311,7 +311,7 @@ public class DataListDownloadWebScript extends DeclarativeSpreadsheetWebScript
+                     List<AssociationRef> assocs = nodeService.getTargetAssocs(item, prop);
+                     if (assocs.size() > 0)
+                     {
+-                        StringBuffer text = new StringBuffer();
++                        StringBuilder text = new StringBuilder();
+                         int lines = 1;
+ 
+                         for (AssociationRef ref : assocs)
+diff --git a/core/src/main/java/org/alfresco/util/Debug.java b/core/src/main/java/org/alfresco/util/Debug.java
+index 9e1d878..0fa523c 100644
+--- a/core/src/main/java/org/alfresco/util/Debug.java
++++ b/core/src/main/java/org/alfresco/util/Debug.java
+@@ -101,7 +101,7 @@ public class Debug
+      */
+     public static String whichClassLoaderHierarchy(String className) throws ClassNotFoundException
+     {
+-        StringBuffer buffer = new StringBuffer();
++        StringBuilder buffer = new StringBuilder();
+         Class clazz = Class.forName(className);
+         ClassLoader loader = clazz.getClassLoader();
+         if (loader != null)
+diff --git a/core/src/test/java/org/alfresco/util/transaction/SpringAwareUserTransactionTest.java b/core/src/test/java/org/alfresco/util/transaction/SpringAwareUserTransactionTest.java
+index be3c08b..a74d43c 100644
+--- a/core/src/test/java/org/alfresco/util/transaction/SpringAwareUserTransactionTest.java
++++ b/core/src/test/java/org/alfresco/util/transaction/SpringAwareUserTransactionTest.java
+@@ -273,7 +273,7 @@ public class SpringAwareUserTransactionTest extends TestCase
+         try
+         {
+             txn.begin();
+-            StringBuffer buffer = new StringBuffer();
++            StringBuilder buffer = new StringBuilder();
+             TransactionSupportUtil.bindListener(new TestTransactionListener("5x", buffer), 5);
+             TransactionSupportUtil.bindListener(new TestTransactionListener("0a", buffer), 0);
+             TransactionSupportUtil.bindListener(new TestTransactionListener("0e", buffer), 0);
+diff --git a/data-model/pom.xml b/data-model/pom.xml
+index b9ed83e..851c884 100644
+--- a/data-model/pom.xml
++++ b/data-model/pom.xml
+@@ -103,7 +103,7 @@
+             <groupId>com.sun.activation</groupId>
+             <artifactId>jakarta.activation</artifactId>
+         </dependency>
+-        <!-- REPO-5047 - Replaces javax.annotation:javax.annotation-api -->
++        <!-- REPO-5047 - Replaces jakarta.annotation:jakarta.annotation-api -->
+         <dependency>
+             <groupId>jakarta.annotation</groupId>
+             <artifactId>jakarta.annotation-api</artifactId>
+@@ -183,20 +183,20 @@
+             <exclusions>
+                 <!-- Duplicates classes from jakarta -->
+                 <exclusion>
+-                    <groupId>javax.activation</groupId>
++                    <groupId>jakarta.activation</groupId>
+                     <artifactId>activation</artifactId>
+                 </exclusion>
+                 <exclusion>
+-                    <groupId>javax.xml.bind</groupId>
++                    <groupId>jakarta.xml.bind</groupId>
+                     <artifactId>jaxb-api</artifactId>
+                 </exclusion>
+                 <exclusion>
+                     <groupId>com.sun.activation</groupId>
+-                    <artifactId>javax.activation</artifactId>
++                    <artifactId>jakarta.activation</artifactId>
+                 </exclusion>
+                 <exclusion>
+-                    <groupId>javax.activation</groupId>
+-                    <artifactId>javax.activation-api</artifactId>
++                    <groupId>jakarta.activation</groupId>
++                    <artifactId>jakarta.activation-api</artifactId>
+                 </exclusion>
+             </exclusions>
+         </dependency>
+diff --git a/data-model/src/main/java/org/alfresco/repo/dictionary/M2PropertyDefinition.java b/data-model/src/main/java/org/alfresco/repo/dictionary/M2PropertyDefinition.java
+index 8d703e7..bae3821 100644
+--- a/data-model/src/main/java/org/alfresco/repo/dictionary/M2PropertyDefinition.java
++++ b/data-model/src/main/java/org/alfresco/repo/dictionary/M2PropertyDefinition.java
+@@ -247,7 +247,7 @@ import org.alfresco.util.EqualsHelper;
+     @Override
+     public String toString()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("Name: " + getName() + "\n");
+         sb.append("Title: " + getTitle(null) + "\n");
+         sb.append("Description: " + getDescription(null) + "\n");
+diff --git a/data-model/src/main/java/org/alfresco/util/ISO9075.java b/data-model/src/main/java/org/alfresco/util/ISO9075.java
+index 54e3bac..789938a 100644
+--- a/data-model/src/main/java/org/alfresco/util/ISO9075.java
++++ b/data-model/src/main/java/org/alfresco/util/ISO9075.java
+@@ -292,7 +292,7 @@ public class ISO9075
+         {
+             return toDecode;
+         }
+-        StringBuffer decoded = new StringBuffer();
++        StringBuilder decoded = new StringBuilder();
+         for (int i = 0, l = toDecode.length(); i < l; i++)
+         {
+             if (matchesEncodedPattern(toDecode, i))
+diff --git a/data-model/src/main/java/org/alfresco/util/SearchLanguageConversion.java b/data-model/src/main/java/org/alfresco/util/SearchLanguageConversion.java
+index 693887b..0e5bcf3 100644
+--- a/data-model/src/main/java/org/alfresco/util/SearchLanguageConversion.java
++++ b/data-model/src/main/java/org/alfresco/util/SearchLanguageConversion.java
+@@ -349,7 +349,7 @@ public class SearchLanguageConversion
+      */
+     public static String escapeLuceneQuery(String query)
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         for (int i = 0; i < query.length(); i++)
+         {
+             char c = query.charAt(i);
+@@ -373,7 +373,7 @@ public class SearchLanguageConversion
+         List<String> split = new ArrayList<String>();
+ 
+         char[] toSplit = trimmed.toCharArray();
+-        StringBuffer buff = new StringBuffer();
++        StringBuilder buff = new StringBuilder();
+ 
+         for (char c : toSplit)
+         {
+@@ -382,7 +382,7 @@ public class SearchLanguageConversion
+                 if (buff.length() > 0)
+                 {
+                     split.add(buff.toString());
+-                    buff = new StringBuffer();
++                    buff = new StringBuilder();
+                 }
+             }
+             else
+diff --git a/packaging/tests/tas-cmis/pom.xml b/packaging/tests/tas-cmis/pom.xml
+index 14b5c6d..40c8d26 100644
+--- a/packaging/tests/tas-cmis/pom.xml
++++ b/packaging/tests/tas-cmis/pom.xml
+@@ -20,7 +20,7 @@
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+         <maven-release.version>2.5.3</maven-release.version>
+-        <java.version>21</java.version>
++        <java.version>17</java.version>
+         <suiteXmlFile>${project.basedir}/src/test/resources/cmis-suite.xml</suiteXmlFile>
+         <cmis.binding />
+         <cmis.basePath />
+diff --git a/packaging/tests/tas-restapi/pom.xml b/packaging/tests/tas-restapi/pom.xml
+index 61d8d3f..9a92039 100644
+--- a/packaging/tests/tas-restapi/pom.xml
++++ b/packaging/tests/tas-restapi/pom.xml
+@@ -19,7 +19,7 @@
+         <httpclient-osgi-version>4.5.6</httpclient-osgi-version>
+         <commons-lang3.version>3.18.0</commons-lang3.version>
+         <scribejava-apis.version>8.3.3</scribejava-apis.version>
+-        <java.version>21</java.version>
++        <java.version>17</java.version>
+     </properties>
+ 
+     <profiles>
+diff --git a/pom.xml b/pom.xml
+index 7e02ee3..00613ab 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -38,7 +38,7 @@
+         <builder.name>entitled-builder</builder.name>
+         <local.registry>127.0.0.1:5000</local.registry>
+ 
+-        <java.version>21</java.version>
++        <java.version>17</java.version>
+         <maven.compiler.source>${java.version}</maven.compiler.source>
+         <maven.compiler.target>${java.version}</maven.compiler.target>
+         <maven.build.sourceVersion>${java.version}</maven.build.sourceVersion>
+@@ -240,8 +240,8 @@
+                 <scope>provided</scope>
+             </dependency>
+             <dependency>
+-                <groupId>javax.activation</groupId>
+-                <artifactId>javax.activation-api</artifactId>
++                <groupId>jakarta.activation</groupId>
++                <artifactId>jakarta.activation-api</artifactId>
+                 <version>${dependency.java-ee-activation.version}</version>
+             </dependency>
+             <dependency>
+@@ -324,7 +324,7 @@
+                 <exclusions>
+                     <!-- Duplicates classes from jakarta.xml.bind:jakarta.xml.bind-api -->
+                     <exclusion>
+-                        <groupId>javax.xml.bind</groupId>
++                        <groupId>jakarta.xml.bind</groupId>
+                         <artifactId>jaxb-api</artifactId>
+                     </exclusion>
+                 </exclusions>
+@@ -1099,17 +1099,17 @@
+                                         <excludes>
+                                             <exclude>commons-fileupload:commons-fileupload</exclude>
+ 
+-                                            <exclude>javax.servlet:servlet-api</exclude>
+-                                            <exclude>com.sun.mail:javax.mail</exclude>
+-                                            <exclude>javax.jms:javax.jms-api</exclude>
+-                                            <exclude>javax.activation:activation</exclude>
+-                                            <exclude>javax.activation:javax.activation-api</exclude>
+-                                            <exclude>javax.xml.bind:jaxb-api</exclude>
+-                                            <exclude>javax.xml.soap:saaj-api</exclude>
+-                                            <exclude>javax.xml.ws:jaxws-api</exclude>
+-                                            <exclude>javax.mail</exclude>
+-                                            <exclude>javax.transaction</exclude>
+-                                            <exclude>*:javax.json</exclude>
++                                            <exclude>jakarta.servlet:servlet-api</exclude>
++                                            <exclude>com.sun.mail:jakarta.mail</exclude>
++                                            <exclude>jakarta.jms:jakarta.jms-api</exclude>
++                                            <exclude>jakarta.activation:activation</exclude>
++                                            <exclude>jakarta.activation:jakarta.activation-api</exclude>
++                                            <exclude>jakarta.xml.bind:jaxb-api</exclude>
++                                            <exclude>jakarta.xml.soap:saaj-api</exclude>
++                                            <exclude>jakarta.xml.ws:jaxws-api</exclude>
++                                            <exclude>jakarta.mail</exclude>
++                                            <exclude>jakarta.transaction</exclude>
++                                            <exclude>*:jakarta.json</exclude>
+                                             <exclude>org.glassfish:jakarta.json</exclude>
+ 
+ <!--                                            Enforce minimal versions of jakarta dependencies-->
+diff --git a/remote-api/pom.xml b/remote-api/pom.xml
+index 7ab6788..d022adb 100644
+--- a/remote-api/pom.xml
++++ b/remote-api/pom.xml
+@@ -119,7 +119,7 @@
+             <exclusions>
+                 <exclusion>
+                     <groupId>org.eclipse.jetty.orbit</groupId>
+-                    <artifactId>javax.servlet</artifactId>
++                    <artifactId>jakarta.servlet</artifactId>
+                 </exclusion>
+             </exclusions>
+         </dependency>
+diff --git a/remote-api/src/main/java/org/alfresco/repo/web/scripts/activities/TemplateWebScript.java b/remote-api/src/main/java/org/alfresco/repo/web/scripts/activities/TemplateWebScript.java
+index 42df4c1..83e67ac 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/web/scripts/activities/TemplateWebScript.java
++++ b/remote-api/src/main/java/org/alfresco/repo/web/scripts/activities/TemplateWebScript.java
+@@ -87,7 +87,7 @@ public class TemplateWebScript extends DeclarativeWebScript
+                         {
+                             br = new BufferedReader(new InputStreamReader(is));
+                             String line = null;
+-                            StringBuffer sb = new StringBuffer();
++                            StringBuilder sb = new StringBuilder();
+                             while (((line = br.readLine()) != null))
+                             {
+                                 sb.append(line);
+diff --git a/remote-api/src/main/java/org/alfresco/repo/web/scripts/bulkimport/AbstractBulkFileSystemImportWebScript.java b/remote-api/src/main/java/org/alfresco/repo/web/scripts/bulkimport/AbstractBulkFileSystemImportWebScript.java
+index a01778d..e25c47e 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/web/scripts/bulkimport/AbstractBulkFileSystemImportWebScript.java
++++ b/remote-api/src/main/java/org/alfresco/repo/web/scripts/bulkimport/AbstractBulkFileSystemImportWebScript.java
+@@ -144,7 +144,7 @@ public class AbstractBulkFileSystemImportWebScript extends DeclarativeWebScript
+ 
+     protected String buildTextMessage(Throwable t)
+     {
+-        StringBuffer result = new StringBuffer();
++        StringBuilder result = new StringBuilder();
+         String timeOfFailure = (new Date()).toString();
+         String hostName = null;
+         String ipAddress = null;
+@@ -178,7 +178,7 @@ public class AbstractBulkFileSystemImportWebScript extends DeclarativeWebScript
+ 
+     private String renderExceptionStackAsText(Throwable t)
+     {
+-        StringBuffer result = new StringBuffer();
++        StringBuilder result = new StringBuilder();
+ 
+         if (t != null)
+         {
+@@ -209,7 +209,7 @@ public class AbstractBulkFileSystemImportWebScript extends DeclarativeWebScript
+ 
+     private String renderStackTraceElements(StackTraceElement[] elements)
+     {
+-        StringBuffer result = new StringBuffer();
++        StringBuilder result = new StringBuilder();
+ 
+         if (elements != null)
+         {
+diff --git a/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/CalendarEntryGet.java b/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/CalendarEntryGet.java
+index bbb3d06..0e906ed 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/CalendarEntryGet.java
++++ b/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/CalendarEntryGet.java
+@@ -173,7 +173,7 @@ public class CalendarEntryGet extends AbstractCalendarWebScript
+         Map<String, String> params = CalendarRecurrenceHelper.extractRecurrenceRule(event);
+ 
+         // To hold our result
+-        StringBuffer text = new StringBuffer();
++        StringBuilder text = new StringBuilder();
+ 
+         // Handle the different frequencies
+         if (params.containsKey("FREQ"))
+diff --git a/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/UserCalendarEntriesGet.java b/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/UserCalendarEntriesGet.java
+index 031155d..c0160ef 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/UserCalendarEntriesGet.java
++++ b/remote-api/src/main/java/org/alfresco/repo/web/scripts/calendar/UserCalendarEntriesGet.java
+@@ -253,7 +253,7 @@ public class UserCalendarEntriesGet extends AbstractCalendarListingWebScript
+      */
+     private String buildDuration(CalendarEntry entry)
+     {
+-        StringBuffer duration = new StringBuffer();
++        StringBuilder duration = new StringBuilder();
+         duration.append("P");
+ 
+         long timeDiff = entry.getEnd().getTime() - entry.getStart().getTime();
+diff --git a/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAV.java b/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAV.java
+index 2dd1162..17dbc05 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAV.java
++++ b/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAV.java
+@@ -244,7 +244,7 @@ public class WebDAV
+ 
+     // Map WebDAV property names to Alfresco property names
+ 
+-    private static Hashtable<String, QName> _propertyNameMap;
++    private static Map<String, QName> _propertyNameMap;
+ 
+     // WebDAV creation date/time formatter
+ 
+@@ -522,7 +522,7 @@ public class WebDAV
+     {
+         // Create the WebDAV to Alfresco property mapping table
+ 
+-        _propertyNameMap = new Hashtable<String, QName>();
++        _propertyNameMap = new Map<String, QName>();
+ 
+         _propertyNameMap.put(XML_DISPLAYNAME, ContentModel.PROP_NAME);
+         _propertyNameMap.put(XML_CREATION_DATE, ContentModel.PROP_CREATED);
+diff --git a/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVMethod.java b/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVMethod.java
+index 1a66b80..c6dce40 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVMethod.java
++++ b/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVMethod.java
+@@ -1625,7 +1625,7 @@ public abstract class WebDAVMethod
+ 
+     public String toString()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+ 
+         if (m_request != null)
+         {
+diff --git a/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVServlet.java b/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVServlet.java
+index c6f6002..d6ad915 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVServlet.java
++++ b/remote-api/src/main/java/org/alfresco/repo/webdav/WebDAVServlet.java
+@@ -84,7 +84,7 @@ public class WebDAVServlet extends HttpServlet
+     private static NamespaceService namespaceService;
+ 
+     // WebDAV method handlers
+-    protected Hashtable<String, Class<? extends WebDAVMethod>> m_davMethods;
++    protected Map<String, Class<? extends WebDAVMethod>> m_davMethods;
+ 
+     // note: cache is tenant-aware (if using TransctionalCache impl)
+ 
+@@ -301,7 +301,7 @@ public class WebDAVServlet extends HttpServlet
+ 
+         // Create the WebDAV methods table
+ 
+-        m_davMethods = new Hashtable<String, Class<? extends WebDAVMethod>>();
++        m_davMethods = new Map<String, Class<? extends WebDAVMethod>>();
+ 
+         m_davMethods.put(WebDAV.METHOD_PROPFIND, PropFindMethod.class);
+         m_davMethods.put(WebDAV.METHOD_PROPPATCH, PropPatchMethod.class);
+diff --git a/remote-api/src/main/java/org/alfresco/repo/webdav/auth/BaseKerberosAuthenticationFilter.java b/remote-api/src/main/java/org/alfresco/repo/webdav/auth/BaseKerberosAuthenticationFilter.java
+index 943e60b..12970b3 100644
+--- a/remote-api/src/main/java/org/alfresco/repo/webdav/auth/BaseKerberosAuthenticationFilter.java
++++ b/remote-api/src/main/java/org/alfresco/repo/webdav/auth/BaseKerberosAuthenticationFilter.java
+@@ -31,6 +31,7 @@ import java.net.InetAddress;
+ import java.net.UnknownHostException;
+ import java.security.Principal;
+ import java.util.Vector;
++import java.util.List;
+ import javax.security.auth.Subject;
+ import javax.security.auth.callback.Callback;
+ import javax.security.auth.callback.CallbackHandler;
+@@ -219,7 +220,7 @@ public abstract class BaseKerberosAuthenticationFilter extends BaseSSOAuthentica
+ 
+         // Create the Oid list for the SPNEGO NegTokenInit, include NTLMSSP for fallback
+ 
+-        Vector<Oid> mechTypes = new Vector<Oid>();
++        List<Oid> mechTypes = new List<Oid>();
+ 
+         mechTypes.add(OID.KERBEROS5);
+         mechTypes.add(OID.MSKERBEROS5);
+diff --git a/remote-api/src/test/java/org/alfresco/repo/web/scripts/activities/SiteActivitySystemTest.java b/remote-api/src/test/java/org/alfresco/repo/web/scripts/activities/SiteActivitySystemTest.java
+index a8b4c94..1c26040 100644
+--- a/remote-api/src/test/java/org/alfresco/repo/web/scripts/activities/SiteActivitySystemTest.java
++++ b/remote-api/src/test/java/org/alfresco/repo/web/scripts/activities/SiteActivitySystemTest.java
+@@ -750,7 +750,7 @@ public class SiteActivitySystemTest extends TestCase
+             br = new BufferedReader(new InputStreamReader(is));
+ 
+             String line = null;
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             while (((line = br.readLine()) != null))
+             {
+                 sb.append(line);
+@@ -838,7 +838,7 @@ public class SiteActivitySystemTest extends TestCase
+             br = new BufferedReader(new InputStreamReader(is));
+ 
+             String line = null;
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             while (((line = br.readLine()) != null))
+             {
+                 sb.append(line);
+diff --git a/remote-api/src/test/java/org/alfresco/repo/web/scripts/solr/SOLRWebScriptTest.java b/remote-api/src/test/java/org/alfresco/repo/web/scripts/solr/SOLRWebScriptTest.java
+index 68dcaf9..bb68a80 100644
+--- a/remote-api/src/test/java/org/alfresco/repo/web/scripts/solr/SOLRWebScriptTest.java
++++ b/remote-api/src/test/java/org/alfresco/repo/web/scripts/solr/SOLRWebScriptTest.java
+@@ -404,7 +404,7 @@ public class SOLRWebScriptTest extends BaseWebScriptTest
+ 
+     public static String join(Collection<Object> s, String delimiter)
+     {
+-        StringBuffer buffer = new StringBuffer();
++        StringBuilder buffer = new StringBuilder();
+         Iterator<Object> iter = s.iterator();
+         while (iter.hasNext())
+         {
+diff --git a/remote-api/src/test/java/org/alfresco/repo/web/scripts/tenant/TenantAdminSystemTest.java b/remote-api/src/test/java/org/alfresco/repo/web/scripts/tenant/TenantAdminSystemTest.java
+index 9c0e32a..091f1e7 100644
+--- a/remote-api/src/test/java/org/alfresco/repo/web/scripts/tenant/TenantAdminSystemTest.java
++++ b/remote-api/src/test/java/org/alfresco/repo/web/scripts/tenant/TenantAdminSystemTest.java
+@@ -185,7 +185,7 @@ public class TenantAdminSystemTest extends TestCase
+             br = new BufferedReader(new InputStreamReader(is));
+ 
+             String line = null;
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             while (((line = br.readLine()) != null))
+             {
+                 sb.append(line);
+@@ -273,7 +273,7 @@ public class TenantAdminSystemTest extends TestCase
+             br = new BufferedReader(new InputStreamReader(is));
+ 
+             String line = null;
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             while (((line = br.readLine()) != null))
+             {
+                 sb.append(line);
+diff --git a/repository/pom.xml b/repository/pom.xml
+index abf6814..6a4dd03 100644
+--- a/repository/pom.xml
++++ b/repository/pom.xml
+@@ -193,12 +193,12 @@
+             <exclusions>
+                 <!-- Duplicate classes from com.sun.mail:jakarta.mail -->
+                 <exclusion>
+-                    <groupId>javax.mail</groupId>
++                    <groupId>jakarta.mail</groupId>
+                     <artifactId>mail</artifactId>
+                 </exclusion>
+                 <!-- Duplicate classes from com.sun.activation:jakarta.activation-->
+                 <exclusion>
+-                    <groupId>javax.activation</groupId>
++                    <groupId>jakarta.activation</groupId>
+                     <artifactId>activation</artifactId>
+                 </exclusion>
+             </exclusions>
+@@ -422,21 +422,21 @@
+                 </exclusion>
+                 <!-- Duplicate classes from com.sun.mail:jakarta.mail -->
+                 <exclusion>
+-                    <groupId>javax.mail</groupId>
++                    <groupId>jakarta.mail</groupId>
+                     <artifactId>mail</artifactId>
+                 </exclusion>
+                 <exclusion>
+                     <groupId>commons-lang</groupId>
+                     <artifactId>commons-lang3</artifactId>
+                 </exclusion>
+-                <!-- REPO-5031 Excluding javax.jws:javax.jws-api, jakarta.jws:jakarta.jws-api will be used instead -->
++                <!-- REPO-5031 Excluding jakarta.jws:jakarta.jws-api, jakarta.jws:jakarta.jws-api will be used instead -->
+                 <exclusion>
+-                    <groupId>javax.jws</groupId>
+-                    <artifactId>javax.jws-api</artifactId>
++                    <groupId>jakarta.jws</groupId>
++                    <artifactId>jakarta.jws-api</artifactId>
+                 </exclusion>
+                 <!-- Duplicates classes from jakarta.xml.bind:jakarta.xml.bind-api -->
+                 <exclusion>
+-                    <groupId>javax.xml.bind</groupId>
++                    <groupId>jakarta.xml.bind</groupId>
+                     <artifactId>jaxb-api</artifactId>
+                 </exclusion>
+                 <exclusion>
+@@ -452,28 +452,28 @@
+                     <groupId>org.glassfish.corba</groupId>
+                     <artifactId>glassfish-corba-omgapi</artifactId>
+                 </exclusion>
+-                <!-- MNT-20557: Excluding javax.annotation:javax.annotation-api, jakarta.annotation:jakarta.annotation-api will be used instead -->
++                <!-- MNT-20557: Excluding jakarta.annotation:jakarta.annotation-api, jakarta.annotation:jakarta.annotation-api will be used instead -->
+                 <exclusion>
+-                    <groupId>javax.annotation</groupId>
+-                    <artifactId>javax.annotation-api</artifactId>
++                    <groupId>jakarta.annotation</groupId>
++                    <artifactId>jakarta.annotation-api</artifactId>
+                 </exclusion>
+                 <!-- Duplicate classes from com.sun.activation:jakarta.activation-->
+                 <exclusion>
+-                    <groupId>javax.activation</groupId>
+-                    <artifactId>javax.activation-api</artifactId>
++                    <groupId>jakarta.activation</groupId>
++                    <artifactId>jakarta.activation-api</artifactId>
+                 </exclusion>
+                 <!-- Duplicate classes from com.sun.mail:jakarta.mail -->
+                 <exclusion>
+                     <groupId>com.sun.mail</groupId>
+-                    <artifactId>javax.mail</artifactId>
++                    <artifactId>jakarta.mail</artifactId>
+                 </exclusion>
+                 <exclusion>
+-                    <groupId>javax.xml.ws</groupId>
++                    <groupId>jakarta.xml.ws</groupId>
+                     <artifactId>jaxws-api</artifactId>
+                 </exclusion>
+                 <exclusion>
+-                    <groupId>javax.xml.soap</groupId>
+-                    <artifactId>javax.xml.soap-api</artifactId>
++                    <groupId>jakarta.xml.soap</groupId>
++                    <artifactId>jakarta.xml.soap-api</artifactId>
+                 </exclusion>
+             </exclusions>
+         </dependency>
+@@ -483,12 +483,12 @@
+             <version>${dependency.activiti.version}</version>
+             <exclusions>
+                 <exclusion>
+-                    <groupId>javax.xml.ws</groupId>
++                    <groupId>jakarta.xml.ws</groupId>
+                     <artifactId>jaxws-api</artifactId>
+                 </exclusion>
+                 <exclusion>
+-                    <groupId>javax.xml.soap</groupId>
+-                    <artifactId>javax.xml.soap-api</artifactId>
++                    <groupId>jakarta.xml.soap</groupId>
++                    <artifactId>jakarta.xml.soap-api</artifactId>
+                 </exclusion>
+                 <exclusion>
+                     <groupId>org.springframework</groupId>
+@@ -506,14 +506,14 @@
+                     <groupId>org.slf4j</groupId>
+                     <artifactId>jcl-over-slf4j</artifactId>
+                 </exclusion>
+-                <!-- REPO-5031 Excluding javax.jws:javax.jws-api, jakarta.jws:jakarta.jws-api will be used instead -->
++                <!-- REPO-5031 Excluding jakarta.jws:jakarta.jws-api, jakarta.jws:jakarta.jws-api will be used instead -->
+                 <exclusion>
+-                    <groupId>javax.jws</groupId>
+-                    <artifactId>javax.jws-api</artifactId>
++                    <groupId>jakarta.jws</groupId>
++                    <artifactId>jakarta.jws-api</artifactId>
+                 </exclusion>
+                 <!-- Duplicates classes from jakarta.xml.bind:jakarta.xml.bind-api -->
+                 <exclusion>
+-                    <groupId>javax.xml.bind</groupId>
++                    <groupId>jakarta.xml.bind</groupId>
+                     <artifactId>jaxb-api</artifactId>
+                 </exclusion>
+                 <exclusion>
+@@ -529,15 +529,15 @@
+                     <groupId>org.glassfish.corba</groupId>
+                     <artifactId>glassfish-corba-omgapi</artifactId>
+                 </exclusion>
+-                <!-- MNT-20557: Excluding javax.annotation:javax.annotation-api, jakarta.annotation:jakarta.annotation-api will be used instead -->
++                <!-- MNT-20557: Excluding jakarta.annotation:jakarta.annotation-api, jakarta.annotation:jakarta.annotation-api will be used instead -->
+                 <exclusion>
+-                    <groupId>javax.annotation</groupId>
+-                    <artifactId>javax.annotation-api</artifactId>
++                    <groupId>jakarta.annotation</groupId>
++                    <artifactId>jakarta.annotation-api</artifactId>
+                 </exclusion>
+                 <!-- Duplicate classes from com.sun.activation:jakarta.activation-->
+                 <exclusion>
+-                    <groupId>javax.activation</groupId>
+-                    <artifactId>javax.activation-api</artifactId>
++                    <groupId>jakarta.activation</groupId>
++                    <artifactId>jakarta.activation-api</artifactId>
+                 </exclusion>
+             </exclusions>
+         </dependency>
+@@ -652,7 +652,7 @@
+             <classifier>tests</classifier>
+             <scope>test</scope>
+             <exclusions>
+-              <!-- REPO-5009 Excluded to avoid duplicated classes with javax.jws:javax.jws-api (using jakarta.jws:jakarta.jws-api now - see REPO-5031) -->
++              <!-- REPO-5009 Excluded to avoid duplicated classes with jakarta.jws:jakarta.jws-api (using jakarta.jws:jakarta.jws-api now - see REPO-5031) -->
+               <exclusion>
+                 <groupId>org.apache.geronimo.specs</groupId>
+                 <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+diff --git a/repository/src/main/java/org/alfresco/filesys/alfresco/MultiTenantShareMapper.java b/repository/src/main/java/org/alfresco/filesys/alfresco/MultiTenantShareMapper.java
+index 02e8e13..29f8dd7 100644
+--- a/repository/src/main/java/org/alfresco/filesys/alfresco/MultiTenantShareMapper.java
++++ b/repository/src/main/java/org/alfresco/filesys/alfresco/MultiTenantShareMapper.java
+@@ -83,7 +83,7 @@ public class MultiTenantShareMapper implements ShareMapper, ConfigurationListene
+ 
+     // Table of tenant share lists indexed by tenant domain
+ 
+-    private Hashtable<String, SharedDeviceList> m_tenantShareLists;
++    private Map<String, SharedDeviceList> m_tenantShareLists;
+ 
+     // Quota manager to use when creating multi-tenant shares
+ 
+@@ -147,7 +147,7 @@ public class MultiTenantShareMapper implements ShareMapper, ConfigurationListene
+ 
+         // Create the tenant share lists table
+ 
+-        m_tenantShareLists = new Hashtable<String, SharedDeviceList>();
++        m_tenantShareLists = new Map<String, SharedDeviceList>();
+     }
+ 
+     /**
+diff --git a/repository/src/main/java/org/alfresco/filesys/repo/ContentDiskDriver2.java b/repository/src/main/java/org/alfresco/filesys/repo/ContentDiskDriver2.java
+index c656a34..361fff1 100644
+--- a/repository/src/main/java/org/alfresco/filesys/repo/ContentDiskDriver2.java
++++ b/repository/src/main/java/org/alfresco/filesys/repo/ContentDiskDriver2.java
+@@ -2754,7 +2754,7 @@ public class ContentDiskDriver2 extends AlfrescoDiskDriver implements ExtendedDi
+ 
+     private String convertStringToUnicode(String str)
+     {
+-        StringBuffer ostr = new StringBuffer();
++        StringBuilder ostr = new StringBuilder();
+         for (int i = 0; i < str.length(); i++)
+         {
+             char ch = str.charAt(i);
+diff --git a/repository/src/main/java/org/alfresco/repo/action/AsynchronousActionExecutionQueueImpl.java b/repository/src/main/java/org/alfresco/repo/action/AsynchronousActionExecutionQueueImpl.java
+index 2ee2d4a..3f6af07 100644
+--- a/repository/src/main/java/org/alfresco/repo/action/AsynchronousActionExecutionQueueImpl.java
++++ b/repository/src/main/java/org/alfresco/repo/action/AsynchronousActionExecutionQueueImpl.java
+@@ -73,7 +73,7 @@ public class AsynchronousActionExecutionQueueImpl implements AsynchronousActionE
+     /**
+      * We keep a record of ongoing asynchronous actions (this includes those being executed and those that are in the queue). This needs to be thread-safe - hence the Vector.
+      */
+-    List<OngoingAsyncAction> ongoingActions = new Vector<OngoingAsyncAction>();
++    List<OngoingAsyncAction> ongoingActions = new List<OngoingAsyncAction>();
+ 
+     // Policy delegates
+     private ClassPolicyDelegate<OnAsyncActionExecute> onAsyncActionExecuteDelegate;
+diff --git a/repository/src/main/java/org/alfresco/repo/action/executer/MailActionExecuter.java b/repository/src/main/java/org/alfresco/repo/action/executer/MailActionExecuter.java
+index ebcfe99..915f034 100644
+--- a/repository/src/main/java/org/alfresco/repo/action/executer/MailActionExecuter.java
++++ b/repository/src/main/java/org/alfresco/repo/action/executer/MailActionExecuter.java
+@@ -382,7 +382,7 @@ public class MailActionExecuter extends ActionExecuterAbstractBase
+         catch (MailException me)
+         {
+             onFail();
+-            StringBuffer txt = new StringBuffer();
++            StringBuilder txt = new StringBuilder();
+ 
+             txt.append(me.getClass().getName() + ", " + me.getMessage());
+ 
+diff --git a/repository/src/main/java/org/alfresco/repo/activities/ActivityPostServiceImpl.java b/repository/src/main/java/org/alfresco/repo/activities/ActivityPostServiceImpl.java
+index 556bd58..b1d08ee 100644
+--- a/repository/src/main/java/org/alfresco/repo/activities/ActivityPostServiceImpl.java
++++ b/repository/src/main/java/org/alfresco/repo/activities/ActivityPostServiceImpl.java
+@@ -143,7 +143,7 @@ public class ActivityPostServiceImpl implements ActivityPostService
+     {
+         ParameterCheck.mandatory("nodeRef", nodeRef);
+ 
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("{").append("\"" + PostLookup.JSON_NODEREF_LOOKUP + "\":\"").append(nodeRef.toString()).append("\"").append("}");
+ 
+         postActivity(activityType, siteId, appTool, sb.toString(), ActivityPostEntity.STATUS.PENDING, getCurrentUser(), null, null);
+@@ -156,7 +156,7 @@ public class ActivityPostServiceImpl implements ActivityPostService
+     {
+         ParameterCheck.mandatory("nodeRef", nodeRef);
+ 
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("{").append("\"" + PostLookup.JSON_NODEREF_LOOKUP + "\":\"").append(nodeRef.toString()).append("\"").append(",")
+                 .append("\"name\":\"").append(name).append("\"")
+                 .append("}");
+@@ -175,7 +175,7 @@ public class ActivityPostServiceImpl implements ActivityPostService
+         ParameterCheck.mandatory("typeQName", typeQName);
+         ParameterCheck.mandatory("parentNodeRef", parentNodeRef);
+ 
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("{").append("\"" + PostLookup.JSON_NODEREF_LOOKUP + "\":\"").append(nodeRef.toString()).append("\"").append(",")
+                 .append("\"" + PostLookup.JSON_NAME + "\":\"").append(name).append("\"").append(",")
+                 .append("\"" + PostLookup.JSON_TYPEQNAME + "\":\"").append(typeQName.toPrefixString()).append("\"").append(",") // TODO toPrefixString does not return prefix ??!!
+diff --git a/repository/src/main/java/org/alfresco/repo/activities/feed/FeedTaskProcessor.java b/repository/src/main/java/org/alfresco/repo/activities/feed/FeedTaskProcessor.java
+index ebf8b21..562cb70 100644
+--- a/repository/src/main/java/org/alfresco/repo/activities/feed/FeedTaskProcessor.java
++++ b/repository/src/main/java/org/alfresco/repo/activities/feed/FeedTaskProcessor.java
+@@ -478,7 +478,7 @@ public abstract class FeedTaskProcessor
+             br = new BufferedReader(new InputStreamReader(is));
+ 
+             String line = null;
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             while (((line = br.readLine()) != null))
+             {
+                 sb.append(line);
+@@ -527,7 +527,7 @@ public abstract class FeedTaskProcessor
+         Set<String> members = new HashSet<String>();
+         if ((siteId != null) && (siteId.length() != 0))
+         {
+-            StringBuffer sbUrl = new StringBuffer();
++            StringBuilder sbUrl = new StringBuilder();
+             sbUrl.append(ctx.getRepoEndPoint()).append(URL_SERVICE_SITES).append("/").append(siteId).append(URL_MEMBERSHIPS);
+ 
+             String jsonArrayResult = callWebScript(sbUrl.toString(), ctx.getTicket());
+@@ -560,7 +560,7 @@ public abstract class FeedTaskProcessor
+ 
+     protected Map<String, List<String>> getActivityTypeTemplates(String repoEndPoint, String ticket, String subPath) throws Exception
+     {
+-        StringBuffer sbUrl = new StringBuffer();
++        StringBuilder sbUrl = new StringBuilder();
+         sbUrl.append(repoEndPoint).append(URL_SERVICE_TEMPLATES).append(subPath).append("*").append("?format=json");
+ 
+         String jsonArrayResult = null;
+@@ -773,7 +773,7 @@ public abstract class FeedTaskProcessor
+         {
+             try
+             {
+-                StringBuffer sb = new StringBuffer();
++                StringBuilder sb = new StringBuilder();
+                 sb.append(this.repoEndPoint).append(URL_SERVICE_TEMPLATE).append("/").append(templatePath).append("?format=text").append("&alf_ticket=").append(ticketId);
+ 
+                 if (logger.isDebugEnabled())
+diff --git a/repository/src/main/java/org/alfresco/repo/admin/RepoModelDefinition.java b/repository/src/main/java/org/alfresco/repo/admin/RepoModelDefinition.java
+index 7ec0798..ec0f70f 100644
+--- a/repository/src/main/java/org/alfresco/repo/admin/RepoModelDefinition.java
++++ b/repository/src/main/java/org/alfresco/repo/admin/RepoModelDefinition.java
+@@ -71,7 +71,7 @@ public class RepoModelDefinition
+ 
+     public String toString()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("IsLoaded: " + (loaded ? "Y" : "N") + " , ");
+         sb.append("RepoVersion: " + repoVersion + " , ");
+         sb.append("RepoName: " + repoName + " , ");
+diff --git a/repository/src/main/java/org/alfresco/repo/admin/patch/impl/SharedFolderPatch.java b/repository/src/main/java/org/alfresco/repo/admin/patch/impl/SharedFolderPatch.java
+index db5d304..bdb084e 100644
+--- a/repository/src/main/java/org/alfresco/repo/admin/patch/impl/SharedFolderPatch.java
++++ b/repository/src/main/java/org/alfresco/repo/admin/patch/impl/SharedFolderPatch.java
+@@ -139,7 +139,7 @@ public class SharedFolderPatch extends GenericBootstrapPatch
+                 LinkedList<String> folderElements = new LinkedList<String>(Arrays.asList(getRenamePath().split("/")));
+                 folderElements.removeLast();
+ 
+-                StringBuffer parentPath = new StringBuffer();
++                StringBuilder parentPath = new StringBuilder();
+ 
+                 for (String folder : folderElements)
+                 {
+diff --git a/repository/src/main/java/org/alfresco/repo/audit/model/AuditApplication.java b/repository/src/main/java/org/alfresco/repo/audit/model/AuditApplication.java
+index 3df3aa3..4e08e97 100644
+--- a/repository/src/main/java/org/alfresco/repo/audit/model/AuditApplication.java
++++ b/repository/src/main/java/org/alfresco/repo/audit/model/AuditApplication.java
+@@ -252,7 +252,7 @@ public class AuditApplication
+         // Check the path format
+         if (!AUDIT_PATH_PATTERN.matcher(path).matches())
+         {
+-            StringBuffer msg = new StringBuffer();
++            StringBuilder msg = new StringBuilder();
+             msg.append("The audit path is invalid and must be matched by regular expression: ").append(AUDIT_PATH_PATTERN).append("\n")
+                     .append("   Path elements: ");
+             for (String pathComponent : pathComponents)
+diff --git a/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractBulkFilesystemImporter.java b/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractBulkFilesystemImporter.java
+index 5b127c0..f1cdf12 100644
+--- a/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractBulkFilesystemImporter.java
++++ b/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractBulkFilesystemImporter.java
+@@ -187,7 +187,7 @@ public abstract class AbstractBulkFilesystemImporter implements BulkFilesystemIm
+     /* Because commons-lang ToStringBuilder doesn't seem to like unmodifiable Maps */
+     protected final String mapToString(Map<?, ?> map)
+     {
+-        StringBuffer result = new StringBuffer();
++        StringBuilder result = new StringBuilder();
+ 
+         if (map != null)
+         {
+diff --git a/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractNodeImporter.java b/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractNodeImporter.java
+index 2bcc711..081c161 100644
+--- a/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractNodeImporter.java
++++ b/repository/src/main/java/org/alfresco/repo/bulkimport/impl/AbstractNodeImporter.java
+@@ -108,7 +108,7 @@ public abstract class AbstractNodeImporter implements NodeImporter
+     /* Because commons-lang ToStringBuilder doesn't seem to like unmodifiable Maps */
+     protected final String mapToString(Map<?, ?> map)
+     {
+-        StringBuffer result = new StringBuffer();
++        StringBuilder result = new StringBuilder();
+ 
+         if (map != null)
+         {
+diff --git a/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityFeedEntity.java b/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityFeedEntity.java
+index 8eb5eb3..2b58c89 100644
+--- a/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityFeedEntity.java
++++ b/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityFeedEntity.java
+@@ -234,7 +234,7 @@ public class ActivityFeedEntity
+     // for debug only
+     public String toString()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("ActivityFeed\n[");
+         sb.append("id=").append(id).append(",");
+         sb.append("activityType=").append(activityType).append(",");
+diff --git a/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityPostEntity.java b/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityPostEntity.java
+index 01ed0b0..bef686b 100644
+--- a/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityPostEntity.java
++++ b/repository/src/main/java/org/alfresco/repo/domain/activities/ActivityPostEntity.java
+@@ -202,7 +202,7 @@ public class ActivityPostEntity
+     // for debug only
+     public String toString()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("ActivityPost\n[");
+         sb.append("id=").append(id).append(",");
+         sb.append("status=").append(status).append(",");
+diff --git a/repository/src/main/java/org/alfresco/repo/domain/activities/FeedControlEntity.java b/repository/src/main/java/org/alfresco/repo/domain/activities/FeedControlEntity.java
+index 93488c2..75a032a 100644
+--- a/repository/src/main/java/org/alfresco/repo/domain/activities/FeedControlEntity.java
++++ b/repository/src/main/java/org/alfresco/repo/domain/activities/FeedControlEntity.java
+@@ -134,7 +134,7 @@ public class FeedControlEntity
+     // for debug only
+     public String toString()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append("FeedControlEntity\n[");
+         sb.append("id=").append(id).append(",");
+         sb.append("feedUserId=").append(feedUserId).append(",");
+diff --git a/repository/src/main/java/org/alfresco/repo/exporter/ACPExportPackageHandler.java b/repository/src/main/java/org/alfresco/repo/exporter/ACPExportPackageHandler.java
+index d17e8d5..3a753f8 100644
+--- a/repository/src/main/java/org/alfresco/repo/exporter/ACPExportPackageHandler.java
++++ b/repository/src/main/java/org/alfresco/repo/exporter/ACPExportPackageHandler.java
+@@ -339,7 +339,7 @@ public class ACPExportPackageHandler
+      */
+     private String toDisplayPath(Path path)
+     {
+-        StringBuffer displayPath = new StringBuffer();
++        StringBuilder displayPath = new StringBuilder();
+         if (path.size() == 1)
+         {
+             displayPath.append("/");
+diff --git a/repository/src/main/java/org/alfresco/repo/forms/processor/workflow/ExtendedFieldBuilder.java b/repository/src/main/java/org/alfresco/repo/forms/processor/workflow/ExtendedFieldBuilder.java
+index db533f2..1099a04 100644
+--- a/repository/src/main/java/org/alfresco/repo/forms/processor/workflow/ExtendedFieldBuilder.java
++++ b/repository/src/main/java/org/alfresco/repo/forms/processor/workflow/ExtendedFieldBuilder.java
+@@ -82,7 +82,7 @@ public class ExtendedFieldBuilder extends DefaultFieldBuilder
+     public static List<String> getUnescapedValues(String escapedString)
+     {
+         List<String> elements = new ArrayList<String>();
+-        StringBuffer currentElement = new StringBuffer();
++        StringBuilder currentElement = new StringBuilder();
+ 
+         char currentChar;
+         boolean isEscaped = false;
+diff --git a/repository/src/main/java/org/alfresco/repo/imap/AbstractImapFolder.java b/repository/src/main/java/org/alfresco/repo/imap/AbstractImapFolder.java
+index 0bd1cd9..86e3ca5 100644
+--- a/repository/src/main/java/org/alfresco/repo/imap/AbstractImapFolder.java
++++ b/repository/src/main/java/org/alfresco/repo/imap/AbstractImapFolder.java
+@@ -135,7 +135,7 @@ public abstract class AbstractImapFolder implements MailFolder
+     }
+ 
+     /**
+-     * Marks all messages in the folder as deleted using {@link javax.mail.Flags.Flag#DELETED} flag.
++     * Marks all messages in the folder as deleted using {@link jakarta.mail.Flags.Flag#DELETED} flag.
+      */
+     public void deleteAllMessages() throws FolderException
+     {
+@@ -150,7 +150,7 @@ public abstract class AbstractImapFolder implements MailFolder
+     }
+ 
+     /**
+-     * Deletes messages marked with {@link javax.mail.Flags.Flag#DELETED}. Note that this message deletes all messages with this flag.
++     * Deletes messages marked with {@link jakarta.mail.Flags.Flag#DELETED}. Note that this message deletes all messages with this flag.
+      */
+     public void expunge() throws FolderException
+     {
+@@ -169,7 +169,7 @@ public abstract class AbstractImapFolder implements MailFolder
+     }
+ 
+     /**
+-     * Deletes messages marked with {@link javax.mail.Flags.Flag#DELETED}. Note that this message deletes the messages with current uid
++     * Deletes messages marked with {@link jakarta.mail.Flags.Flag#DELETED}. Note that this message deletes the messages with current uid
+      */
+     public void expunge(final long uid) throws FolderException
+     {
+@@ -240,7 +240,7 @@ public abstract class AbstractImapFolder implements MailFolder
+     }
+ 
+     /**
+-     * Returns the list of messages that have no {@link javax.mail.Flags.Flag#DELETED} flag set for current user.
++     * Returns the list of messages that have no {@link jakarta.mail.Flags.Flag#DELETED} flag set for current user.
+      * 
+      * @return the list of non-deleted messages.
+      */
+diff --git a/repository/src/main/java/org/alfresco/repo/imap/AlfrescoImapFolder.java b/repository/src/main/java/org/alfresco/repo/imap/AlfrescoImapFolder.java
+index 7d0cfab..3589204 100644
+--- a/repository/src/main/java/org/alfresco/repo/imap/AlfrescoImapFolder.java
++++ b/repository/src/main/java/org/alfresco/repo/imap/AlfrescoImapFolder.java
+@@ -532,7 +532,7 @@ public class AlfrescoImapFolder extends AbstractImapFolder implements Serializab
+     }
+ 
+     /**
+-     * Marks all messages in the folder as deleted using {@link javax.mail.Flags.Flag#DELETED} flag.
++     * Marks all messages in the folder as deleted using {@link jakarta.mail.Flags.Flag#DELETED} flag.
+      */
+     @Override
+     public void deleteAllMessagesInternal() throws FolderException
+@@ -551,7 +551,7 @@ public class AlfrescoImapFolder extends AbstractImapFolder implements Serializab
+     }
+ 
+     /**
+-     * Deletes messages marked with {@link javax.mail.Flags.Flag#DELETED}. Note that this message deletes all messages with this flag.
++     * Deletes messages marked with {@link jakarta.mail.Flags.Flag#DELETED}. Note that this message deletes all messages with this flag.
+      */
+     @Override
+     protected void expungeInternal() throws FolderException
+@@ -568,7 +568,7 @@ public class AlfrescoImapFolder extends AbstractImapFolder implements Serializab
+     }
+ 
+     /**
+-     * Deletes messages marked with {@link javax.mail.Flags.Flag#DELETED}. Note that this message deletes the message with current uid
++     * Deletes messages marked with {@link jakarta.mail.Flags.Flag#DELETED}. Note that this message deletes the message with current uid
+      */
+     @Override
+     protected void expungeInternal(long uid) throws Exception
+@@ -730,7 +730,7 @@ public class AlfrescoImapFolder extends AbstractImapFolder implements Serializab
+     }
+ 
+     /**
+-     * Returns the list of messages that have no {@link javax.mail.Flags.Flag#DELETED} flag set for current user.
++     * Returns the list of messages that have no {@link jakarta.mail.Flags.Flag#DELETED} flag set for current user.
+      * 
+      * @return the list of non-deleted messages.
+      */
+@@ -771,10 +771,10 @@ public class AlfrescoImapFolder extends AbstractImapFolder implements Serializab
+     }
+ 
+     /**
+-     * Returns count of messages with {@link javax.mail.Flags.Flag#RECENT} flag. If {@code reset} parameter is {@code true} - removes {@link javax.mail.Flags.Flag#RECENT} flag from the message for current user.
++     * Returns count of messages with {@link jakarta.mail.Flags.Flag#RECENT} flag. If {@code reset} parameter is {@code true} - removes {@link jakarta.mail.Flags.Flag#RECENT} flag from the message for current user.
+      * 
+      * @param reset
+-     *            - if true the {@link javax.mail.Flags.Flag#RECENT} will be deleted for current user if exists.
++     *            - if true the {@link jakarta.mail.Flags.Flag#RECENT} will be deleted for current user if exists.
+      * @return returns count of recent messages.
+      */
+     @Override
+@@ -836,7 +836,7 @@ public class AlfrescoImapFolder extends AbstractImapFolder implements Serializab
+     }
+ 
+     /**
+-     * Returns count of the messages with {@link javax.mail.Flags.Flag#SEEN} in the folder for the current user.
++     * Returns count of the messages with {@link jakarta.mail.Flags.Flag#SEEN} in the folder for the current user.
+      * 
+      * @return Count of the unseen messages for current user.
+      */
+diff --git a/repository/src/main/java/org/alfresco/repo/imap/ContentModelMessage.java b/repository/src/main/java/org/alfresco/repo/imap/ContentModelMessage.java
+index 038bcde..b87e919 100644
+--- a/repository/src/main/java/org/alfresco/repo/imap/ContentModelMessage.java
++++ b/repository/src/main/java/org/alfresco/repo/imap/ContentModelMessage.java
+@@ -150,7 +150,7 @@ public class ContentModelMessage extends AbstractMimeMessage
+ 
+         public String getBoundaryValue(FileInfo messageFileInfo)
+         {
+-            StringBuffer s = new StringBuffer();
++            StringBuilder s = new StringBuilder();
+             s.append("----=_Part_").append(messageFileInfo.getNodeRef().getId());
+             return s.toString();
+         }
+diff --git a/repository/src/main/java/org/alfresco/repo/mail/package-info.java b/repository/src/main/java/org/alfresco/repo/mail/package-info.java
+index 1a86d83..4bde995 100644
+--- a/repository/src/main/java/org/alfresco/repo/mail/package-info.java
++++ b/repository/src/main/java/org/alfresco/repo/mail/package-info.java
+@@ -24,7 +24,7 @@
+  * #L%
+  */
+ /**
+- * Provides the implementation and support classes for the {@link org.alfresco.repo.mail.AlfrescoJavaMailSender}, a sub class of {@link org.springframework.mail.javamail.JavaMailSenderImpl} which provides {@link javax.mail.Transport} pooling
++ * Provides the implementation and support classes for the {@link org.alfresco.repo.mail.AlfrescoJavaMailSender}, a sub class of {@link org.springframework.mail.javamail.JavaMailSenderImpl} which provides {@link jakarta.mail.Transport} pooling
+  */
+ @PackageMarker
+ package org.alfresco.repo.mail;
+diff --git a/repository/src/main/java/org/alfresco/repo/module/ModuleDetailsImpl.java b/repository/src/main/java/org/alfresco/repo/module/ModuleDetailsImpl.java
+index 8f3b87d..7592002 100644
+--- a/repository/src/main/java/org/alfresco/repo/module/ModuleDetailsImpl.java
++++ b/repository/src/main/java/org/alfresco/repo/module/ModuleDetailsImpl.java
+@@ -700,7 +700,7 @@ public class ModuleDetailsImpl implements ModuleDetails
+     {
+         // lossy translation between maven version and old VersionNumber
+         String mavenVersion = version.toString();
+-        StringBuffer b = new StringBuffer();
++        StringBuilder b = new StringBuilder();
+         for (int i = 0; i < mavenVersion.length(); i++)
+         {
+             char c = mavenVersion.charAt(i);
+diff --git a/repository/src/main/java/org/alfresco/repo/quickshare/QuickShareServiceImpl.java b/repository/src/main/java/org/alfresco/repo/quickshare/QuickShareServiceImpl.java
+index 8d94720..192f2ba 100644
+--- a/repository/src/main/java/org/alfresco/repo/quickshare/QuickShareServiceImpl.java
++++ b/repository/src/main/java/org/alfresco/repo/quickshare/QuickShareServiceImpl.java
+@@ -481,7 +481,7 @@ public class QuickShareServiceImpl implements QuickShareService,
+                 }
+             });
+ 
+-            final StringBuffer sb = new StringBuffer();
++            final StringBuilder sb = new StringBuilder();
+             sb.append("{").append("\"sharedId\":\"").append(sharedId).append("\"").append("}");
+ 
+             eventPublisher.publishEvent(new EventPreparator() {
+diff --git a/repository/src/main/java/org/alfresco/repo/search/impl/NodeSearcher.java b/repository/src/main/java/org/alfresco/repo/search/impl/NodeSearcher.java
+index 5d9499c..d6b5c00 100644
+--- a/repository/src/main/java/org/alfresco/repo/search/impl/NodeSearcher.java
++++ b/repository/src/main/java/org/alfresco/repo/search/impl/NodeSearcher.java
+@@ -114,7 +114,7 @@ public class NodeSearcher
+                 orderNodes(answer, order);
+                 for (NodeRef node : answer)
+                 {
+-                    StringBuffer buffer = new StringBuffer();
++                    StringBuilder buffer = new StringBuilder();
+                     for (AttributeOrder attOrd : order)
+                     {
+                         buffer.append(" ").append(nodeService.getProperty(node, attOrd.attribute));
+diff --git a/repository/src/main/java/org/alfresco/repo/search/impl/querymodel/impl/db/DBQueryEngine.java b/repository/src/main/java/org/alfresco/repo/search/impl/querymodel/impl/db/DBQueryEngine.java
+index 95597c1..b7ed547 100644
+--- a/repository/src/main/java/org/alfresco/repo/search/impl/querymodel/impl/db/DBQueryEngine.java
++++ b/repository/src/main/java/org/alfresco/repo/search/impl/querymodel/impl/db/DBQueryEngine.java
+@@ -37,7 +37,7 @@ import java.util.List;
+ import java.util.Map;
+ import java.util.Objects;
+ import java.util.Set;
+-import javax.annotation.concurrent.NotThreadSafe;
++import jakarta.annotation.concurrent.NotThreadSafe;
+ 
+ import org.apache.commons.logging.Log;
+ import org.apache.commons.logging.LogFactory;
+diff --git a/repository/src/main/java/org/alfresco/repo/search/impl/solr/SolrQueryHTTPClient.java b/repository/src/main/java/org/alfresco/repo/search/impl/solr/SolrQueryHTTPClient.java
+index 3c0dddb..8e85377 100644
+--- a/repository/src/main/java/org/alfresco/repo/search/impl/solr/SolrQueryHTTPClient.java
++++ b/repository/src/main/java/org/alfresco/repo/search/impl/solr/SolrQueryHTTPClient.java
+@@ -1137,7 +1137,7 @@ public class SolrQueryHTTPClient extends AbstractSolrQueryHTTPClient implements
+     private StringBuffer buildSortParameters(BasicSearchParameters searchParameters, URLCodec encoder)
+             throws UnsupportedEncodingException
+     {
+-        StringBuffer sortBuffer = new StringBuffer();
++        StringBuilder sortBuffer = new StringBuilder();
+         for (SortDefinition sortDefinition : searchParameters.getSortDefinitions())
+         {
+             if (sortBuffer.length() == 0)
+diff --git a/repository/src/main/java/org/alfresco/repo/search/transaction/SimpleTransaction.java b/repository/src/main/java/org/alfresco/repo/search/transaction/SimpleTransaction.java
+index 479828f..bece9bb 100644
+--- a/repository/src/main/java/org/alfresco/repo/search/transaction/SimpleTransaction.java
++++ b/repository/src/main/java/org/alfresco/repo/search/transaction/SimpleTransaction.java
+@@ -26,7 +26,7 @@
+ package org.alfresco.repo.search.transaction;
+ 
+ import java.io.UnsupportedEncodingException;
+-import javax.transaction.xa.XAResource;
++import jakarta.transaction.xa.XAResource;
+ import jakarta.transaction.HeuristicMixedException;
+ import jakarta.transaction.HeuristicRollbackException;
+ import jakarta.transaction.NotSupportedException;
+diff --git a/repository/src/main/java/org/alfresco/repo/search/transaction/XidTransaction.java b/repository/src/main/java/org/alfresco/repo/search/transaction/XidTransaction.java
+index eb93c6f..694a616 100644
+--- a/repository/src/main/java/org/alfresco/repo/search/transaction/XidTransaction.java
++++ b/repository/src/main/java/org/alfresco/repo/search/transaction/XidTransaction.java
+@@ -25,7 +25,7 @@
+  */
+ package org.alfresco.repo.search.transaction;
+ 
+-import javax.transaction.xa.Xid;
++import jakarta.transaction.xa.Xid;
+ import jakarta.transaction.Transaction;
+ 
+ public interface XidTransaction extends Xid, Transaction
+diff --git a/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPAuthenticationComponentImpl.java b/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPAuthenticationComponentImpl.java
+index ba05ec7..3b4dd1c 100644
+--- a/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPAuthenticationComponentImpl.java
++++ b/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPAuthenticationComponentImpl.java
+@@ -181,7 +181,7 @@ public class LDAPAuthenticationComponentImpl extends AbstractAuthenticationCompo
+     {
+         if (escape)
+         {
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             for (int i = 0; i < userName.length(); i++)
+             {
+                 char c = userName.charAt(i);
+diff --git a/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPInitialDirContextFactoryImpl.java b/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPInitialDirContextFactoryImpl.java
+index 0ee42d0..75469e3 100644
+--- a/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPInitialDirContextFactoryImpl.java
++++ b/repository/src/main/java/org/alfresco/repo/security/authentication/ldap/LDAPInitialDirContextFactoryImpl.java
+@@ -195,12 +195,12 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+ 
+     public InitialDirContext getDefaultIntialDirContext(int pageSize, AuthenticationDiagnostic diagnostic) throws AuthenticationException
+     {
+-        Hashtable<String, String> env = new Hashtable<String, String>(defaultEnvironment.size());
++        Map<String, String> env = new Map<String, String>(defaultEnvironment.size());
+         env.putAll(defaultEnvironment);
+         return buildInitialDirContext(env, pageSize, diagnostic);
+     }
+ 
+-    private InitialDirContext buildInitialDirContext(Hashtable<String, String> env, int pageSize, AuthenticationDiagnostic diagnostic)
++    private InitialDirContext buildInitialDirContext(Map<String, String> env, int pageSize, AuthenticationDiagnostic diagnostic)
+             throws AuthenticationException
+     {
+         String securityPrincipal = env.get(Context.SECURITY_PRINCIPAL);
+@@ -252,7 +252,7 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+             Object[] args1 = {providerURL};
+             diagnostic.addStep(AuthenticationDiagnostic.STEP_KEY_LDAP_CONNECTING, false, args1);
+ 
+-            StringBuffer message = new StringBuffer();
++            StringBuilder message = new StringBuilder();
+ 
+             message.append(ce.getClass().getName() + ", " + ce.getMessage());
+ 
+@@ -273,7 +273,7 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+             Object[] args = {providerURL};
+             diagnostic.addStep(AuthenticationDiagnostic.STEP_KEY_LDAP_CONNECTING, false, args);
+ 
+-            StringBuffer message = new StringBuffer();
++            StringBuilder message = new StringBuilder();
+ 
+             message.append(nx.getClass().getName() + ", " + nx.getMessage());
+ 
+@@ -383,7 +383,7 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+ 
+         diagnostic.addStep(AuthenticationDiagnostic.STEP_KEY_VALIDATION, true, null);
+ 
+-        Hashtable<String, String> env = new Hashtable<String, String>(authenticatedEnvironment.size());
++        Map<String, String> env = new Map<String, String>(authenticatedEnvironment.size());
+         env.putAll(authenticatedEnvironment);
+         env.put(Context.SECURITY_PRINCIPAL, principal);
+         env.put(Context.SECURITY_CREDENTIALS, credentials);
+@@ -500,7 +500,7 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+      */
+     private void checkAnonymousBind()
+     {
+-        Hashtable<String, String> env = new Hashtable<String, String>(authenticatedEnvironment.size());
++        Map<String, String> env = new Map<String, String>(authenticatedEnvironment.size());
+         env.putAll(authenticatedEnvironment);
+         env.remove(Context.SECURITY_PRINCIPAL);
+         env.remove(Context.SECURITY_CREDENTIALS);
+@@ -540,7 +540,7 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+      */
+     private void checkSimpleDnAndPassword()
+     {
+-        Hashtable<String, String> env = new Hashtable<String, String>(authenticatedEnvironment.size());
++        Map<String, String> env = new Map<String, String>(authenticatedEnvironment.size());
+         env.putAll(authenticatedEnvironment);
+         env.put(Context.SECURITY_PRINCIPAL, "daftAsABrush");
+         env.put(Context.SECURITY_CREDENTIALS, "daftAsABrush");
+@@ -583,7 +583,7 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+      */
+     private void checkDnAndPassword()
+     {
+-        Hashtable<String, String> env = new Hashtable<String, String>(authenticatedEnvironment.size());
++        Map<String, String> env = new Map<String, String>(authenticatedEnvironment.size());
+         env.putAll(authenticatedEnvironment);
+         env.put(Context.SECURITY_PRINCIPAL, "cn=daftAsABrush,dc=woof");
+         env.put(Context.SECURITY_CREDENTIALS, "daftAsABrush");
+@@ -631,7 +631,7 @@ public class LDAPInitialDirContextFactoryImpl implements LDAPInitialDirContextFa
+         {
+             // Correct principal invalid password
+ 
+-            Hashtable<String, String> env = new Hashtable<String, String>(authenticatedEnvironment.size());
++            Map<String, String> env = new Map<String, String>(authenticatedEnvironment.size());
+             env.putAll(authenticatedEnvironment);
+             env.put(Context.SECURITY_PRINCIPAL, principal);
+             env.put(Context.SECURITY_CREDENTIALS, "sdasdasdasdasd123123123");
+diff --git a/repository/src/main/java/org/alfresco/repo/transfer/AlienProcessorImpl.java b/repository/src/main/java/org/alfresco/repo/transfer/AlienProcessorImpl.java
+index 308b24a..01ae864 100644
+--- a/repository/src/main/java/org/alfresco/repo/transfer/AlienProcessorImpl.java
++++ b/repository/src/main/java/org/alfresco/repo/transfer/AlienProcessorImpl.java
+@@ -219,7 +219,7 @@ public class AlienProcessorImpl implements AlienProcessor
+         List<String> stuff = (List<String>) nodeService.getProperty(deletedNodeRef, TransferModel.PROP_INVADED_BY);
+         if (stuff == null)
+             return;
+-        Vector<String> exInvaders = new Vector<String>(stuff);
++        List<String> exInvaders = new List<String>(stuff);
+ 
+         /**
+          * some fudge to get this to run after the node has been moved.
+diff --git a/repository/src/main/java/org/alfresco/repo/transfer/manifest/XMLTransferManifestReader.java b/repository/src/main/java/org/alfresco/repo/transfer/manifest/XMLTransferManifestReader.java
+index 963bf96..da56fc0 100644
+--- a/repository/src/main/java/org/alfresco/repo/transfer/manifest/XMLTransferManifestReader.java
++++ b/repository/src/main/java/org/alfresco/repo/transfer/manifest/XMLTransferManifestReader.java
+@@ -184,7 +184,7 @@ public class XMLTransferManifestReader extends DefaultHandler implements Content
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_ASPECT))
+             {
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_PROPERTIES))
+             {
+@@ -202,15 +202,15 @@ public class XMLTransferManifestReader extends DefaultHandler implements Content
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_HEADER_CREATED_DATE))
+             {
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_HEADER_NODE_COUNT))
+             {
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_HEADER_REPOSITORY_ID))
+             {
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_PARENT_ASSOCS))
+             {
+@@ -227,7 +227,7 @@ public class XMLTransferManifestReader extends DefaultHandler implements Content
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_CHILD_ASSOC))
+             {
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+                 NodeRef to = new NodeRef(atts.getValue("", "to"));
+                 QName type = QName.createQName(atts.getValue("", "type"));
+                 Boolean isPrimary = Boolean.parseBoolean(atts.getValue("", "isPrimary"));
+@@ -238,7 +238,7 @@ public class XMLTransferManifestReader extends DefaultHandler implements Content
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_PARENT_ASSOC))
+             {
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+                 NodeRef from = new NodeRef(atts.getValue("", "from"));
+                 QName type = QName.createQName(atts.getValue("", "type"));
+                 Boolean isPrimary = Boolean.parseBoolean(atts.getValue("", "isPrimary"));
+@@ -272,7 +272,7 @@ public class XMLTransferManifestReader extends DefaultHandler implements Content
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_PRIMARY_PARENT))
+             {
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+ 
+                 ArrayList<ChildAssociationRef> parentAssocs = new ArrayList<ChildAssociationRef>();
+                 // Synthetic element - To receive the primary parent assoc.
+@@ -286,14 +286,14 @@ public class XMLTransferManifestReader extends DefaultHandler implements Content
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_VALUE_STRING))
+             {
+                 props.put("className", atts.getValue("", "className"));
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_VALUE_NULL))
+             {}
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_VALUE_SERIALIZED))
+             {
+                 props.put("encoding", atts.getValue("", "encoding"));
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_MLVALUE))
+             {
+@@ -306,7 +306,7 @@ public class XMLTransferManifestReader extends DefaultHandler implements Content
+                 String strLocale = (String) atts.getValue("", "locale");
+                 Locale locale = I18NUtil.parseLocale(strLocale);
+                 props.put("locale", locale);
+-                buffer = new StringBuffer();
++                buffer = new StringBuilder();
+             }
+             else if (elementName.equals(ManifestModel.LOCALNAME_ELEMENT_CONTENT_HEADER))
+             {
+diff --git a/repository/src/main/java/org/alfresco/repo/virtual/template/NamePatternPropertyValueConstraint.java b/repository/src/main/java/org/alfresco/repo/virtual/template/NamePatternPropertyValueConstraint.java
+index b3b3f1b..9d21a07 100644
+--- a/repository/src/main/java/org/alfresco/repo/virtual/template/NamePatternPropertyValueConstraint.java
++++ b/repository/src/main/java/org/alfresco/repo/virtual/template/NamePatternPropertyValueConstraint.java
+@@ -62,7 +62,7 @@ public class NamePatternPropertyValueConstraint extends PropertyValueConstraint
+     protected SearchParameters applyFTS(SearchParameters searchParameters)
+     {
+         String filePattern;
+-        StringBuffer luceneReserved = new StringBuffer();
++        StringBuilder luceneReserved = new StringBuilder();
+         for (int i = 0; i < value.toString().length(); i++)
+         {
+             if (SearchLanguageConversion.DEF_LUCENE.isReserved(value.toString().charAt(i)))
+diff --git a/repository/src/main/java/org/alfresco/util/ContextDependencyLister.java b/repository/src/main/java/org/alfresco/util/ContextDependencyLister.java
+index 99d5887..61b0478 100644
+--- a/repository/src/main/java/org/alfresco/util/ContextDependencyLister.java
++++ b/repository/src/main/java/org/alfresco/util/ContextDependencyLister.java
+@@ -109,11 +109,11 @@ public class ContextDependencyLister
+     }
+ 
+     private BeanTrackingApplicationContext instance;
+-    private Hashtable<String, List<String>> contextBeans;
+-    private Hashtable<String, List<String>> beanDependencies;
+-    private Hashtable<String, List<String>> beanDependedOnBy;
+-    private Hashtable<String, Set<String>> contextDependsOn;
+-    private Hashtable<String, Set<String>> contextDependedOnBy;
++    private Map<String, List<String>> contextBeans;
++    private Map<String, List<String>> beanDependencies;
++    private Map<String, List<String>> beanDependedOnBy;
++    private Map<String, Set<String>> contextDependsOn;
++    private Map<String, Set<String>> contextDependedOnBy;
+ 
+     private void calculateDependencies()
+     {
+@@ -129,7 +129,7 @@ public class ContextDependencyLister
+ 
+         // We have a list of where all the beans come from
+         // Invert that so we have a list of all the beans for a given context
+-        contextBeans = new Hashtable<String, List<String>>();
++        contextBeans = new Map<String, List<String>>();
+         for (String bean : instance.btl.beanSource.keySet())
+         {
+             String context = instance.btl.beanSource.get(bean);
+@@ -143,8 +143,8 @@ public class ContextDependencyLister
+         // Filter the list of which beans depend on which beans to only
+         // hold the external dependencies
+         // At the same time, generate the inverted list too
+-        beanDependencies = new Hashtable<String, List<String>>();
+-        beanDependedOnBy = new Hashtable<String, List<String>>();
++        beanDependencies = new Map<String, List<String>>();
++        beanDependedOnBy = new Map<String, List<String>>();
+         for (String parentBean : instance.btl.beanAllDependencies.keySet())
+         {
+             String parentContext = instance.btl.beanSource.get(parentBean);
+@@ -198,8 +198,8 @@ public class ContextDependencyLister
+ 
+         // Now move up to the context level
+         // Does this by looking up bean<->bean dependencies and resolving to contexts
+-        contextDependsOn = new Hashtable<String, Set<String>>();
+-        contextDependedOnBy = new Hashtable<String, Set<String>>();
++        contextDependsOn = new Map<String, Set<String>>();
++        contextDependedOnBy = new Map<String, Set<String>>();
+         for (String parentBean : beanDependencies.keySet())
+         {
+             String parentContext = instance.btl.beanSource.get(parentBean);
+@@ -386,8 +386,8 @@ public class ContextDependencyLister
+         out.println(" compound = \"true\";");
+         out.println(" rankdir = \"LR\";");
+ 
+-        StringBuffer beanLinks = new StringBuffer();
+-        StringBuffer contextLinks = new StringBuffer();
++        StringBuilder beanLinks = new StringBuilder();
++        StringBuilder contextLinks = new StringBuilder();
+ 
+         for (String context : instance.btl.usedContextFiles)
+         {
+@@ -559,12 +559,12 @@ public class ContextDependencyLister
+ 
+         // Which beans come from where
+         // In the case of overriden beans, track the last place
+-        private Hashtable<String, String> beanSource = new Hashtable<String, String>();
++        private Map<String, String> beanSource = new Map<String, String>();
+         // Which beans are depended on by which others
+-        private Hashtable<String, List<String>> beanAllDependencies = new Hashtable<String, List<String>>();
++        private Map<String, List<String>> beanAllDependencies = new Map<String, List<String>>();
+ 
+         // Our aliases
+-        private Hashtable<String, String> aliases = new Hashtable<String, String>();
++        private Map<String, String> aliases = new Map<String, String>();
+ 
+         // Path+URI to / on the classpath
+         private String pathToSlash;
+diff --git a/repository/src/main/java/org/alfresco/util/JSONtoFmModel.java b/repository/src/main/java/org/alfresco/util/JSONtoFmModel.java
+index b710a2c..0715e11 100644
+--- a/repository/src/main/java/org/alfresco/util/JSONtoFmModel.java
++++ b/repository/src/main/java/org/alfresco/util/JSONtoFmModel.java
+@@ -171,13 +171,13 @@ public final class JSONtoFmModel
+     @SuppressWarnings("unchecked")
+     private static StringBuffer toStringBuffer(Map<String, Object> unsortedMap, int indent)
+     {
+-        StringBuffer tabs = new StringBuffer();
++        StringBuilder tabs = new StringBuilder();
+         for (int i = 0; i < indent; i++)
+         {
+             tabs.append("\t");
+         }
+ 
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+ 
+         SortedMap<String, Object> map = new TreeMap<String, Object>();
+         map.putAll(unsortedMap);
+diff --git a/repository/src/main/java/org/alfresco/util/schemacomp/DbProperty.java b/repository/src/main/java/org/alfresco/util/schemacomp/DbProperty.java
+index ead2ef7..2e14863 100644
+--- a/repository/src/main/java/org/alfresco/util/schemacomp/DbProperty.java
++++ b/repository/src/main/java/org/alfresco/util/schemacomp/DbProperty.java
+@@ -236,7 +236,7 @@ public class DbProperty
+      */
+     public String getPath()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+ 
+         if (getPropertyName() != null)
+         {
+diff --git a/repository/src/main/java/org/alfresco/util/schemacomp/model/AbstractDbObject.java b/repository/src/main/java/org/alfresco/util/schemacomp/model/AbstractDbObject.java
+index 4d062e2..1c5167d 100644
+--- a/repository/src/main/java/org/alfresco/util/schemacomp/model/AbstractDbObject.java
++++ b/repository/src/main/java/org/alfresco/util/schemacomp/model/AbstractDbObject.java
+@@ -157,7 +157,7 @@ public abstract class AbstractDbObject implements DbObject
+     @Override
+     public String toString()
+     {
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         sb.append(getClass().getSimpleName());
+         sb.append("[name=");
+ 
+diff --git a/repository/src/test/java/org/alfresco/email/server/EmailServiceImplTest.java b/repository/src/test/java/org/alfresco/email/server/EmailServiceImplTest.java
+index 916b78d..c95d00e 100644
+--- a/repository/src/test/java/org/alfresco/email/server/EmailServiceImplTest.java
++++ b/repository/src/test/java/org/alfresco/email/server/EmailServiceImplTest.java
+@@ -201,7 +201,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("JavaMail APIs transport.java Test");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -242,7 +242,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("JavaMail APIs transport.java Test");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -279,7 +279,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("JavaMail APIs transport.java Test");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(System.out);
+             msg.writeTo(bos);
+@@ -317,7 +317,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("JavaMail APIs transport.java Test");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(System.out);
+             msg.writeTo(bos);
+@@ -360,7 +360,7 @@ public class EmailServiceImplTest extends TestCase
+         // msg.setSubject("JavaMail APIs transport.java Test");
+         // msg.setContent(content, "text/plain");
+         //
+-        // StringBuffer sb = new StringBuffer();
++        // StringBuilder sb = new StringBuilder();
+         // ByteArrayOutputStream bos = new ByteArrayOutputStream();
+         // msg.writeTo(System.out);
+         // msg.writeTo(bos);
+@@ -438,7 +438,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("This is a very very long name in particular it is greater than eitghty six characters which was a problem explored in ALF-9544");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -462,7 +462,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("Illegal<>!*/\\.txt");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -486,7 +486,7 @@ public class EmailServiceImplTest extends TestCase
+             // msg.setSubject();
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -510,7 +510,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("Foobar.");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -534,7 +534,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject("Foobar...");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -558,7 +558,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject(" ... ");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -582,7 +582,7 @@ public class EmailServiceImplTest extends TestCase
+             msg.setSubject(".");
+             msg.setContent(content, "text/plain");
+ 
+-            StringBuffer sb = new StringBuffer();
++            StringBuilder sb = new StringBuilder();
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             msg.writeTo(bos);
+             InputStream is = IOUtils.toInputStream(bos.toString());
+@@ -739,7 +739,7 @@ public class EmailServiceImplTest extends TestCase
+         emailService.importMessage(delivery, m);
+         assocs = nodeService.getChildAssocs(testUserHomeFolder, ContentModel.ASSOC_CONTAINS, RegexQNamePattern.MATCH_ALL);
+ 
+-        List<QName> assocNames = new Vector<QName>();
++        List<QName> assocNames = new List<QName>();
+         for (ChildAssociationRef assoc : assocs)
+         {
+             logger.debug("assocName: " + assoc.getQName());
+@@ -1156,7 +1156,7 @@ public class EmailServiceImplTest extends TestCase
+         msg.setSubject("JavaMail APIs transport.java Test");
+         msg.setContent(content, "text/plain");
+ 
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         ByteArrayOutputStream bos = new ByteArrayOutputStream();
+         msg.writeTo(bos);
+         InputStream is = IOUtils.toInputStream(bos.toString());
+diff --git a/repository/src/test/java/org/alfresco/repo/imap/ImapMessageTest.java b/repository/src/test/java/org/alfresco/repo/imap/ImapMessageTest.java
+index 50a3a3c..f35704f 100644
+--- a/repository/src/test/java/org/alfresco/repo/imap/ImapMessageTest.java
++++ b/repository/src/test/java/org/alfresco/repo/imap/ImapMessageTest.java
+@@ -279,7 +279,7 @@ public class ImapMessageTest extends TestCase
+         UserTransaction txn = transactionService.getUserTransaction();
+         txn.begin();
+         ContentWriter writer = fileFolderService.getWriter(contentNode);
+-        StringBuffer sb = new StringBuffer();
++        StringBuilder sb = new StringBuilder();
+         for (int i = 0; i < 2000; i++)
+         {
+             sb.append("test string");
+@@ -497,7 +497,7 @@ public class ImapMessageTest extends TestCase
+         // Following method returns the address with quoted personal aka <["�?р�?ений Ковальчук"] <ars.kov@gmail.com>>
+         // NOTE! This should be coincided with RFC822MetadataExtracter. Would 'addresses' be quoted or not?
+         // String decodedAddress = address.toUnicodeString();
+-        // Starting from javax.mail 1.5.6 the address is folded at linear whitespace so that each line is no longer than 76 characters, if possible.
++        // Starting from jakarta.mail 1.5.6 the address is folded at linear whitespace so that each line is no longer than 76 characters, if possible.
+         String decodedAddress = MimeUtility.decodeText(MimeUtility.fold(6, address.toString()));
+ 
+         // InternetAddress.toString(new Address[] {address}) - is used in the RFC822MetadataExtracter
+@@ -755,7 +755,7 @@ public class ImapMessageTest extends TestCase
+                 /**
+                  * Uh-oh - this is where we would intermittently fall over with a class cast exception. The following code probes why we don't have a FetchResponse
+                  */
+-                StringBuffer sb = new StringBuffer();
++                StringBuilder sb = new StringBuilder();
+                 sb.append("command=" + command);
+                 sb.append('\n');
+                 sb.append("resp length=" + r.length);
+diff --git a/repository/src/test/java/org/alfresco/repo/search/SearcherComponentTest.java b/repository/src/test/java/org/alfresco/repo/search/SearcherComponentTest.java
+index b76119d..a6c47c1 100644
+--- a/repository/src/test/java/org/alfresco/repo/search/SearcherComponentTest.java
++++ b/repository/src/test/java/org/alfresco/repo/search/SearcherComponentTest.java
+@@ -365,7 +365,7 @@ public class SearcherComponentTest extends BaseSpringTest
+         ChildAssociationRef assoc = nodeService.createNode(n1, BaseNodeServiceTest.ASSOC_TYPE_QNAME_TEST_CHILDREN, qname, ContentModel.TYPE_CONTAINER, properties);
+         NodeRef n4 = assoc.getChildRef();
+ 
+-        StringBuffer path = new StringBuffer().append("test:root_p_n1/").append(ISO9075.getXPathName(qname, namespacePrefixResolver));
++        StringBuilder path = new StringBuilder().append("test:root_p_n1/").append(ISO9075.getXPathName(qname, namespacePrefixResolver));
+         answer = searcher.selectNodes(rootNodeRef, path.toString(), null, namespacePrefixResolver, false);
+         assertEquals(1, answer.size());
+         assertTrue(answer.contains(n4));
+diff --git a/repository/src/test/java/org/alfresco/repo/security/authentication/identityservice/IdentityServiceRemoteUserMapperTest.java b/repository/src/test/java/org/alfresco/repo/security/authentication/identityservice/IdentityServiceRemoteUserMapperTest.java
+index 72e29c2..3ac430f 100644
+--- a/repository/src/test/java/org/alfresco/repo/security/authentication/identityservice/IdentityServiceRemoteUserMapperTest.java
++++ b/repository/src/test/java/org/alfresco/repo/security/authentication/identityservice/IdentityServiceRemoteUserMapperTest.java
+@@ -32,8 +32,17 @@ import static org.mockito.Mockito.when;
+ 
+ import java.time.Instant;
+ import java.util.Map;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.List;
+ import java.util.Vector;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.List;
+ import java.util.function.Supplier;
++import java.util.List;
++import java.util.ArrayList;
++import java.util.List;
+ import jakarta.servlet.http.HttpServletRequest;
+ 
+ import com.nimbusds.openid.connect.sdk.claims.PersonClaims;
+@@ -130,7 +139,7 @@ public class IdentityServiceRemoteUserMapperTest extends TestCase
+         // Mock a request with the token in the Authorization header (if supplied)
+         HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+ 
+-        Vector<String> authHeaderValues = new Vector<>(1);
++        List<String> authHeaderValues = new ArrayList<>()(1);
+         if (token != null)
+         {
+             authHeaderValues.add(BEARER_PREFIX + token);
+diff --git a/repository/src/test/java/org/alfresco/repo/workflow/activiti/ActivitiWorkflowServiceIntegrationTest.java b/repository/src/test/java/org/alfresco/repo/workflow/activiti/ActivitiWorkflowServiceIntegrationTest.java
+index 1e574ab..e479241 100644
+--- a/repository/src/test/java/org/alfresco/repo/workflow/activiti/ActivitiWorkflowServiceIntegrationTest.java
++++ b/repository/src/test/java/org/alfresco/repo/workflow/activiti/ActivitiWorkflowServiceIntegrationTest.java
+@@ -459,7 +459,7 @@ public class ActivitiWorkflowServiceIntegrationTest extends AbstractWorkflowServ
+ 
+     protected String getLongString(int numberOfCharacters)
+     {
+-        StringBuffer stringBuffer = new StringBuffer();
++        StringBuilder stringBuffer = new StringBuilder();
+         for (int i = 0; i < numberOfCharacters / 10; i++)
+         {
+             stringBuffer.append("ABCDEFGHIJ");

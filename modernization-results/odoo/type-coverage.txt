@@ -1,0 +1,3 @@
+total_functions: 46980
+typed_functions: 1065
+coverage_pct: 2

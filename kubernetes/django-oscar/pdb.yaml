@@ -1,0 +1,13 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: django-oscar
+  namespace: legacy-modernization
+  labels:
+    app: django-oscar
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: django-oscar

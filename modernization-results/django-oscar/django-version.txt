@@ -1,0 +1,10 @@
+modernization-corpus-aggregate/django-oscar/pyproject.toml:name = "django-oscar"
+modernization-corpus-aggregate/django-oscar/pyproject.toml:description = "A domain-driven e-commerce framework for Django"
+modernization-corpus-aggregate/django-oscar/pyproject.toml:    "Framework :: Django",
+modernization-corpus-aggregate/django-oscar/pyproject.toml:    "Framework :: Django :: 4.2",
+modernization-corpus-aggregate/django-oscar/pyproject.toml:    "Framework :: Django :: 5.2",
+modernization-corpus-aggregate/django-oscar/pyproject.toml:keywords = ["E-commerce", "Django", "domain-driven"]
+modernization-corpus-aggregate/django-oscar/pyproject.toml:    "django>=4.2,<5.3",
+modernization-corpus-aggregate/django-oscar/pyproject.toml:    # We use the ModelFormSetView from django-extra-views for the basket page
+modernization-corpus-aggregate/django-oscar/pyproject.toml:    "django-extra-views>=0.13,<0.17",
+modernization-corpus-aggregate/django-oscar/pyproject.toml:    "django-haystack>=3.0b1",

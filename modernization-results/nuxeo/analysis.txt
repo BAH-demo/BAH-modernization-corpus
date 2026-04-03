@@ -1,0 +1,8 @@
+javax_imports: 527
+build_system: Maven
+java_version: not-specified-in-pom
+deprecated_annotations: 894
+static_mutable_state: 761
+hardcoded_secrets_candidates: 62
+test_files: 501
+spring_version: not-found

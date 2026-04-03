@@ -1,0 +1,4 @@
+assembly_source_files: 175
+total_instructions: 81520
+memory_bank_refs: 4517
+transfer_control_instructions: 10653

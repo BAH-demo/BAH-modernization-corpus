@@ -1,0 +1,71 @@
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.AppTeste/CTe.Dacte.AppTeste.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.AppTeste/CTe.Dacte.AppTeste.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/MDFe.AppTeste/MDFe.AppTeste.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/MDFe.AppTeste/MDFe.AppTeste.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/MDFe.AppTeste/MDFe.AppTeste.csproj:      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Nativo/NFe.Danfe.Nativo.csproj:		<TargetFrameworks>net462;netstandard2.0;net6.0-windows</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/Dev.VersaoAssemblies/Dev.VersaoAssemblies.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/Dev.VersaoAssemblies/Dev.VersaoAssemblies.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.Base/CTe.Dacte.Base.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.Base/CTe.Dacte.Base.csproj:	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net6.0'">
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.OpenFast/MDFe.Damdfe.OpenFast.csproj:		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.OpenFast/CTe.Dacte.OpenFast.csproj:		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Classes.Testes/NFe.Classes.Testes.csproj:        <TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.AppTeste.NetCore/NFe.AppTeste.NetCore.csproj:		<TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.Base/MDFe.Damdfe.Base.csproj:	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net6.0'">
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Html/NFe.Danfe.Html.csproj:		<TargetFramework>netstandard2.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NuGet/Zeus.Net.CTe/Zeus.Net.CTe.csproj:	<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NuGet/Zeus.Net.NFe.NFCe/Zeus.Net.NFe.NFCe.csproj:	<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NuGet/Zeus.Net.MDFe/Zeus.Net.MDFe.csproj:	<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.Fast/CTe.Dacte.Fast.csproj:		<TargetFrameworks>net462</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.Dacte.Fast/CTe.Dacte.Fast.csproj:	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+modernization-corpus-aggregate/dfe-net/NFe.Servicos/NFe.Servicos.csproj:		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Servicos/NFe.Servicos.csproj:	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+modernization-corpus-aggregate/dfe-net/NFe.Servicos/NFe.Servicos.csproj:	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net6.0'">
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.OpenFast/NFe.Danfe.OpenFast.csproj:		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.Servicos/CTe.Servicos.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.Fast/MDFe.Damdfe.Fast.csproj:		<TargetFrameworks>net462</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.Fast/MDFe.Damdfe.Fast.csproj:	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+modernization-corpus-aggregate/dfe-net/CTe.Utils/CTe.Utils.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/MDFe.Wsdl/MDFe.Wsdl.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Utils/NFe.Utils.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.Wsdl/CTe.Wsdl.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/DFe.Classes/DFe.Classes.csproj:    <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.PdfClown/NFe.Danfe.PdfClown.csproj:		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.AppTeste.NetCore/CTe.AppTeste.NetCore.csproj:    <TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/CTe.AppTeste/CTe.AppTeste.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/CTe.AppTeste/CTe.AppTeste.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/CTe.AppTeste/CTe.AppTeste.csproj:      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.AppTeste.QuestPdf/NFe.Danfe.AppTeste.QuestPdf.csproj:    <TargetFramework>net6.0-windows</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Fast.Skia/NFe.Danfe.Fast.Skia.csproj:		<TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.AppTeste.Fast/NFe.Danfe.AppTeste.Fast.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.AppTeste.Fast/NFe.Danfe.AppTeste.Fast.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.AppTeste.Fast/NFe.Danfe.AppTeste.Fast.csproj:      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+modernization-corpus-aggregate/dfe-net/DFe.Testes/DFe.Testes.csproj:		<TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.QuestPdf/NFe.Danfe.QuestPdf.csproj:    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/DFe.Wsdl/DFe.Wsdl.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/DadosDeTestes/DadosDeTestes.csproj:        <TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/MDFe.Utils/MDFe.Utils.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.AppTeste.OpenFast/NFe.Danfe.AppTeste.OpenFast.csproj:		<TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.App.Teste.Html/NFe.Danfe.App.Teste.Html.csproj:    <TargetFramework>net6.0-windows</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Base/NFe.Danfe.Base.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Base/NFe.Danfe.Base.csproj:  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net6.0'">
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.AppTeste/MDFe.Damdfe.AppTeste.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/MDFe.Damdfe.AppTeste/MDFe.Damdfe.AppTeste.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/NFe.Wsdl/NFe.Wsdl.csproj:		<TargetFrameworks>net462</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Wsdl.Standard/NFe.Wsdl.Standard.csproj:		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Classes/NFe.Classes.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.AppTeste.PdfClown/NFe.Danfe.AppTeste.PdfClown.csproj:    <TargetFramework>net6.0-windows</TargetFramework>
+modernization-corpus-aggregate/dfe-net/MDFe.Servicos/MDFe.Servicos.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/CTe.Classes/CTe.Classes.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Fast/NFe.Danfe.Fast.csproj:		<TargetFrameworks>net462</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Danfe.Fast/NFe.Danfe.Fast.csproj:	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+modernization-corpus-aggregate/dfe-net/DFe.Utils/DFe.Utils.csproj:		<TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>
+modernization-corpus-aggregate/dfe-net/NFe.Integracao/NFe.Integracao.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/NFe.Integracao/NFe.Integracao.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/NFe.Utils.Testes/NFe.Utils.Testes.csproj:		<TargetFramework>net6.0</TargetFramework>
+modernization-corpus-aggregate/dfe-net/NFe.AppTeste/NFe.AppTeste.csproj:    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+modernization-corpus-aggregate/dfe-net/NFe.AppTeste/NFe.AppTeste.csproj:    <TargetFrameworkProfile />
+modernization-corpus-aggregate/dfe-net/NFe.AppTeste/NFe.AppTeste.csproj:      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+modernization-corpus-aggregate/dfe-net/MDFe.Classes/MDFe.Classes.csproj:	  <TargetFrameworks>net462;netstandard2.0;net6.0</TargetFrameworks>

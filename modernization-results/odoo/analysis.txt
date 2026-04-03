@@ -1,0 +1,11 @@
+deprecated_imp_module: 0
+python2_patterns: 3
+total_functions: 46980
+typed_functions: 1065
+type_hint_coverage_pct: 2
+has_requirements_txt: true
+has_setup_py: true
+has_pyproject_toml: false
+hardcoded_secrets_candidates: 55
+test_files: 1729
+django_version: not-found

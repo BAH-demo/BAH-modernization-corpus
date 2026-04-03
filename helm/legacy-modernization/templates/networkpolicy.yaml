@@ -1,0 +1,53 @@
+{{- $systems := list "apache-ofbiz" "odoo" "alfresco-community" "nuxeo" "django-oscar" "umbraco-cms" "mezzanine" "b2cweb" "dfe-net" "monolith-enterprise" "cfwheels" }}
+{{- range $name := $systems }}
+{{- $sys := index $.Values $name }}
+{{- if $sys.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Values.global.namespace }}
+  labels:
+    {{- include "legacy-modernization.labels" $ | nindent 4 }}
+    app: {{ $name }}
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ $name }}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+        - podSelector:
+            matchLabels:
+              app: {{ $name }}
+      ports:
+        - protocol: TCP
+          port: {{ $sys.container.port }}
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 169.254.169.254/32
+      ports:
+        - protocol: TCP
+          port: 443
+        - protocol: TCP
+          port: 5432
+        - protocol: TCP
+          port: 3306
+{{- end }}
+{{- end }}

@@ -1,0 +1,6 @@
+=== Python Compatibility ===
+modernization-corpus-aggregate/odoo/setup.py:    python_requires='>=' + ".".join(map(str, MIN_PY_VERSION)),
+No python_requires found
+
+=== Deprecated module usage ===
+No deprecated modules found

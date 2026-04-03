@@ -1,0 +1,6 @@
+modernization-corpus-aggregate/umbraco-cms/templates/UmbracoProject/UmbracoProject.csproj:    <TargetFramework>DOTNET_VERSION_FROM_TEMPLATE</TargetFramework>
+modernization-corpus-aggregate/umbraco-cms/templates/UmbracoExtension/Umbraco.Extension.csproj:    <TargetFramework>net10.0</TargetFramework>
+modernization-corpus-aggregate/umbraco-cms/src/Umbraco.Cms/Umbraco.Cms.csproj:  <Target Name="GetTargetFrameworkPackageFiles" BeforeTargets="GenerateNuspec">
+modernization-corpus-aggregate/umbraco-cms/src/Umbraco.Cms/Umbraco.Cms.csproj:      <_PackageFiles Include="$(IntermediateOutputPath)_._" PackagePath="lib\$(TargetFramework)" />
+modernization-corpus-aggregate/umbraco-cms/src/Umbraco.Cms.Targets/Umbraco.Cms.Targets.csproj:  <Target Name="GetTargetFrameworkPackageFiles" BeforeTargets="GenerateNuspec">
+modernization-corpus-aggregate/umbraco-cms/src/Umbraco.Cms.Targets/Umbraco.Cms.Targets.csproj:      <_PackageFiles Include="$(IntermediateOutputPath)_._" PackagePath="lib\$(TargetFramework)" />

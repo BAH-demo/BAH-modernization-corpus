@@ -1,0 +1,722 @@
+# Prometheus Alerting Rules for Federal Modernization Portfolio
+# All 13 legacy systems monitored
+# Compatible with Prometheus 2.x+
+
+groups:
+  # ============================================================
+  # Java Systems: OFBiz, Alfresco, Nuxeo, B2CWeb, Monolith
+  # ============================================================
+  - name: java_systems
+    rules:
+      # --- Apache OFBiz ---
+      - alert: OFBizDown
+        expr: up{job="ofbiz"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: apache-ofbiz
+          tier: "1"
+        annotations:
+          summary: "Apache OFBiz is down"
+          description: "OFBiz instance {{ $labels.instance }} has been unreachable for more than 1 minute."
+          runbook_url: "../runbooks/apache-ofbiz-runbook.md"
+
+      - alert: OFBizHighHeapUsage
+        expr: jvm_memory_used_bytes{job="ofbiz", area="heap"} / jvm_memory_max_bytes{job="ofbiz", area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          system: apache-ofbiz
+        annotations:
+          summary: "OFBiz JVM heap usage above 85%"
+          description: "OFBiz heap usage is {{ $value | humanizePercentage }} on {{ $labels.instance }}."
+
+      - alert: OFBizHighHeapUsageCritical
+        expr: jvm_memory_used_bytes{job="ofbiz", area="heap"} / jvm_memory_max_bytes{job="ofbiz", area="heap"} > 0.95
+        for: 2m
+        labels:
+          severity: critical
+          system: apache-ofbiz
+        annotations:
+          summary: "OFBiz JVM heap usage critical (>95%)"
+          description: "OFBiz heap usage is {{ $value | humanizePercentage }} on {{ $labels.instance }}. OOM risk imminent."
+
+      - alert: OFBizHighResponseTime
+        expr: http_server_requests_seconds{job="ofbiz", quantile="0.95"} > 5
+        for: 5m
+        labels:
+          severity: warning
+          system: apache-ofbiz
+        annotations:
+          summary: "OFBiz P95 response time above 5 seconds"
+          description: "OFBiz P95 latency is {{ $value }}s on {{ $labels.instance }}."
+
+      - alert: OFBizHighErrorRate
+        expr: rate(http_server_requests_total{job="ofbiz", status=~"5.."}[5m]) / rate(http_server_requests_total{job="ofbiz"}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          system: apache-ofbiz
+        annotations:
+          summary: "OFBiz error rate above 5%"
+          description: "OFBiz error rate is {{ $value | humanizePercentage }} on {{ $labels.instance }}."
+
+      - alert: OFBizDBConnectionPoolExhausted
+        expr: ofbiz_db_pool_active{job="ofbiz"} / ofbiz_db_pool_max{job="ofbiz"} > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          system: apache-ofbiz
+        annotations:
+          summary: "OFBiz DB connection pool >90% utilized"
+
+      # --- Alfresco Community ---
+      - alert: AlfrescoRepositoryDown
+        expr: up{job="alfresco-repo"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: alfresco-community
+          tier: "1"
+        annotations:
+          summary: "Alfresco Repository is down"
+          description: "Alfresco Repository on {{ $labels.instance }} is unreachable."
+          runbook_url: "../runbooks/alfresco-community-runbook.md"
+
+      - alert: AlfrescoShareDown
+        expr: up{job="alfresco-share"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          system: alfresco-community
+        annotations:
+          summary: "Alfresco Share UI is down"
+
+      - alert: AlfrescoSolrDown
+        expr: up{job="alfresco-solr"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          system: alfresco-community
+        annotations:
+          summary: "Alfresco Solr search is down"
+
+      - alert: AlfrescoHighHeapUsage
+        expr: jvm_memory_used_bytes{job="alfresco-repo", area="heap"} / jvm_memory_max_bytes{job="alfresco-repo", area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          system: alfresco-community
+        annotations:
+          summary: "Alfresco Repository heap usage above 85%"
+
+      - alert: AlfrescoContentStoreDiskUsage
+        expr: node_filesystem_avail_bytes{mountpoint="/opt/alfresco/alf_data"} / node_filesystem_size_bytes{mountpoint="/opt/alfresco/alf_data"} < 0.1
+        for: 5m
+        labels:
+          severity: critical
+          system: alfresco-community
+        annotations:
+          summary: "Alfresco content store disk space <10% remaining"
+
+      # --- Nuxeo ---
+      - alert: NuxeoDown
+        expr: up{job="nuxeo"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: nuxeo
+          tier: "1"
+        annotations:
+          summary: "Nuxeo Platform is down"
+          runbook_url: "../runbooks/nuxeo-runbook.md"
+
+      - alert: NuxeoHighHeapUsage
+        expr: jvm_memory_used_bytes{job="nuxeo", area="heap"} / jvm_memory_max_bytes{job="nuxeo", area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          system: nuxeo
+        annotations:
+          summary: "Nuxeo JVM heap usage above 85%"
+
+      - alert: NuxeoElasticsearchDown
+        expr: nuxeo_elasticsearch_status{job="nuxeo"} != 1
+        for: 2m
+        labels:
+          severity: critical
+          system: nuxeo
+        annotations:
+          summary: "Nuxeo Elasticsearch connectivity lost"
+
+      - alert: NuxeoWorkManagerQueueHigh
+        expr: nuxeo_work_manager_queue_size{job="nuxeo"} > 1000
+        for: 10m
+        labels:
+          severity: warning
+          system: nuxeo
+        annotations:
+          summary: "Nuxeo work manager queue depth >1000"
+
+      # --- B2CWeb ---
+      - alert: B2CWebDown
+        expr: up{job="b2cweb"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: b2cweb
+          tier: "2"
+        annotations:
+          summary: "B2CWeb is down"
+          runbook_url: "../runbooks/b2cweb-runbook.md"
+
+      - alert: B2CWebHighResponseTime
+        expr: http_server_requests_seconds{job="b2cweb", quantile="0.95"} > 3
+        for: 5m
+        labels:
+          severity: warning
+          system: b2cweb
+        annotations:
+          summary: "B2CWeb P95 response time above 3 seconds"
+
+      - alert: B2CWebHighSessionCount
+        expr: tomcat_sessions_active_current{job="b2cweb"} > 5000
+        for: 5m
+        labels:
+          severity: warning
+          system: b2cweb
+        annotations:
+          summary: "B2CWeb active sessions exceeding 5000"
+
+      # --- Monolith Enterprise ---
+      - alert: MonolithEnterpriseDown
+        expr: up{job="monolith-enterprise"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: monolith-enterprise
+          tier: "1"
+        annotations:
+          summary: "Monolith Enterprise is down"
+          runbook_url: "../runbooks/monolith-enterprise-runbook.md"
+
+      - alert: MonolithHighHeapUsage
+        expr: jvm_memory_used_bytes{job="monolith-enterprise", area="heap"} / jvm_memory_max_bytes{job="monolith-enterprise", area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          system: monolith-enterprise
+        annotations:
+          summary: "Monolith Enterprise heap usage above 85%"
+
+      - alert: MonolithEJBTransactionTimeouts
+        expr: rate(wildfly_transactions_timeout_total{job="monolith-enterprise"}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          system: monolith-enterprise
+        annotations:
+          summary: "Monolith Enterprise EJB transaction timeouts increasing"
+
+      - alert: MonolithJMSQueueDepthHigh
+        expr: wildfly_messaging_queue_message_count{job="monolith-enterprise"} > 5000
+        for: 10m
+        labels:
+          severity: warning
+          system: monolith-enterprise
+        annotations:
+          summary: "Monolith Enterprise JMS queue depth >5000"
+
+  # ============================================================
+  # Python Systems: Odoo, Django Oscar, Mezzanine
+  # ============================================================
+  - name: python_systems
+    rules:
+      # --- Odoo ---
+      - alert: OdooDown
+        expr: up{job="odoo"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: odoo
+          tier: "1"
+        annotations:
+          summary: "Odoo ERP is down"
+          runbook_url: "../runbooks/odoo-runbook.md"
+
+      - alert: OdooWorkerCrashes
+        expr: rate(odoo_worker_restart_total{job="odoo"}[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          system: odoo
+        annotations:
+          summary: "Odoo workers restarting frequently"
+
+      - alert: OdooHighResponseTime
+        expr: http_request_duration_seconds{job="odoo", quantile="0.95"} > 5
+        for: 5m
+        labels:
+          severity: warning
+          system: odoo
+        annotations:
+          summary: "Odoo P95 response time above 5 seconds"
+
+      - alert: OdooLowWorkerCount
+        expr: odoo_workers_active{job="odoo"} < 2
+        for: 2m
+        labels:
+          severity: critical
+          system: odoo
+        annotations:
+          summary: "Odoo has fewer than 2 active workers"
+
+      - alert: OdooCronFailures
+        expr: rate(odoo_cron_failures_total{job="odoo"}[1h]) > 3
+        for: 5m
+        labels:
+          severity: warning
+          system: odoo
+        annotations:
+          summary: "Odoo cron job failures detected"
+
+      # --- Django Oscar ---
+      - alert: DjangoOscarDown
+        expr: up{job="django-oscar"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: django-oscar
+          tier: "2"
+        annotations:
+          summary: "Django Oscar e-commerce is down"
+          runbook_url: "../runbooks/django-oscar-runbook.md"
+
+      - alert: DjangoOscarCeleryDown
+        expr: up{job="django-oscar-celery"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          system: django-oscar
+        annotations:
+          summary: "Django Oscar Celery workers are down"
+
+      - alert: DjangoOscarHighResponseTime
+        expr: django_http_requests_latency_seconds_by_view_method{job="django-oscar", quantile="0.95"} > 3
+        for: 5m
+        labels:
+          severity: warning
+          system: django-oscar
+        annotations:
+          summary: "Django Oscar P95 response time above 3 seconds"
+
+      - alert: DjangoOscarHighErrorRate
+        expr: rate(django_http_responses_total_by_status{job="django-oscar", status=~"5.."}[5m]) / rate(django_http_responses_total_by_status{job="django-oscar"}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          system: django-oscar
+        annotations:
+          summary: "Django Oscar 5xx error rate above 5%"
+
+      - alert: DjangoOscarCeleryQueueHigh
+        expr: celery_queue_length{job="django-oscar"} > 500
+        for: 10m
+        labels:
+          severity: warning
+          system: django-oscar
+        annotations:
+          summary: "Django Oscar Celery queue depth >500"
+
+      # --- Mezzanine ---
+      - alert: MezzanineDown
+        expr: up{job="mezzanine"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: mezzanine
+          tier: "2"
+        annotations:
+          summary: "Mezzanine CMS is down"
+          runbook_url: "../runbooks/mezzanine-runbook.md"
+
+      - alert: MezzanineHighResponseTime
+        expr: django_http_requests_latency_seconds_by_view_method{job="mezzanine", quantile="0.95"} > 3
+        for: 5m
+        labels:
+          severity: warning
+          system: mezzanine
+        annotations:
+          summary: "Mezzanine P95 response time above 3 seconds"
+
+      - alert: MezzanineHighErrorRate
+        expr: rate(django_http_responses_total_by_status{job="mezzanine", status=~"5.."}[5m]) / rate(django_http_responses_total_by_status{job="mezzanine"}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          system: mezzanine
+        annotations:
+          summary: "Mezzanine 5xx error rate above 5%"
+
+  # ============================================================
+  # C# Systems: Umbraco CMS, DFe-NET
+  # ============================================================
+  - name: dotnet_systems
+    rules:
+      # --- Umbraco CMS ---
+      - alert: UmbracoDown
+        expr: up{job="umbraco"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: umbraco-cms
+          tier: "2"
+        annotations:
+          summary: "Umbraco CMS is down"
+          runbook_url: "../runbooks/umbraco-cms-runbook.md"
+
+      - alert: UmbracoHighMemory
+        expr: dotnet_total_memory_bytes{job="umbraco"} > 2147483648
+        for: 5m
+        labels:
+          severity: warning
+          system: umbraco-cms
+        annotations:
+          summary: "Umbraco memory usage above 2GB"
+
+      - alert: UmbracoHighResponseTime
+        expr: http_request_duration_seconds{job="umbraco", quantile="0.95"} > 3
+        for: 5m
+        labels:
+          severity: warning
+          system: umbraco-cms
+        annotations:
+          summary: "Umbraco P95 response time above 3 seconds"
+
+      - alert: UmbracoHighErrorRate
+        expr: rate(http_requests_received_total{job="umbraco", code=~"5.."}[5m]) / rate(http_requests_received_total{job="umbraco"}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          system: umbraco-cms
+        annotations:
+          summary: "Umbraco 5xx error rate above 5%"
+
+      # --- DFe-NET ---
+      - alert: DfeNetDown
+        expr: up{job="dfe-net"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: dfe-net
+          tier: "2"
+        annotations:
+          summary: "DFe-NET fiscal document system is down"
+          runbook_url: "../runbooks/dfe-net-runbook.md"
+
+      - alert: DfeNetCertificateExpiring
+        expr: dfe_net_certificate_expiry_days{job="dfe-net"} < 30
+        for: 1h
+        labels:
+          severity: warning
+          system: dfe-net
+        annotations:
+          summary: "DFe-NET digital certificate expires in {{ $value }} days"
+
+      - alert: DfeNetCertificateExpiryCritical
+        expr: dfe_net_certificate_expiry_days{job="dfe-net"} < 7
+        for: 5m
+        labels:
+          severity: critical
+          system: dfe-net
+        annotations:
+          summary: "DFe-NET digital certificate expires in {{ $value }} days - URGENT"
+
+      - alert: DfeNetSefazConnectivityLost
+        expr: dfe_net_sefaz_reachable{job="dfe-net"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          system: dfe-net
+        annotations:
+          summary: "DFe-NET lost connectivity to SEFAZ services"
+
+      - alert: DfeNetDocumentQueueHigh
+        expr: dfe_net_document_queue_depth{job="dfe-net"} > 200
+        for: 10m
+        labels:
+          severity: warning
+          system: dfe-net
+        annotations:
+          summary: "DFe-NET document processing queue >200"
+
+      - alert: DfeNetSigningFailures
+        expr: rate(dfe_net_signing_failures_total{job="dfe-net"}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+          system: dfe-net
+        annotations:
+          summary: "DFe-NET document signing failures detected"
+
+  # ============================================================
+  # ColdFusion: CFWheels
+  # ============================================================
+  - name: coldfusion_systems
+    rules:
+      - alert: CFWheelsDown
+        expr: up{job="cfwheels"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: cfwheels
+          tier: "2"
+        annotations:
+          summary: "CFWheels application is down"
+          runbook_url: "../runbooks/cfwheels-runbook.md"
+
+      - alert: CFWheelsHighHeapUsage
+        expr: jvm_memory_used_bytes{job="cfwheels", area="heap"} / jvm_memory_max_bytes{job="cfwheels", area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          system: cfwheels
+        annotations:
+          summary: "CFWheels JVM heap usage above 85%"
+
+      - alert: CFWheelsHighResponseTime
+        expr: http_server_requests_seconds{job="cfwheels", quantile="0.95"} > 5
+        for: 5m
+        labels:
+          severity: warning
+          system: cfwheels
+        annotations:
+          summary: "CFWheels P95 response time above 5 seconds"
+
+  # ============================================================
+  # Fortran: NASTRAN-95
+  # ============================================================
+  - name: fortran_systems
+    rules:
+      - alert: NastranJobFailed
+        expr: nastran_job_status{job="nastran-95"} == 2
+        for: 1m
+        labels:
+          severity: warning
+          system: nastran-95
+          tier: "3"
+        annotations:
+          summary: "NASTRAN-95 analysis job failed"
+          description: "Job {{ $labels.job_name }} on {{ $labels.instance }} has FATAL status."
+          runbook_url: "../runbooks/nastran-95-runbook.md"
+
+      - alert: NastranScratchDiskLow
+        expr: node_filesystem_avail_bytes{mountpoint="/scratch/nastran"} / node_filesystem_size_bytes{mountpoint="/scratch/nastran"} < 0.1
+        for: 5m
+        labels:
+          severity: critical
+          system: nastran-95
+        annotations:
+          summary: "NASTRAN-95 scratch disk space <10% remaining"
+
+      - alert: NastranHighMemoryUsage
+        expr: process_resident_memory_bytes{job="nastran-95"} / node_memory_MemTotal_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          system: nastran-95
+        annotations:
+          summary: "NASTRAN-95 job using >90% of system memory"
+
+  # ============================================================
+  # Assembly: Apollo-11
+  # ============================================================
+  - name: assembly_systems
+    rules:
+      - alert: Apollo11SimulatorDown
+        expr: up{job="apollo-11"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          system: apollo-11
+          tier: "3"
+        annotations:
+          summary: "Apollo-11 AGC simulator is down"
+          runbook_url: "../runbooks/apollo-11-runbook.md"
+
+      - alert: Apollo11SourceIntegrityFailed
+        expr: apollo11_source_integrity_check{job="apollo-11"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          system: apollo-11
+        annotations:
+          summary: "Apollo-11 source code integrity check FAILED"
+          description: "Source checksum mismatch detected. Potential unauthorized modification."
+
+  # ============================================================
+  # Shared Infrastructure
+  # ============================================================
+  - name: shared_infrastructure
+    rules:
+      # --- PostgreSQL ---
+      - alert: PostgreSQLDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: postgresql
+        annotations:
+          summary: "PostgreSQL instance {{ $labels.instance }} is down"
+          description: "Affects: OFBiz, Alfresco, Nuxeo, Odoo, Oscar, Mezzanine"
+
+      - alert: PostgreSQLHighConnections
+        expr: pg_stat_activity_count / pg_settings_max_connections > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          component: postgresql
+        annotations:
+          summary: "PostgreSQL connections above 80% of max"
+
+      - alert: PostgreSQLReplicationLag
+        expr: pg_replication_lag > 60
+        for: 5m
+        labels:
+          severity: warning
+          component: postgresql
+        annotations:
+          summary: "PostgreSQL replication lag >60 seconds"
+
+      - alert: PostgreSQLDeadlocks
+        expr: rate(pg_stat_database_deadlocks[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          component: postgresql
+        annotations:
+          summary: "PostgreSQL deadlocks increasing"
+
+      - alert: PostgreSQLSlowQueries
+        expr: pg_slow_queries > 10
+        for: 5m
+        labels:
+          severity: warning
+          component: postgresql
+        annotations:
+          summary: "PostgreSQL slow queries >10 in last 5 min"
+
+      # --- Redis ---
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: redis
+        annotations:
+          summary: "Redis instance is down"
+          description: "Affects caching for: Odoo, Oscar, Mezzanine, Umbraco"
+
+      - alert: RedisHighMemory
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          component: redis
+        annotations:
+          summary: "Redis memory usage above 85%"
+
+      - alert: RedisHighConnectionCount
+        expr: redis_connected_clients > 500
+        for: 5m
+        labels:
+          severity: warning
+          component: redis
+        annotations:
+          summary: "Redis connected clients >500"
+
+      # --- Elasticsearch ---
+      - alert: ElasticsearchClusterRed
+        expr: elasticsearch_cluster_health_status{color="red"} == 1
+        for: 1m
+        labels:
+          severity: critical
+          component: elasticsearch
+        annotations:
+          summary: "Elasticsearch cluster status is RED"
+          description: "Affects search for: Nuxeo, Alfresco, Oscar"
+
+      - alert: ElasticsearchClusterYellow
+        expr: elasticsearch_cluster_health_status{color="yellow"} == 1
+        for: 15m
+        labels:
+          severity: warning
+          component: elasticsearch
+        annotations:
+          summary: "Elasticsearch cluster status is YELLOW"
+
+      - alert: ElasticsearchHighHeapUsage
+        expr: elasticsearch_jvm_memory_used_bytes{area="heap"} / elasticsearch_jvm_memory_max_bytes{area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          component: elasticsearch
+        annotations:
+          summary: "Elasticsearch heap usage above 85%"
+
+      # --- Node-level ---
+      - alert: HostHighCPU
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 10m
+        labels:
+          severity: warning
+          component: host
+        annotations:
+          summary: "Host {{ $labels.instance }} CPU usage above 85%"
+
+      - alert: HostHighMemory
+        expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: host
+        annotations:
+          summary: "Host {{ $labels.instance }} memory usage above 90%"
+
+      - alert: HostDiskSpaceLow
+        expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.lxcfs"} / node_filesystem_size_bytes < 0.1) and (node_filesystem_size_bytes > 1073741824)
+        for: 5m
+        labels:
+          severity: critical
+          component: host
+        annotations:
+          summary: "Host {{ $labels.instance }} disk space <10% on {{ $labels.mountpoint }}"
+
+      - alert: HostDiskIOHigh
+        expr: rate(node_disk_io_time_seconds_total[5m]) > 0.9
+        for: 10m
+        labels:
+          severity: warning
+          component: host
+        annotations:
+          summary: "Host {{ $labels.instance }} disk I/O utilization >90%"
+
+      # --- SQL Server (for C# systems) ---
+      - alert: SQLServerDown
+        expr: mssql_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: sqlserver
+        annotations:
+          summary: "SQL Server is down"
+          description: "Affects: Umbraco CMS, DFe-NET"
+
+      - alert: SQLServerHighCPU
+        expr: mssql_cpu_percent > 85
+        for: 10m
+        labels:
+          severity: warning
+          component: sqlserver
+        annotations:
+          summary: "SQL Server CPU usage above 85%"
