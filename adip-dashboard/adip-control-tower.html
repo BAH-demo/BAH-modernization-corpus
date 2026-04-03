@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADIP Control Tower — ATLAS Modernization Dashboard</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 14px; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0b1120;
+    color: #e0e6ed;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  a { color: #5eaaff; text-decoration: none; }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #0d1b3e 0%, #1a2a52 50%, #0d1b3e 100%);
+    border-bottom: 2px solid #2a4a8a;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-logo {
+    width: 48px; height: 48px; border-radius: 8px;
+    background: linear-gradient(135deg, #1e88e5, #42a5f5);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 18px; color: #fff;
+  }
+  .header-title { font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+  .header-subtitle { font-size: 0.85rem; color: #8aa4cf; margin-top: 2px; }
+  .header-right { display: flex; align-items: center; gap: 24px; }
+  .header-badge {
+    background: #162240;
+    border: 1px solid #2a4a8a;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    color: #8aa4cf;
+  }
+  .header-badge strong { color: #5eaaff; }
+  .classification-banner {
+    background: #1a5f2a;
+    color: #a5d6a7;
+    text-align: center;
+    padding: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ===== SUMMARY COUNTERS ===== */
+  .summary-bar {
+    display: flex;
+    gap: 16px;
+    padding: 16px 32px;
+    background: #0f1729;
+    border-bottom: 1px solid #1a2744;
+    flex-wrap: wrap;
+  }
+  .summary-card {
+    flex: 1;
+    min-width: 180px;
+    background: #131d35;
+    border: 1px solid #1e2f54;
+    border-radius: 8px;
+    padding: 14px 18px;
+    text-align: center;
+  }
+  .summary-card .count {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .summary-card .label {
+    font-size: 0.78rem;
+    color: #7a8fb5;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .count-green { color: #4caf50; }
+  .count-yellow { color: #ffc107; }
+  .count-red { color: #f44336; }
+  .count-gray { color: #78909c; }
+  .count-blue { color: #42a5f5; }
+  .count-white { color: #ffffff; }
+
+  /* ===== LAYOUT ===== */
+  .dashboard { padding: 20px 32px; }
+  .section {
+    margin-bottom: 28px;
+    background: #111b30;
+    border: 1px solid #1e2f54;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: #162040;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #1e2f54;
+  }
+  .section-header .icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; color: #fff;
+  }
+  .section-body { padding: 18px 20px; }
+
+  /* ===== HEATMAP GRID ===== */
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .heatmap-card {
+    border-radius: 8px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s;
+  }
+  .heatmap-card:hover { transform: translateY(-2px); }
+  .heatmap-card .sys-name {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .heatmap-card .sys-lang {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+  .heatmap-card .sys-meta {
+    font-size: 0.72rem;
+    opacity: 0.7;
+  }
+  .heatmap-card .status-dot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  /* Status colors */
+  .status-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); border: 1px solid #388e3c; }
+  .status-green .status-dot { background: #69f0ae; box-shadow: 0 0 6px #69f0ae; }
+  .status-yellow { background: linear-gradient(135deg, #4a3c00, #5d4e00); border: 1px solid #f9a825; }
+  .status-yellow .status-dot { background: #ffd54f; box-shadow: 0 0 6px #ffd54f; }
+  .status-red { background: linear-gradient(135deg, #4a0e0e, #6d1b1b); border: 1px solid #c62828; }
+  .status-red .status-dot { background: #ef5350; box-shadow: 0 0 6px #ef5350; }
+  .status-gray { background: linear-gradient(135deg, #263238, #37474f); border: 1px solid #546e7a; }
+  .status-gray .status-dot { background: #90a4ae; box-shadow: 0 0 6px #90a4ae; }
+
+  /* ===== HEATMAP LEGEND ===== */
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #8aa4cf;
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+  }
+  .legend-dot.green { background: #4caf50; }
+  .legend-dot.yellow { background: #ffc107; }
+  .legend-dot.red { background: #f44336; }
+  .legend-dot.gray { background: #78909c; }
+
+  /* ===== DEPENDENCY GRAPH ===== */
+  .dep-graph {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .dep-cluster {
+    background: #0d1525;
+    border: 1px solid #1a2744;
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .dep-cluster-title {
+    font-weight: 700;
+    color: #42a5f5;
+    font-size: 0.88rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dep-cluster-title .wave-badge {
+    background: #1a3a6e;
+    color: #90caf9;
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .dep-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .dep-node {
+    background: #162240;
+    border: 1px solid #2a4a8a;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #c5d5ea;
+  }
+  .dep-arrow {
+    color: #4a6a9a;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .dep-note {
+    font-size: 0.72rem;
+    color: #5a7aa0;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ===== GANTT TIMELINE ===== */
+  .gantt-container { overflow-x: auto; }
+  .gantt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+  .gantt-table th {
+    background: #0d1525;
+    color: #7a8fb5;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #1e2f54;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .gantt-table td {
+    padding: 10px;
+    border-bottom: 1px solid #151f38;
+    vertical-align: middle;
+  }
+  .gantt-bar-cell { min-width: 300px; }
+  .gantt-bar-track {
+    background: #0a1020;
+    border-radius: 4px;
+    height: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .gantt-bar {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .gantt-bar.complete { background: linear-gradient(90deg, #2e7d32, #43a047); }
+  .gantt-bar.active { background: linear-gradient(90deg, #e65100, #f57c00); animation: pulse-bar 2s infinite; }
+  .gantt-bar.planned { background: linear-gradient(90deg, #1565c0, #1976d2); }
+  .gantt-bar.blocked { background: linear-gradient(90deg, #b71c1c, #c62828); }
+  @keyframes pulse-bar { 0%, 100% { opacity: 1; } 50% { opacity: 0.75; } }
+  .status-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pill-complete { background: #1b5e20; color: #a5d6a7; }
+  .pill-active { background: #4a2600; color: #ffb74d; }
+  .pill-planned { background: #0d3d78; color: #90caf9; }
+  .pill-blocked { background: #4a0e0e; color: #ef9a9a; }
+
+  /* ===== AGENT LOG TABLE ===== */
+  .agent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .agent-table th {
+    background: #0d1525;
+    color: #7a8fb5;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #1e2f54;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .agent-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #151f38;
+    color: #b0c4de;
+  }
+  .agent-table tr:hover td { background: #141e36; }
+  .confidence-bar {
+    width: 60px;
+    height: 6px;
+    background: #0a1020;
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .confidence-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .conf-high { background: #4caf50; }
+  .conf-mid { background: #ffc107; }
+  .conf-low { background: #f44336; }
+  .approval-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .approved { background: #1b5e20; color: #a5d6a7; }
+  .pending { background: #4a3c00; color: #ffd54f; }
+  .auto { background: #0d3d78; color: #90caf9; }
+
+  /* ===== SECURITY GAUGE ===== */
+  .security-section {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .gauge-container {
+    width: 200px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .gauge-svg { width: 180px; height: 110px; }
+  .gauge-label {
+    font-size: 0.78rem;
+    color: #8aa4cf;
+    margin-top: 6px;
+  }
+  .gauge-score {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #4caf50;
+  }
+  .compliance-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+  }
+  .compliance-card {
+    background: #0d1525;
+    border: 1px solid #1a2744;
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .compliance-score {
+    font-size: 1.1rem;
+    font-weight: 800;
+    min-width: 38px;
+    text-align: center;
+  }
+  .compliance-info {
+    font-size: 0.72rem;
+    color: #8aa4cf;
+  }
+  .compliance-info .sys-name-sm { font-weight: 600; color: #c5d5ea; }
+  .score-high { color: #4caf50; }
+  .score-mid { color: #ffc107; }
+  .score-low { color: #f44336; }
+
+  /* ===== COST CHART ===== */
+  .cost-chart-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .chart-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .chart-label {
+    width: 90px;
+    font-size: 0.75rem;
+    color: #7a8fb5;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .chart-bar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .chart-bar-track {
+    height: 18px;
+    background: #0a1020;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .bar-projected { background: linear-gradient(90deg, #1565c0, #42a5f5); }
+  .bar-actual { background: linear-gradient(90deg, #2e7d32, #66bb6a); }
+  .chart-amount {
+    font-size: 0.72rem;
+    color: #7a8fb5;
+    text-align: right;
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .cost-legend {
+    display: flex;
+    gap: 24px;
+    padding: 10px 0;
+  }
+  .cost-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: #8aa4cf;
+  }
+  .cost-legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+  }
+  .cost-legend-dot.projected { background: #42a5f5; }
+  .cost-legend-dot.actual { background: #66bb6a; }
+  .cost-summary {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .cost-summary-card {
+    background: #0d1525;
+    border: 1px solid #1a2744;
+    border-radius: 6px;
+    padding: 12px 18px;
+    text-align: center;
+  }
+  .cost-summary-card .amount {
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+  .cost-summary-card .desc {
+    font-size: 0.72rem;
+    color: #7a8fb5;
+    margin-top: 2px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: #0a0f1e;
+    border-top: 1px solid #1a2744;
+    padding: 14px 32px;
+    font-size: 0.72rem;
+    color: #4a6078;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    body { background: #fff; color: #1a1a1a; font-size: 11px; }
+    .header { background: #f5f5f5; border-bottom-color: #ccc; }
+    .header-title, .header-subtitle, .section-header { color: #1a1a1a; }
+    .summary-card, .section, .dep-cluster, .compliance-card, .cost-summary-card {
+      background: #fff; border-color: #ddd;
+    }
+    .heatmap-card { page-break-inside: avoid; }
+    .gantt-table th, .agent-table th { background: #f5f5f5; color: #333; }
+    .gantt-table td, .agent-table td { color: #333; border-color: #ddd; }
+    .classification-banner { background: #e8f5e9; color: #2e7d32; }
+    @page { margin: 0.5in; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Classification Banner -->
+<div class="classification-banner">CUI // FOUO — ATLAS Delivery Intelligence Platform — Booz Allen Hamilton</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">ADIP</div>
+    <div>
+      <div class="header-title">ATLAS Modernization Control Tower</div>
+      <div class="header-subtitle">Delivery Intelligence Platform &mdash; FAA Legacy Systems Modernization</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-badge">Program: <strong>ATLAS</strong></div>
+    <div class="header-badge">Contract Vehicle: <strong>FAA LCMS</strong></div>
+    <div class="header-badge">Report Date: <strong>03 APR 2026</strong></div>
+    <div class="header-badge">Classification: <strong>CUI</strong></div>
+  </div>
+</div>
+
+<!-- Summary Counters -->
+<div class="summary-bar">
+  <div class="summary-card">
+    <div class="count count-white">14</div>
+    <div class="label">Total Systems</div>
+  </div>
+  <div class="summary-card">
+    <div class="count count-green">3</div>
+    <div class="label">Modernized</div>
+  </div>
+  <div class="summary-card">
+    <div class="count count-yellow">5</div>
+    <div class="label">In Progress</div>
+  </div>
+  <div class="summary-card">
+    <div class="count count-red">2</div>
+    <div class="label">At Risk</div>
+  </div>
+  <div class="summary-card">
+    <div class="count count-gray">4</div>
+    <div class="label">Pending / Retained</div>
+  </div>
+  <div class="summary-card">
+    <div class="count count-blue">87%</div>
+    <div class="label">NIST 800-53 Compliance</div>
+  </div>
+  <div class="summary-card">
+    <div class="count count-green">$12.4M</div>
+    <div class="label">Projected Annual Savings</div>
+  </div>
+</div>
+
+<div class="dashboard">
+
+  <!-- ===== PORTFOLIO HEATMAP ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="icon" style="background:#1565c0;">&#9638;</div>
+      Portfolio Heatmap &mdash; All 14 Systems
+    </div>
+    <div class="section-body">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot green"></div> Modernized</div>
+        <div class="legend-item"><div class="legend-dot yellow"></div> In Progress</div>
+        <div class="legend-item"><div class="legend-dot red"></div> At Risk</div>
+        <div class="legend-item"><div class="legend-dot gray"></div> Retained / Pending</div>
+      </div>
+      <div class="heatmap-grid">
+        <!-- Tier 1: Enterprise Monoliths -->
+        <div class="heatmap-card status-yellow">
+          <div class="status-dot"></div>
+          <div class="sys-name">Apache OFBiz</div>
+          <div class="sys-lang">Java &bull; 500K+ LOC</div>
+          <div class="sys-meta">Tier 1 &bull; Wave 3 &bull; Monolith decomposition in progress</div>
+        </div>
+        <div class="heatmap-card status-yellow">
+          <div class="status-dot"></div>
+          <div class="sys-name">Odoo</div>
+          <div class="sys-lang">Python &bull; 200K+ LOC</div>
+          <div class="sys-meta">Tier 1 &bull; Wave 3 &bull; Module extraction underway</div>
+        </div>
+        <div class="heatmap-card status-red">
+          <div class="status-dot"></div>
+          <div class="sys-name">Alfresco</div>
+          <div class="sys-lang">Java &bull; 100K+ LOC</div>
+          <div class="sys-meta">Tier 1 &bull; Wave 4 &bull; Complex document model blocking</div>
+        </div>
+
+        <!-- Tier 2: Enterprise Applications -->
+        <div class="heatmap-card status-yellow">
+          <div class="status-dot"></div>
+          <div class="sys-name">Umbraco CMS</div>
+          <div class="sys-lang">C# &bull; 50K+ LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 2 &bull; .NET migration to .NET 8</div>
+        </div>
+        <div class="heatmap-card status-yellow">
+          <div class="status-dot"></div>
+          <div class="sys-name">CFWheels</div>
+          <div class="sys-lang">ColdFusion &bull; 50K+ LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 2 &bull; ColdFusion to Java/Spring rewrite</div>
+        </div>
+        <div class="heatmap-card status-red">
+          <div class="status-dot"></div>
+          <div class="sys-name">Nuxeo</div>
+          <div class="sys-lang">Java &bull; 50K+ LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 4 &bull; Complex abstractions, dependency issues</div>
+        </div>
+        <div class="heatmap-card status-green">
+          <div class="status-dot"></div>
+          <div class="sys-name">Django Oscar</div>
+          <div class="sys-lang">Python &bull; 10K-15K LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 1 &bull; Modernization complete</div>
+        </div>
+        <div class="heatmap-card status-green">
+          <div class="status-dot"></div>
+          <div class="sys-name">B2CWeb</div>
+          <div class="sys-lang">Java &bull; 5K-8K LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 1 &bull; Decoupled to microservices</div>
+        </div>
+        <div class="heatmap-card status-green">
+          <div class="status-dot"></div>
+          <div class="sys-name">Mezzanine</div>
+          <div class="sys-lang">Python &bull; 5K-10K LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 1 &bull; Migrated to Django 4.2 LTS</div>
+        </div>
+        <div class="heatmap-card status-gray">
+          <div class="status-dot"></div>
+          <div class="sys-name">DFe.NET</div>
+          <div class="sys-lang">C# &bull; 5K LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 5 &bull; Retained — low risk, stable</div>
+        </div>
+        <div class="heatmap-card status-yellow">
+          <div class="status-dot"></div>
+          <div class="sys-name">Monolith Enterprise</div>
+          <div class="sys-lang">Java &bull; 5K+ LOC</div>
+          <div class="sys-meta">Tier 2 &bull; Wave 2 &bull; Spring Boot migration active</div>
+        </div>
+
+        <!-- Tier 3: Federal/Legacy -->
+        <div class="heatmap-card status-gray">
+          <div class="status-dot"></div>
+          <div class="sys-name">CICS Banking Sample</div>
+          <div class="sys-lang">COBOL &bull; 30K+ LOC</div>
+          <div class="sys-meta">Tier 3 &bull; Wave 5 &bull; Pending — mainframe coupling assessment</div>
+        </div>
+        <div class="heatmap-card status-gray">
+          <div class="status-dot"></div>
+          <div class="sys-name">NASTRAN-95</div>
+          <div class="sys-lang">Fortran &bull; 150K+ LOC</div>
+          <div class="sys-meta">Tier 3 &bull; Wave 5 &bull; Pending — NASA numerical validation required</div>
+        </div>
+        <div class="heatmap-card status-gray">
+          <div class="status-dot"></div>
+          <div class="sys-name">Apollo-11</div>
+          <div class="sys-lang">Assembly &bull; 8K+ LOC</div>
+          <div class="sys-meta">Tier 3 &bull; Retained &bull; Historical preservation only</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DEPENDENCY GRAPH ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="icon" style="background:#7b1fa2;">&#9670;</div>
+      Cross-System Dependency Graph &amp; Migration Wave Clusters
+    </div>
+    <div class="section-body">
+      <div class="dep-graph">
+        <div class="dep-cluster">
+          <div class="dep-cluster-title">
+            <span class="wave-badge">WAVE 1 — COMPLETED</span>
+            Quick Wins: Small Codebase Applications
+          </div>
+          <div class="dep-nodes">
+            <div class="dep-node" style="border-color:#4caf50;">Django Oscar</div>
+            <div class="dep-arrow">&rarr;</div>
+            <div class="dep-node" style="border-color:#4caf50;">B2CWeb</div>
+            <div class="dep-arrow">&rarr;</div>
+            <div class="dep-node" style="border-color:#4caf50;">Mezzanine</div>
+          </div>
+          <div class="dep-note">Shared Python ecosystem dependencies. Django Oscar &amp; Mezzanine share Django ORM layer. B2CWeb e-commerce patterns inform Oscar migration.</div>
+        </div>
+
+        <div class="dep-cluster">
+          <div class="dep-cluster-title">
+            <span class="wave-badge">WAVE 2 — ACTIVE</span>
+            Platform Modernization: Framework Migrations
+          </div>
+          <div class="dep-nodes">
+            <div class="dep-node" style="border-color:#ffc107;">Umbraco CMS</div>
+            <div class="dep-arrow">&harr;</div>
+            <div class="dep-node" style="border-color:#ffc107;">CFWheels</div>
+            <div class="dep-arrow">&rarr;</div>
+            <div class="dep-node" style="border-color:#ffc107;">Monolith Enterprise</div>
+          </div>
+          <div class="dep-note">CMS platform integration layer. Umbraco content feeds Monolith Enterprise presentation layer. CFWheels ColdFusion templates share rendering patterns.</div>
+        </div>
+
+        <div class="dep-cluster">
+          <div class="dep-cluster-title">
+            <span class="wave-badge">WAVE 3 — ACTIVE</span>
+            Core Decomposition: Enterprise Monoliths
+          </div>
+          <div class="dep-nodes">
+            <div class="dep-node" style="border-color:#ff9800;">Apache OFBiz</div>
+            <div class="dep-arrow">&harr;</div>
+            <div class="dep-node" style="border-color:#ff9800;">Odoo</div>
+          </div>
+          <div class="dep-note">Shared ERP domain patterns — procurement, inventory, and accounting modules have cross-system data dependencies. Parallel decomposition required.</div>
+        </div>
+
+        <div class="dep-cluster">
+          <div class="dep-cluster-title">
+            <span class="wave-badge">WAVE 4 — PLANNED</span>
+            Document Management: Complex Abstractions
+          </div>
+          <div class="dep-nodes">
+            <div class="dep-node" style="border-color:#f44336;">Alfresco</div>
+            <div class="dep-arrow">&harr;</div>
+            <div class="dep-node" style="border-color:#f44336;">Nuxeo</div>
+          </div>
+          <div class="dep-note">Both systems share CMIS (Content Management Interoperability Services) APIs. Migration must preserve document repository cross-references.</div>
+        </div>
+
+        <div class="dep-cluster">
+          <div class="dep-cluster-title">
+            <span class="wave-badge">WAVE 5 — PLANNED</span>
+            Federal Legacy: Specialized Systems
+          </div>
+          <div class="dep-nodes">
+            <div class="dep-node" style="border-color:#78909c;">CICS Banking</div>
+            <div class="dep-node" style="border-color:#78909c;">NASTRAN-95</div>
+            <div class="dep-node" style="border-color:#78909c;">DFe.NET</div>
+            <div class="dep-node" style="border-color:#78909c;">Apollo-11</div>
+          </div>
+          <div class="dep-note">Isolated systems with no cross-dependencies. COBOL/Fortran/Assembly require specialized tooling. Apollo-11 retained for historical preservation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WAVE SEQUENCING TIMELINE ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="icon" style="background:#00838f;">&#9664;</div>
+      Wave Sequencing Timeline
+    </div>
+    <div class="section-body">
+      <div class="gantt-container">
+        <table class="gantt-table">
+          <thead>
+            <tr>
+              <th style="width:100px;">Wave</th>
+              <th style="width:180px;">Systems</th>
+              <th style="width:80px;">Status</th>
+              <th style="width:90px;">Start</th>
+              <th style="width:90px;">End</th>
+              <th class="gantt-bar-cell">Timeline (Q1 2026 — Q4 2027)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Wave 1</strong></td>
+              <td>Django Oscar, B2CWeb, Mezzanine</td>
+              <td><span class="status-pill pill-complete">Complete</span></td>
+              <td>Jan 2026</td>
+              <td>Mar 2026</td>
+              <td class="gantt-bar-cell">
+                <div class="gantt-bar-track">
+                  <div class="gantt-bar complete" style="left:0%;width:16%;">Wave 1 &#10003;</div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Wave 2</strong></td>
+              <td>Umbraco, CFWheels, Monolith Enterprise</td>
+              <td><span class="status-pill pill-active">Active</span></td>
+              <td>Mar 2026</td>
+              <td>Sep 2026</td>
+              <td class="gantt-bar-cell">
+                <div class="gantt-bar-track">
+                  <div class="gantt-bar active" style="left:12%;width:30%;">Wave 2 &#9654;</div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Wave 3</strong></td>
+              <td>Apache OFBiz, Odoo</td>
+              <td><span class="status-pill pill-active">Active</span></td>
+              <td>Apr 2026</td>
+              <td>Dec 2026</td>
+              <td class="gantt-bar-cell">
+                <div class="gantt-bar-track">
+                  <div class="gantt-bar active" style="left:18%;width:42%;">Wave 3 &#9654;</div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Wave 4</strong></td>
+              <td>Alfresco, Nuxeo</td>
+              <td><span class="status-pill pill-blocked">At Risk</span></td>
+              <td>Oct 2026</td>
+              <td>Jun 2027</td>
+              <td class="gantt-bar-cell">
+                <div class="gantt-bar-track">
+                  <div class="gantt-bar blocked" style="left:45%;width:40%;">Wave 4 &#9888;</div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Wave 5</strong></td>
+              <td>CICS Banking, NASTRAN-95, DFe.NET, Apollo-11</td>
+              <td><span class="status-pill pill-planned">Planned</span></td>
+              <td>Apr 2027</td>
+              <td>Dec 2027</td>
+              <td class="gantt-bar-cell">
+                <div class="gantt-bar-track">
+                  <div class="gantt-bar planned" style="left:60%;width:40%;">Wave 5</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== AI AGENT ACTIVITY LOG ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="icon" style="background:#e65100;">&#9881;</div>
+      AI Agent Activity Log
+    </div>
+    <div class="section-body" style="overflow-x:auto;">
+      <table class="agent-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Agent Type</th>
+            <th>Target System</th>
+            <th>Action</th>
+            <th>Confidence</th>
+            <th>Human Approval</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2026-01-15 09:12:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>Django Oscar</td>
+            <td>Legacy code analysis &amp; modernization assessment</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:96%;"></div></div>96%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Disposition: MODERNIZE</td>
+          </tr>
+          <tr>
+            <td>2026-01-15 09:34:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>B2CWeb</td>
+            <td>Architecture analysis &amp; coupling assessment</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:94%;"></div></div>94%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Disposition: MODERNIZE</td>
+          </tr>
+          <tr>
+            <td>2026-01-15 10:08:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>Mezzanine</td>
+            <td>Python legacy pattern identification</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:92%;"></div></div>92%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Disposition: MODERNIZE</td>
+          </tr>
+          <tr>
+            <td>2026-01-20 14:22:00Z</td>
+            <td>Refactor Agent</td>
+            <td>Django Oscar</td>
+            <td>Django 4.2 LTS migration — ORM &amp; view layer</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:91%;"></div></div>91%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>532 files changed, 12,847 LOC</td>
+          </tr>
+          <tr>
+            <td>2026-01-28 11:15:00Z</td>
+            <td>Security Agent</td>
+            <td>Django Oscar</td>
+            <td>NIST 800-53 compliance scan &amp; remediation</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:98%;"></div></div>98%</td>
+            <td><span class="approval-badge auto">Auto</span></td>
+            <td>47 findings → 3 remaining</td>
+          </tr>
+          <tr>
+            <td>2026-02-03 08:45:00Z</td>
+            <td>Refactor Agent</td>
+            <td>B2CWeb</td>
+            <td>Monolith to microservice decomposition</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:89%;"></div></div>89%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>287 files changed, 6,204 LOC</td>
+          </tr>
+          <tr>
+            <td>2026-02-10 13:30:00Z</td>
+            <td>Refactor Agent</td>
+            <td>Mezzanine</td>
+            <td>Django 4.2 migration &amp; deprecated API removal</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:90%;"></div></div>90%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>198 files changed, 4,312 LOC</td>
+          </tr>
+          <tr>
+            <td>2026-02-18 10:00:00Z</td>
+            <td>Security Agent</td>
+            <td>B2CWeb</td>
+            <td>Dependency vulnerability scan &amp; patching</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:97%;"></div></div>97%</td>
+            <td><span class="approval-badge auto">Auto</span></td>
+            <td>32 CVEs resolved</td>
+          </tr>
+          <tr>
+            <td>2026-03-01 09:00:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>Apache OFBiz</td>
+            <td>500K LOC monolith complexity assessment</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-mid" style="width:78%;"></div></div>78%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Disposition: MODERNIZE — phased</td>
+          </tr>
+          <tr>
+            <td>2026-03-01 09:45:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>Odoo</td>
+            <td>Multi-domain business logic mapping</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-mid" style="width:76%;"></div></div>76%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Disposition: MODERNIZE — phased</td>
+          </tr>
+          <tr>
+            <td>2026-03-05 14:00:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>CFWheels</td>
+            <td>ColdFusion framework assessment</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:85%;"></div></div>85%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Disposition: REWRITE to Spring Boot</td>
+          </tr>
+          <tr>
+            <td>2026-03-08 11:20:00Z</td>
+            <td>Refactor Agent</td>
+            <td>Umbraco CMS</td>
+            <td>.NET Framework to .NET 8 migration started</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-mid" style="width:82%;"></div></div>82%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Phase 1: 1,247 files analyzed</td>
+          </tr>
+          <tr>
+            <td>2026-03-12 16:30:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>Alfresco</td>
+            <td>Document model dependency analysis</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-low" style="width:62%;"></div></div>62%</td>
+            <td><span class="approval-badge pending">Pending</span></td>
+            <td>Escalated: complex CMIS bindings</td>
+          </tr>
+          <tr>
+            <td>2026-03-15 08:00:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>Nuxeo</td>
+            <td>Abstract factory pattern analysis</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-low" style="width:58%;"></div></div>58%</td>
+            <td><span class="approval-badge pending">Pending</span></td>
+            <td>Escalated: 14 layers of abstraction</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 10:00:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>CICS Banking</td>
+            <td>COBOL mainframe coupling assessment</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-mid" style="width:72%;"></div></div>72%</td>
+            <td><span class="approval-badge pending">Pending</span></td>
+            <td>Disposition: MODERNIZE — requires SME</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 11:30:00Z</td>
+            <td>Rationalization Agent</td>
+            <td>NASTRAN-95</td>
+            <td>Fortran numerical algorithm validation scoping</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-mid" style="width:68%;"></div></div>68%</td>
+            <td><span class="approval-badge pending">Pending</span></td>
+            <td>Disposition: MODERNIZE — NASA approval req</td>
+          </tr>
+          <tr>
+            <td>2026-03-25 09:00:00Z</td>
+            <td>Corpus Aggregation Agent</td>
+            <td>All 14 Systems</td>
+            <td>Repository aggregation &amp; baseline metrics</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:99%;"></div></div>99%</td>
+            <td><span class="approval-badge auto">Auto</span></td>
+            <td>750K+ LOC indexed, 14/14 systems cataloged</td>
+          </tr>
+          <tr>
+            <td>2026-04-01 09:00:00Z</td>
+            <td>Refactor Agent</td>
+            <td>Monolith Enterprise</td>
+            <td>Spring Boot migration — service layer extraction</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:87%;"></div></div>87%</td>
+            <td><span class="approval-badge approved">Approved</span></td>
+            <td>Phase 1: 89 files migrated</td>
+          </tr>
+          <tr>
+            <td>2026-04-03 08:00:00Z</td>
+            <td>Dashboard Agent</td>
+            <td>Portfolio</td>
+            <td>ADIP Control Tower generation</td>
+            <td><div class="confidence-bar"><div class="confidence-fill conf-high" style="width:99%;"></div></div>99%</td>
+            <td><span class="approval-badge auto">Auto</span></td>
+            <td>Dashboard artifact produced</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== SECURITY COMPLIANCE ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="icon" style="background:#2e7d32;">&#9744;</div>
+      Security Compliance — NIST 800-53 Posture
+    </div>
+    <div class="section-body">
+      <div class="security-section">
+        <!-- Gauge -->
+        <div class="gauge-container">
+          <svg class="gauge-svg" viewBox="0 0 180 110">
+            <!-- Track -->
+            <path d="M 15 95 A 75 75 0 0 1 165 95" fill="none" stroke="#1a2744" stroke-width="14" stroke-linecap="round"/>
+            <!-- Fill — 87% of arc -->
+            <path d="M 15 95 A 75 75 0 0 1 165 95" fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="236" stroke-dashoffset="31"/>
+            <defs>
+              <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#f44336"/>
+                <stop offset="40%" style="stop-color:#ffc107"/>
+                <stop offset="70%" style="stop-color:#4caf50"/>
+                <stop offset="100%" style="stop-color:#2e7d32"/>
+              </linearGradient>
+            </defs>
+            <text x="90" y="80" text-anchor="middle" font-size="28" font-weight="800" fill="#4caf50">87%</text>
+            <text x="90" y="100" text-anchor="middle" font-size="10" fill="#7a8fb5">OVERALL COMPLIANCE</text>
+          </svg>
+          <div class="gauge-label">325 of 374 controls satisfied</div>
+        </div>
+
+        <!-- Per-system compliance -->
+        <div class="compliance-grid">
+          <div class="compliance-card">
+            <div class="compliance-score score-high">96%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Django Oscar</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-high">94%</div>
+            <div class="compliance-info"><div class="sys-name-sm">B2CWeb</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-high">93%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Mezzanine</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">84%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Umbraco CMS</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">81%</div>
+            <div class="compliance-info"><div class="sys-name-sm">CFWheels</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">82%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Monolith Ent.</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">79%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Apache OFBiz</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">77%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Odoo</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-low">64%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Alfresco</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-low">61%</div>
+            <div class="compliance-info"><div class="sys-name-sm">Nuxeo</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">88%</div>
+            <div class="compliance-info"><div class="sys-name-sm">DFe.NET</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">72%</div>
+            <div class="compliance-info"><div class="sys-name-sm">CICS Banking</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-low">65%</div>
+            <div class="compliance-info"><div class="sys-name-sm">NASTRAN-95</div>NIST 800-53</div>
+          </div>
+          <div class="compliance-card">
+            <div class="compliance-score score-mid">N/A</div>
+            <div class="compliance-info"><div class="sys-name-sm">Apollo-11</div>Historical</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COST SAVINGS TRENDLINE ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="icon" style="background:#1b5e20;">&#36;</div>
+      Cost Savings Trendline — Projected vs. Actual
+    </div>
+    <div class="section-body">
+      <div class="cost-chart-area">
+        <div class="cost-legend">
+          <div class="cost-legend-item"><div class="cost-legend-dot projected"></div> Projected Savings</div>
+          <div class="cost-legend-item"><div class="cost-legend-dot actual"></div> Actual Savings</div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-label">Q1 2026</div>
+          <div class="chart-bar-container">
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-projected" style="width:18%;">$1.8M projected</div>
+            </div>
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-actual" style="width:21%;">$2.1M actual</div>
+            </div>
+          </div>
+          <div class="chart-amount" style="color:#66bb6a;">+$0.3M</div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-label">Q2 2026</div>
+          <div class="chart-bar-container">
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-projected" style="width:32%;">$3.2M projected</div>
+            </div>
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-actual" style="width:28%;">$2.8M actual (in progress)</div>
+            </div>
+          </div>
+          <div class="chart-amount" style="color:#ffc107;">-$0.4M</div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-label">Q3 2026</div>
+          <div class="chart-bar-container">
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-projected" style="width:48%;">$4.8M projected</div>
+            </div>
+            <div class="chart-bar-track" style="opacity:0.4;">
+              <div class="chart-bar-fill bar-actual" style="width:0%;"></div>
+            </div>
+          </div>
+          <div class="chart-amount" style="color:#7a8fb5;">forecast</div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-label">Q4 2026</div>
+          <div class="chart-bar-container">
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-projected" style="width:62%;">$6.2M projected</div>
+            </div>
+            <div class="chart-bar-track" style="opacity:0.4;">
+              <div class="chart-bar-fill bar-actual" style="width:0%;"></div>
+            </div>
+          </div>
+          <div class="chart-amount" style="color:#7a8fb5;">forecast</div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-label">Q1 2027</div>
+          <div class="chart-bar-container">
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-projected" style="width:78%;">$7.8M projected</div>
+            </div>
+            <div class="chart-bar-track" style="opacity:0.4;">
+              <div class="chart-bar-fill bar-actual" style="width:0%;"></div>
+            </div>
+          </div>
+          <div class="chart-amount" style="color:#7a8fb5;">forecast</div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-label">Q2 2027</div>
+          <div class="chart-bar-container">
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-projected" style="width:90%;">$9.0M projected</div>
+            </div>
+            <div class="chart-bar-track" style="opacity:0.4;">
+              <div class="chart-bar-fill bar-actual" style="width:0%;"></div>
+            </div>
+          </div>
+          <div class="chart-amount" style="color:#7a8fb5;">forecast</div>
+        </div>
+
+        <div class="chart-row">
+          <div class="chart-label">Q3-Q4 2027</div>
+          <div class="chart-bar-container">
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill bar-projected" style="width:100%;">$12.4M projected (annual run-rate)</div>
+            </div>
+            <div class="chart-bar-track" style="opacity:0.4;">
+              <div class="chart-bar-fill bar-actual" style="width:0%;"></div>
+            </div>
+          </div>
+          <div class="chart-amount" style="color:#7a8fb5;">target</div>
+        </div>
+
+        <div class="cost-summary">
+          <div class="cost-summary-card">
+            <div class="amount count-green">$2.1M</div>
+            <div class="desc">Realized Savings (Q1 2026)</div>
+          </div>
+          <div class="cost-summary-card">
+            <div class="amount count-blue">$12.4M</div>
+            <div class="desc">Projected Annual Run-Rate</div>
+          </div>
+          <div class="cost-summary-card">
+            <div class="amount count-yellow">$4.9M</div>
+            <div class="desc">Cumulative Savings YTD</div>
+          </div>
+          <div class="cost-summary-card">
+            <div class="amount count-white">117%</div>
+            <div class="desc">Q1 Savings vs Target</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <span>ADIP Control Tower v1.0 &mdash; Generated 03 APR 2026 16:00 UTC &mdash; ATLAS Modernization Program</span>
+  <span>Booz Allen Hamilton &mdash; FAA Legacy Systems Modernization &mdash; CUI // FOUO</span>
+</div>
+
+<div class="classification-banner">CUI // FOUO — ATLAS Delivery Intelligence Platform — Booz Allen Hamilton</div>
+
+</body>
+</html>
