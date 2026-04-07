@@ -53,7 +53,7 @@ Composite risk score (1–5) based on weighted factors:
 | # | System | Language | LOC | Tier | Modernization Strategy | Risk Score (1–5) | Est. Wave |
 |---|--------|----------|-----|------|------------------------|-------------------|-----------|
 | 1 | Apache OFBiz | Java | 500K+ | Tier 1 — Enterprise Monolith | Refactor | 5 | Wave 4 |
-| 2 | Odoo | Python | 200K+ | Tier 1 — Enterprise Monolith | Refactor | 4 | Wave 4 |
+| 2 | Odoo | Python | 200K+ | Tier 1 — Enterprise Monolith | Refactor | 4 | Wave 3 |
 | 3 | Alfresco Community | Java | 100K+ | Tier 1 — Enterprise Monolith | Refactor | 4 | Wave 3 |
 | 4 | Umbraco CMS | C# | 50K+ | Tier 2 — Operational | Refactor | 3 | Wave 2 |
 | 5 | CFWheels | ColdFusion | 50K+ | Tier 2 — Operational | Retire | 4 | Wave 2 |
@@ -106,7 +106,7 @@ Composite risk score (1–5) based on weighted factors:
 | Risk Score | Count | Systems |
 |-----------|-------|---------|
 | 5 (Critical) | 3 | Apache OFBiz, CICS Banking Sample, NASTRAN-95 |
-| 4 (High) | 3 | Odoo, Alfresco Community, CFWheels, Apollo-11 |
+| 4 (High) | 4 | Odoo, Alfresco Community, CFWheels, Apollo-11 |
 | 3 (Moderate) | 3 | Umbraco CMS, Nuxeo, Mezzanine |
 | 2 (Low) | 4 | Django Oscar, B2CWeb, DFe.NET, Monolith Enterprise |
 | 1 (Minimal) | 0 | — |

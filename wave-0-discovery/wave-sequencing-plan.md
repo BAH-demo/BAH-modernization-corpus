@@ -34,7 +34,7 @@ This document defines the migration wave sequence for the 14 legacy systems prof
 | Wave 1 | Quick Wins — Low-Dependency Applications | 5 systems | 3–4 weeks | Low |
 | Wave 2 | Platform Consolidation — .NET & ColdFusion | 3 systems | 4–5 weeks | Moderate |
 | Wave 3 | Enterprise Document Management | 3 systems | 6–8 weeks | High |
-| Wave 4 | Enterprise Monolith Decomposition | 2 systems | 10–14 weeks | Critical |
+| Wave 4 | Enterprise Monolith Decomposition | 1 system | 10–14 weeks | Critical |
 | Wave 5 | Federal Legacy — API Wrap & Retain | 3 systems | 8–12 weeks | Critical |
 
 ---
