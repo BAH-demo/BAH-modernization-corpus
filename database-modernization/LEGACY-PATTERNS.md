@@ -264,10 +264,10 @@ CREATE OR REPLACE PROCEDURE process_employee_transfer(
     p_transfer_date IN DATE
 ) AS
 BEGIN
-    UPDATE employees SET department_id = p_new_dept WHERE employee_id = p_emp_id;
     INSERT INTO transfer_history (emp_id, old_dept, new_dept, transfer_date)
         SELECT p_emp_id, department_id, p_new_dept, p_transfer_date
         FROM employees WHERE employee_id = p_emp_id;
+    UPDATE employees SET department_id = p_new_dept WHERE employee_id = p_emp_id;
     -- Nested business rules, exception handling, notifications...
     COMMIT;
 END;

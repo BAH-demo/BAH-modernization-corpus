@@ -144,8 +144,45 @@ def parse_schema(file_path: str) -> SchemaMetrics:
         metrics.indexes.append(match.group(1))
 
     # --- Foreign Keys ---
+    # Build a map of table block ranges to determine FK source tables
+    table_block_ranges = []
+    for match in table_block_pattern.finditer(normalized):
+        tbl_name = match.group(1).split(".")[-1]
+        table_block_ranges.append((match.start(), match.end(), tbl_name))
+
+    def _find_source_table(pos: int) -> str:
+        """Find which CREATE TABLE block contains the given position."""
+        for start, end, tbl_name in table_block_ranges:
+            if start <= pos <= end:
+                return tbl_name
+        return "unknown"
+
+    # Also build a map of ALTER TABLE targets for FK source resolution
+    alter_table_map = {}
+    alter_table_pattern = re.compile(
+        r"ALTER\s+TABLE\s+(?:ONLY\s+)?(?:`|\"|)?(\w[\w.]+)(?:`|\"|)?(?:\s)",
+        re.IGNORECASE,
+    )
+    for match in alter_table_pattern.finditer(normalized):
+        alter_table_map[match.start()] = match.group(1).split(".")[-1]
+
+    def _find_source_table_ext(pos: int) -> str:
+        """Find FK source table from CREATE TABLE block or preceding ALTER TABLE."""
+        # First check if inside a CREATE TABLE block
+        result = _find_source_table(pos)
+        if result != "unknown":
+            return result
+        # Otherwise find the nearest preceding ALTER TABLE statement
+        nearest_alter = "unknown"
+        nearest_pos = -1
+        for alter_pos, tbl_name in alter_table_map.items():
+            if alter_pos <= pos and alter_pos > nearest_pos:
+                nearest_pos = alter_pos
+                nearest_alter = tbl_name
+        return nearest_alter
+
     fk_pattern = re.compile(
-        r"(?:CONSTRAINT\s+(?:`|\"|)?(\w+)(?:`|\"|)?\s+)?FOREIGN\s+KEY\s*\(([^)]+)\)\s*REFERENCES\s+(?:`|\"|)?(\w[\w.]*?)(?:`|\"|)?",
+        r"(?:CONSTRAINT\s+(?:`|\"|)?(\w+)(?:`|\"|)?\s+)?FOREIGN\s+KEY\s*\(([^)]+)\)\s*REFERENCES\s+(?:`|\"|)?(\w[\w.]+)(?:`|\"|)?(?:\s|;|\()",
         re.IGNORECASE,
     )
     for match in fk_pattern.finditer(normalized):
@@ -156,11 +193,12 @@ def parse_schema(file_path: str) -> SchemaMetrics:
             "constraint": constraint_name,
             "columns": columns,
             "references": ref_table,
+            "source_table": _find_source_table_ext(match.start()),
         })
 
     # Also catch inline REFERENCES (column-level FK)
     inline_fk_pattern = re.compile(
-        r"(\w+)\s+\w+.*?\bREFERENCES\s+(?:`|\"|)?(\w[\w.]*?)(?:`|\"|)?\s*\(",
+        r"(\w+)\s+\w+.*?\bREFERENCES\s+(?:`|\"|)?(\w[\w.]+)(?:`|\"|)?\s*\(",
         re.IGNORECASE,
     )
     for match in inline_fk_pattern.finditer(normalized):
@@ -175,6 +213,7 @@ def parse_schema(file_path: str) -> SchemaMetrics:
                 "constraint": "inline",
                 "columns": col_name,
                 "references": ref_table,
+                "source_table": _find_source_table_ext(match.start()),
             })
 
     # --- Stored Procedures / Functions / Packages ---
@@ -361,11 +400,8 @@ def print_report(metrics: SchemaMetrics, score: float, verbose: bool = False) ->
         for table in sorted(metrics.tables):
             col_count = metrics.columns_per_table.get(table, 0)
             fk_refs = [fk for fk in metrics.foreign_keys if fk["references"] == table]
-            fk_from = [
-                fk for fk in metrics.foreign_keys
-                if table in str(metrics.columns_per_table)
-            ]
-            print(f"  {table}: {col_count} columns, referenced by {len(fk_refs)} FKs")
+            fk_from = [fk for fk in metrics.foreign_keys if fk.get("source_table") == table]
+            print(f"  {table}: {col_count} columns, referenced by {len(fk_refs)} FKs, references {len(fk_from)} other tables")
         print()
 
         if metrics.stored_procedures:

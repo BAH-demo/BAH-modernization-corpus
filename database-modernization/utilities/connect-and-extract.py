@@ -252,24 +252,24 @@ def extract_postgresql(host: str, port: int, database: str, user: str, password:
                 name=idx_name, table_name=tbl_name, columns=idx_def or "", is_unique=is_unique
             ))
 
-        # Foreign Keys
+        # Foreign Keys (use pg_constraint to avoid cartesian product on composite FKs)
         cur.execute("""
             SELECT
-                tc.constraint_name,
-                tc.table_name AS source_table,
-                kcu.column_name AS source_column,
-                ccu.table_name AS target_table,
-                ccu.column_name AS target_column
-            FROM information_schema.table_constraints tc
-            JOIN information_schema.key_column_usage kcu
-                ON tc.constraint_name = kcu.constraint_name
-                AND tc.table_schema = kcu.table_schema
-            JOIN information_schema.constraint_column_usage ccu
-                ON tc.constraint_name = ccu.constraint_name
-                AND tc.table_schema = ccu.table_schema
-            WHERE tc.constraint_type = 'FOREIGN KEY'
-                AND tc.table_schema NOT IN ('pg_catalog', 'information_schema')
-            ORDER BY tc.table_name, tc.constraint_name
+                c.conname AS constraint_name,
+                src_table.relname AS source_table,
+                src_att.attname AS source_column,
+                tgt_table.relname AS target_table,
+                tgt_att.attname AS target_column
+            FROM pg_constraint c
+            JOIN pg_class src_table ON c.conrelid = src_table.oid
+            JOIN pg_class tgt_table ON c.confrelid = tgt_table.oid
+            JOIN pg_namespace ns ON src_table.relnamespace = ns.oid
+            CROSS JOIN LATERAL unnest(c.conkey, c.confkey) WITH ORDINALITY AS cols(src_attnum, tgt_attnum, ord)
+            JOIN pg_attribute src_att ON src_att.attrelid = c.conrelid AND src_att.attnum = cols.src_attnum
+            JOIN pg_attribute tgt_att ON tgt_att.attrelid = c.confrelid AND tgt_att.attnum = cols.tgt_attnum
+            WHERE c.contype = 'f'
+                AND ns.nspname NOT IN ('pg_catalog', 'information_schema')
+            ORDER BY src_table.relname, c.conname, cols.ord
         """)
         for constraint, src_table, src_col, tgt_table, tgt_col in cur.fetchall():
             report.foreign_keys.append(ForeignKeyInfo(
@@ -524,7 +524,7 @@ def extract_oracle(host: str, port: int, database: str, user: str, password: str
             FROM all_constraints a
             JOIN all_cons_columns a_col ON a.constraint_name = a_col.constraint_name AND a.owner = a_col.owner
             JOIN all_constraints c_r ON a.r_constraint_name = c_r.constraint_name AND a.r_owner = c_r.owner
-            JOIN all_cons_columns b_col ON c_r.constraint_name = b_col.constraint_name AND c_r.owner = b_col.owner
+            JOIN all_cons_columns b_col ON c_r.constraint_name = b_col.constraint_name AND c_r.owner = b_col.owner AND a_col.position = b_col.position
             WHERE a.constraint_type = 'R' AND a.owner = UPPER(:owner)
             ORDER BY a.table_name, a.constraint_name
         """, {"owner": user})
